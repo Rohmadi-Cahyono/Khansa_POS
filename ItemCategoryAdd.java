@@ -8,12 +8,13 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
-public class ItemUnitAdd extends javax.swing.JInternalFrame {
-       
-    public ItemUnitAdd() {
+public class ItemCategoryAdd extends javax.swing.JInternalFrame {
+
+    public ItemCategoryAdd() {
         initComponents();
         IframeBorderLess();
         this.setSize(413, 160);
+        
     }
     private void IframeBorderLess(){
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
@@ -21,7 +22,6 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
       
-    
     private void Keluar(){
        // ItemFormAdd itf = new ItemFormAdd();
         //this.getParent().add(itf);
@@ -32,17 +32,17 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
     
         private void Simpan(){
              
-        if (txtSatuan.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Data Satuan Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
+        if (txtKategori.getText() == null || txtKategori.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Data Kategori Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
         }else {
                 try{   
-                       String sql ="INSERT INTO iunits(unit_name) "
-                                + "VALUES ('"+txtSatuan.getText()+"')";
+                       String sql ="INSERT INTO icategory(category_name) "
+                                + "VALUES ('"+txtKategori.getText()+"')";
                         java.sql.Connection con=new Utility_KoneksiDB().koneksi();
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
-                        JOptionPane.showMessageDialog(null, "Penyimpanan Data satuan Berhasil");
+                        JOptionPane.showMessageDialog(null, "Penyimpanan Data Kategori Berhasil");
                         Keluar();                  
                     }                
                         catch(HeadlessException | SQLException b){
@@ -50,16 +50,17 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
                     }
         }         
     }
+    
         
-   private void PopUpSatuan(){
+   private void PopUpKategori(){
         try {
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT unit_id,unit_name FROM iunits WHERE unit_name LIKE '"+txtSatuan.getText()+"%'");
+            java.sql.ResultSet rs = st.executeQuery("SELECT category_id,category_name FROM icategory WHERE category_name LIKE '"+txtKategori.getText()+"%'");
             List.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                //Utility_Table uts = new Utility_Table();
+                Utility_Table uts = new Utility_Table();
                 //uts.Header(List,0,"",-10);
                 //uts.Header(List,1,"",1);
                 List.setBackground(new Color(255,255,255));
@@ -71,6 +72,7 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
                 } else{
                     SList.setSize(200, (3*17)+2);                    
                 }
+                    //SList.setLocation(135,130);
                     SList.setVisible(true); 
             } else {
                     SList.setVisible(false);                
@@ -80,7 +82,7 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,11 +96,11 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         lbExit = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtSatuan = new javax.swing.JTextField();
         SList = new javax.swing.JScrollPane();
         List = new javax.swing.JTable();
+        txtKategori = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
         btnSimpan = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -139,33 +141,10 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Tambah Satuan");
+        jLabel2.setText("Tambah Kategori");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 34));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Satuan");
-        jLabel5.setToolTipText(null);
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 76, 20));
-
-        txtSatuan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        txtSatuan.setToolTipText(null);
-        txtSatuan.setBorder(null);
-        txtSatuan.setOpaque(false);
-        txtSatuan.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSatuanKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSatuanKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSatuanKeyTyped(evt);
-            }
-        });
-        jPanel1.add(txtSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 190, -1));
 
         SList.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         SList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -204,8 +183,31 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         );
         SList.setViewportView(List);
 
-        jPanel1.add(SList, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 90, -1, 0));
-        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, 10));
+        jPanel1.add(SList, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 90, 260, 0));
+
+        txtKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtKategori.setToolTipText(null);
+        txtKategori.setBorder(null);
+        txtKategori.setOpaque(false);
+        txtKategori.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtKategoriKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtKategoriKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtKategoriKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 270, -1));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 270, 10));
+
+        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Kategori");
+        jLabel5.setToolTipText(null);
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 70, 20));
 
         btnSimpan.setBackground(new java.awt.Color(87, 176, 86));
         btnSimpan.setDisplayedMnemonic('s');
@@ -239,11 +241,11 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
 
         pack();
@@ -267,6 +269,22 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         lbExit.setBackground(new Color(85,118,118));
     }//GEN-LAST:event_lbExitMouseExited
 
+    private void txtKategoriKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            Simpan();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtKategori.setText("");
+        }
+    }//GEN-LAST:event_txtKategoriKeyPressed
+
+    private void txtKategoriKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriKeyReleased
+        if (txtKategori.getText().trim().isEmpty()) {
+            SList.setVisible(false);
+        } else{
+            PopUpKategori();
+        }
+    }//GEN-LAST:event_txtKategoriKeyReleased
+
     private void btnSimpanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnSimpanFocusLost
         Simpan();
     }//GEN-LAST:event_btnSimpanFocusLost
@@ -285,27 +303,11 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         btnSimpan.setBackground(new Color(87,176,86));
     }//GEN-LAST:event_btnSimpanMouseExited
 
-    private void txtSatuanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanKeyReleased
-        if (txtSatuan.getText().trim().isEmpty()) {
-            SList.setVisible(false);
-        } else{
-            PopUpSatuan();
-        }
-    }//GEN-LAST:event_txtSatuanKeyReleased
-
-    private void txtSatuanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            Simpan();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtSatuan.setText("");
-        }
-    }//GEN-LAST:event_txtSatuanKeyPressed
-
-    private void txtSatuanKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanKeyTyped
-        if (txtSatuan.getText().length() >= 15 ) {
+    private void txtKategoriKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriKeyTyped
+        if (txtKategori.getText().length() >= 15 ) {
                 evt.consume();
         }
-    }//GEN-LAST:event_txtSatuanKeyTyped
+    }//GEN-LAST:event_txtKategoriKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -318,6 +320,6 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator5;
     private static javax.swing.JLabel lbExit;
-    private javax.swing.JTextField txtSatuan;
+    private javax.swing.JTextField txtKategori;
     // End of variables declaration//GEN-END:variables
 }

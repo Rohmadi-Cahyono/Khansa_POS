@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -13,21 +12,33 @@ import net.proteanit.sql.DbUtils;
 
 public class ItemFormAdd extends javax.swing.JInternalFrame {
     private int X,Y;
+    private String Pilihan,HBeli,HJual,Disc,Dipilih;
+    DecimalFormat desimalFormat;
+    Utility_Text ut = new Utility_Text();
     
     public ItemFormAdd() {
         initComponents();
         IframeBorderLess();
-         
-        SList.setVisible(false);
-        SList.getViewport().setBackground(Color.WHITE);
-        SPilih.setVisible(false);
 
+        StabelList.setVisible(false);
+        StabelList.getViewport().setBackground(new Color(255,255,255));
+        
+        //Option Untuk Table yang bisa dipilih
+        StabelPilih.setVisible(false);
+        StabelPilih.getViewport().setBackground(new Color(255,255,255)); 
+   
+        /* //Merubah Huruf Besar
+        DocumentFilter filter = new Utility_Text();
+        AbstractDocument isiText = (AbstractDocument) txtNamaBarang.getDocument();
+        isiText.setDocumentFilter(filter);
+        */
+        
         //SetFocus pertama form aktif
         SwingUtilities.invokeLater(() -> {
             txtKode.requestFocusInWindow();
         });
     }
-        
+    
     private void IframeBorderLess(){
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
         bi.setNorthPane(null);
@@ -39,7 +50,8 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         ItemForm itf = new ItemForm();
         this.getParent().add(itf);
         itf.setVisible(true);
-        this.setVisible(false);     
+        //this.setVisible(false);    
+        this.dispose();
     }
     
     private void PopUpCode(){
@@ -47,25 +59,25 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code FROM items WHERE item_code LIKE '"+txtKode.getText()+"%'");
-            List.setModel(DbUtils.resultSetToTableModel(rs));           
+            tabelList.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
                 Utility_Table uts = new Utility_Table();
-                uts.Header(List,0,"",-10);
-                uts.Header(List,1,"",200);
-                List.setBackground(new Color(255,255,255));
-                List.setShowGrid(false);
-                List.removeColumn(List.getColumnModel().getColumn(0));
-                SList.setLocation(130, 130);
+                uts.Header(tabelList,0,"",-10);
+                uts.Header(tabelList,1,"",200);
+                tabelList.setBackground(new Color(255,255,255));
+                tabelList.setShowGrid(false);
+                tabelList.removeColumn(tabelList.getColumnModel().getColumn(0));
+                StabelList.setLocation(130, 130);
                 
                 if (rs.getRow() <= 15) {
-                    SList.setSize(340, (rs.getRow()*17)+2);
+                    StabelList.setSize(340, (rs.getRow()*17)+2);
                 } else{
-                    SList.setSize(340, (15*17)+2);                    
+                    StabelList.setSize(340, (15*17)+2);                    
                 }
-                    SList.setVisible(true); 
+                    StabelList.setVisible(true); 
             } else {
-                    SList.setVisible(false);                
+                    StabelList.setVisible(false);                
             }
 
         } catch (SQLException e) {
@@ -78,25 +90,25 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_name FROM items WHERE item_name LIKE '"+txtNamaBarang.getText()+"%'");
-            List.setModel(DbUtils.resultSetToTableModel(rs));           
+            tabelList.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
                 Utility_Table uts = new Utility_Table();
-                uts.Header(List,0,"",-10);
-                uts.Header(List,1,"",200);
-                List.setBackground(new Color(255,255,255));
-                List.setShowGrid(false);
-                List.removeColumn(List.getColumnModel().getColumn(0));
-                SList.setLocation(130, 180);
+                uts.Header(tabelList,0,"",-10);
+                uts.Header(tabelList,1,"",200);
+                tabelList.setBackground(new Color(255,255,255));
+                tabelList.setShowGrid(false);
+                tabelList.removeColumn(tabelList.getColumnModel().getColumn(0));
+                StabelList.setLocation(130, 180);
                 
                 if (rs.getRow() <= 15) {
-                    SList.setSize(340, (rs.getRow()*17)+2);
+                    StabelList.setSize(340, (rs.getRow()*17)+2);
                 } else{
-                    SList.setSize(340, (15*17)+2);                    
+                    StabelList.setSize(340, (15*17)+2);                    
                 }
-                    SList.setVisible(true); 
+                    StabelList.setVisible(true); 
             } else {
-                    SList.setVisible(false);                
+                    StabelList.setVisible(false);                
             }
 
         } catch (SQLException e) {
@@ -112,11 +124,22 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         txtKategori.setText("");
         txtNamaBarang.setText("");
         txtKode.setText("");
+        txtKode.requestFocus();
     }
    
     private void Simpan(){
-             
-        if (txtNamaBarang.getText() == null || txtNamaBarang.getText().trim().isEmpty()) {
+        
+        if(txtHargaJual.getText() == null || txtHargaJual.getText().trim().isEmpty()){
+            HJual="0";
+        }
+        if(txtHargaBeli.getText() == null || txtHargaBeli.getText().trim().isEmpty()){
+            HBeli="0";
+        }
+        if(txtDiscount.getText() == null || txtDiscount.getText().trim().isEmpty()){
+            Disc="0";
+        }
+
+        if (txtKode.getText().trim().isEmpty() || txtNamaBarang.getText().trim().isEmpty() || txtKategori.getText().trim().isEmpty() || txtSatuan.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Barang Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
         }else {
                 try{   
@@ -124,64 +147,112 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
                         java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentTime = sdf.format(dt);
                     
-                        String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,item_sprice,itembprice,item_created) "
+                        String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,item_sprice,item_bprice,item_discount,item_created) "
                                 + "VALUES ('"+txtKode.getText()+"','"+txtNamaBarang.getText()+"','"+txtKategori.getText()+"',"
-                                + "'"+txtSatuan.getText()+"','"+txtHargaBeli+"','"+txtHargaJual+"','"+txtDiscount+"','"+currentTime+"')";
+                                + "'"+txtSatuan.getText()+"','"+HJual+"','"+HBeli+"','"+Disc+"','"+currentTime+"')";
                         java.sql.Connection con=new Utility_KoneksiDB().koneksi();
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
                         JOptionPane.showMessageDialog(null, "Penyimpanan Data Barang Berhasil");
-                        Keluar();
-                  
-                    }
-                
+                        Keluar();                  
+                    }                
                         catch(HeadlessException | SQLException b){
                         JOptionPane.showMessageDialog(null, b.getMessage());
                     }
-
         }         
     }
     
-    private void TampilSatuan(){
-        try {
-            DefaultListModel model = new DefaultListModel();
+  
+    private void TampilKategori(){
+        Pilihan ="kategori";
+        try {       
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            try (java.sql.ResultSet rs = st.executeQuery("SELECT  unit_id,unit_name FROM iunits  ORDER BY unit_name")) {
-                while (rs.next()) {
-                    String itemCode = rs.getString("unit_name"); 
-                    model.addElement(itemCode);
-                }
-                Pilih.setModel(model);
-            }
+            java.sql.ResultSet rs = st.executeQuery("SELECT  category_id,category_name FROM icategory  ORDER BY category_name");
+            tabelPilih.setModel(DbUtils.resultSetToTableModel(rs));            
+                if(rs.last()){   
+                    Utility_Table uts = new Utility_Table();                    
+                    uts.Header(tabelPilih,1,"",210);
+                    tabelPilih.removeColumn(tabelPilih.getColumnModel().getColumn(0));//Tidak Menampilkan Kolom (0)
+                    tabelPilih.setBackground(new Color(255,255,255));
+                    tabelPilih.clearSelection();                     
+                    tabelPilih.changeSelection (0,0,false, false);                                      
+                        if (rs.getRow() <= 15) {
+                            StabelPilih.setSize(210, (rs.getRow()*17)+2);
+                        } else{
+                            StabelPilih.setSize(210, (15*17)+2);                    
+                        }                  
+                            StabelPilih.setLocation(130, 200);
+                            StabelPilih.setVisible(true); 
+                            tabelPilih.requestFocus();
+                } else {
+                    StabelPilih.setVisible(false);                
+                }    
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }      
-   
-   
-
-    
-        SPilih.setVisible(true);
-        SPilih.setLocation(130,250);
-        SPilih.setSize(220,200);
-        Pilih.setSelectedIndex(0);
-        Pilih.requestFocus();
     }
-        
-    private void PilihSatuan(){
-        txtSatuan.setText(Pilih.getSelectedValue());
-        SPilih.setVisible(false);
-        txtHargaBeli.requestFocus();
-    }  
     
+    private void TambahKategori(){
+        ItemCategoryAdd ica = new ItemCategoryAdd();
+        this.getParent().add(ica);
+        ica.setLocation(X, Y);
+        ica.setVisible(true);
+    }
+    
+
+    private void TampilSatuan(){
+        Pilihan = "Satuan";
+        try {       
+            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+            java.sql.Statement st = con.createStatement();           
+            java.sql.ResultSet rs = st.executeQuery("SELECT  unit_id,unit_name FROM iunits  ORDER BY unit_name");
+            tabelPilih.setModel(DbUtils.resultSetToTableModel(rs));            
+                if(rs.last()){   
+                    Utility_Table uts = new Utility_Table();                    
+                    uts.Header(tabelPilih,1,"",210);
+                    tabelPilih.removeColumn(tabelPilih.getColumnModel().getColumn(0));//Tidak Menampilkan Kolom (0)
+                    tabelPilih.setBackground(new Color(255,255,255));
+                    tabelPilih.clearSelection();                     
+                    tabelPilih.changeSelection (0,0,false, false);                                      
+                        if (rs.getRow() <= 15) {
+                            StabelPilih.setSize(210, (rs.getRow()*17)+2);
+                        } else{
+                            StabelPilih.setSize(210, (15*17)+2);                    
+                        }                  
+                            StabelPilih.setLocation(130, 250);
+                            StabelPilih.setVisible(true); 
+                            tabelPilih.requestFocus();
+                } else {
+                    StabelPilih.setVisible(false);                
+                }    
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } 
+    }
+     
     private void TambahSatuan(){
         ItemUnitAdd iud = new ItemUnitAdd();
-         this.getParent().add(iud);
-         iud.setLocation(X, Y);
+        this.getParent().add(iud);
+        iud.setLocation(X, Y);
         iud.setVisible(true);
     }
-
+ 
+    private void TampilPilih(){
+        if("kategori".equals(Pilihan)){
+            Dipilih= tabelPilih.getModel().getValueAt(tabelPilih.getSelectedRow(), 1).toString();
+            txtKategori.setText(Dipilih);
+            StabelPilih.setVisible(false);
+            txtSatuan.requestFocus();
+        }else{
+            Dipilih= tabelPilih.getModel().getValueAt(tabelPilih.getSelectedRow(), 1).toString();
+            txtSatuan.setText(Dipilih);
+            StabelPilih.setVisible(false);
+            txtHargaBeli.requestFocus();
+            
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -196,10 +267,10 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lbExit = new javax.swing.JLabel();
-        SList = new javax.swing.JScrollPane();
-        List = new javax.swing.JTable();
-        SPilih = new javax.swing.JScrollPane();
-        Pilih = new javax.swing.JList<>();
+        StabelList = new javax.swing.JScrollPane();
+        tabelList = new javax.swing.JTable();
+        StabelPilih = new javax.swing.JScrollPane();
+        tabelPilih = new javax.swing.JTable();
         txtKode = new javax.swing.JTextField();
         txtNamaBarang = new javax.swing.JTextField();
         txtKategori = new javax.swing.JTextField();
@@ -291,13 +362,13 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, -1));
 
-        SList.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
-        SList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        SList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        SList.setFocusable(false);
+        StabelList.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        StabelList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        StabelList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        StabelList.setFocusable(false);
 
-        List.setForeground(new java.awt.Color(153, 153, 153));
-        List.setModel(new javax.swing.table.DefaultTableModel(
+        tabelList.setForeground(new java.awt.Color(153, 153, 153));
+        tabelList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null}
             },
@@ -320,46 +391,72 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        List.setGridColor(new java.awt.Color(255, 255, 255));
-        List.setShowGrid(false);
-        List.setSurrendersFocusOnKeystroke(true);
-        List.setTableHeader(null
+        tabelList.setGridColor(new java.awt.Color(255, 255, 255));
+        tabelList.setShowGrid(false);
+        tabelList.setSurrendersFocusOnKeystroke(true);
+        tabelList.setTableHeader(null
         );
-        SList.setViewportView(List);
+        StabelList.setViewportView(tabelList);
 
-        jPanel1.add(SList, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 500, 0));
+        jPanel1.add(StabelList, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 340, 0));
 
-        SPilih.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        SPilih.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        StabelPilih.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        StabelPilih.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        StabelPilih.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        StabelPilih.setFocusable(false);
 
-        Pilih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        Pilih.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Botol", "Box", "Cup", "Dus", "Galon", "Kaleng", "Meter", "Pak", "Pasang", "Pcs", "Roll", "Sachet", "Set", "Strip", "Tube" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        tabelPilih.setForeground(new java.awt.Color(51, 51, 51));
+        tabelPilih.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        Pilih.addFocusListener(new java.awt.event.FocusAdapter() {
+        tabelPilih.setGridColor(new java.awt.Color(255, 255, 255));
+        tabelPilih.setShowGrid(false);
+        tabelPilih.setSurrendersFocusOnKeystroke(true);
+        tabelPilih.setTableHeader(null
+        );
+        tabelPilih.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                PilihFocusLost(evt);
+                tabelPilihFocusLost(evt);
             }
         });
-        Pilih.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelPilih.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PilihMouseClicked(evt);
+                tabelPilihMouseClicked(evt);
             }
         });
-        Pilih.addKeyListener(new java.awt.event.KeyAdapter() {
+        tabelPilih.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                PilihKeyPressed(evt);
+                tabelPilihKeyPressed(evt);
             }
         });
-        SPilih.setViewportView(Pilih);
+        StabelPilih.setViewportView(tabelPilih);
 
-        jPanel1.add(SPilih, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, 220, 0));
+        jPanel1.add(StabelPilih, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 170, 0));
 
         txtKode.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtKode.setToolTipText(null);
         txtKode.setBorder(null);
+        txtKode.setNextFocusableComponent(txtNamaBarang);
         txtKode.setOpaque(false);
         txtKode.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -373,12 +470,16 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtKodeKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtKodeKeyTyped(evt);
+            }
         });
         jPanel1.add(txtKode, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 335, -1));
 
         txtNamaBarang.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtNamaBarang.setToolTipText(null);
         txtNamaBarang.setBorder(null);
+        txtNamaBarang.setNextFocusableComponent(txtKategori);
         txtNamaBarang.setOpaque(false);
         txtNamaBarang.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -398,7 +499,13 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         txtKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtKategori.setToolTipText(null);
         txtKategori.setBorder(null);
+        txtKategori.setNextFocusableComponent(txtSatuan);
         txtKategori.setOpaque(false);
+        txtKategori.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKategoriFocusGained(evt);
+            }
+        });
         txtKategori.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKategoriKeyPressed(evt);
@@ -406,13 +513,20 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 190, -1));
 
+        txtSatuan.setEditable(false);
         txtSatuan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtSatuan.setToolTipText(null);
         txtSatuan.setBorder(null);
+        txtSatuan.setNextFocusableComponent(txtHargaBeli);
         txtSatuan.setOpaque(false);
         txtSatuan.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtSatuanFocusGained(evt);
+            }
+        });
+        txtSatuan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSatuanKeyPressed(evt);
             }
         });
         jPanel1.add(txtSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 190, -1));
@@ -533,40 +647,79 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, 20));
 
         txtHargaBeli.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtHargaBeli.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtHargaBeli.setToolTipText(null);
         txtHargaBeli.setBorder(null);
+        txtHargaBeli.setNextFocusableComponent(txtHargaJual);
         txtHargaBeli.setOpaque(false);
         txtHargaBeli.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtHargaBeliFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtHargaBeliFocusLost(evt);
+            }
         });
-        jPanel1.add(txtHargaBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 174, -1));
-        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 174, 10));
+        txtHargaBeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtHargaBeliKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHargaBeliKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtHargaBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 130, -1));
+        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 130, 10));
 
         txtHargaJual.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtHargaJual.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtHargaJual.setToolTipText(null);
         txtHargaJual.setBorder(null);
+        txtHargaJual.setNextFocusableComponent(txtDiscount);
         txtHargaJual.setOpaque(false);
         txtHargaJual.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtHargaJualFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtHargaJualFocusLost(evt);
+            }
         });
-        jPanel1.add(txtHargaJual, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 174, -1));
-        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 174, 10));
+        txtHargaJual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtHargaJualKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHargaJualKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtHargaJual, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 130, -1));
+        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 130, 10));
 
         txtDiscount.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtDiscount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtDiscount.setToolTipText(null);
         txtDiscount.setBorder(null);
+        txtDiscount.setNextFocusableComponent(txtKode);
         txtDiscount.setOpaque(false);
         txtDiscount.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDiscountFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDiscountFocusLost(evt);
+            }
         });
-        jPanel1.add(txtDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 174, -1));
-        jPanel1.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 174, 10));
+        txtDiscount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDiscountKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDiscountKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 130, -1));
+        jPanel1.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 130, 10));
 
         btnTambahSatuan.setBackground(new java.awt.Color(87, 176, 86));
         btnTambahSatuan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
@@ -588,7 +741,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
                 btnTambahSatuanMouseExited(evt);
             }
         });
-        jPanel1.add(btnTambahSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 30, 30));
+        jPanel1.add(btnTambahSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 30, 30));
 
         btnTambahKategori.setBackground(new java.awt.Color(87, 176, 86));
         btnTambahKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
@@ -610,7 +763,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
                 btnTambahKategoriMouseExited(evt);
             }
         });
-        jPanel1.add(btnTambahKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 190, 30, 30));
+        jPanel1.add(btnTambahKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 30, 30));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -661,22 +814,8 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         lbExit.setBackground(new Color(85,118,118));
     }//GEN-LAST:event_lbExitMouseExited
 
-    private void PilihFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_PilihFocusLost
-        SPilih.setVisible(false);
-    }//GEN-LAST:event_PilihFocusLost
-
-    private void PilihMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PilihMouseClicked
-        PilihSatuan();
-    }//GEN-LAST:event_PilihMouseClicked
-
-    private void PilihKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PilihKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            PilihSatuan();
-        }
-    }//GEN-LAST:event_PilihKeyPressed
-
     private void txtKodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKodeFocusLost
-        SList.setVisible(false);
+        StabelList.setVisible(false);
     }//GEN-LAST:event_txtKodeFocusLost
 
     private void txtKodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeKeyPressed
@@ -690,7 +829,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
 
     private void txtKodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeKeyReleased
         if (txtKode.getText().trim().isEmpty()) {
-            SList.setVisible(false);
+            StabelList.setVisible(false);
         } else{
             PopUpCode();
         }
@@ -715,7 +854,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtKategoriKeyPressed
 
     private void txtSatuanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSatuanFocusGained
-        TampilSatuan();
+       TampilSatuan();
     }//GEN-LAST:event_txtSatuanFocusGained
 
     private void btnSimpanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnSimpanFocusLost
@@ -755,27 +894,27 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBersihMouseExited
 
     private void txtHargaBeliFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliFocusGained
-        // TODO add your handling code here:
+        txtHargaBeli.setText(HBeli);
     }//GEN-LAST:event_txtHargaBeliFocusGained
-
+    
     private void txtHargaJualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualFocusGained
-        // TODO add your handling code here:
+        txtHargaJual.setText(HJual);
     }//GEN-LAST:event_txtHargaJualFocusGained
 
     private void txtDiscountFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountFocusGained
-        // TODO add your handling code here:
+        txtDiscount.setText(Disc);
     }//GEN-LAST:event_txtDiscountFocusGained
 
     private void txtNamaBarangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangKeyReleased
         if (txtNamaBarang.getText().trim().isEmpty()) {
-            SList.setVisible(false);
+            StabelList.setVisible(false);
         } else{
             PopUpName();
         }
     }//GEN-LAST:event_txtNamaBarangKeyReleased
 
     private void txtNamaBarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamaBarangFocusLost
-        SList.setVisible(false);
+        StabelList.setVisible(false);
     }//GEN-LAST:event_txtNamaBarangFocusLost
 
     private void btnTambahSatuanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahSatuanMouseClicked
@@ -796,7 +935,10 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnTambahSatuanMouseExited
 
     private void btnTambahKategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahKategoriMouseClicked
-        // TODO add your handling code here:
+        X= evt.getXOnScreen()-70;
+        Y= evt.getYOnScreen()-60;
+        
+        TambahKategori();
     }//GEN-LAST:event_btnTambahKategoriMouseClicked
 
     private void btnTambahKategoriMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahKategoriMouseEntered
@@ -809,12 +951,115 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         btnTambahKategori.setBackground(new Color(87,176,86));
     }//GEN-LAST:event_btnTambahKategoriMouseExited
 
+    private void txtKategoriFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKategoriFocusGained
+        TampilKategori();
+    }//GEN-LAST:event_txtKategoriFocusGained
+
+    private void txtSatuanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtHargaBeli.setText(null);
+            txtHargaBeli.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtSatuan.setText("");
+        }
+    }//GEN-LAST:event_txtSatuanKeyPressed
+
+    private void txtHargaBeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliKeyTyped
+            if(Character.isAlphabetic(evt.getKeyChar())){
+                evt.consume();
+            }          
+    }//GEN-LAST:event_txtHargaBeliKeyTyped
+
+    private void txtHargaJualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualKeyTyped
+            if(Character.isAlphabetic(evt.getKeyChar())){
+                evt.consume();
+            }
+    }//GEN-LAST:event_txtHargaJualKeyTyped
+
+    private void txtDiscountKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyTyped
+            if(Character.isAlphabetic(evt.getKeyChar())){
+                evt.consume();
+            }
+    }//GEN-LAST:event_txtDiscountKeyTyped
+
+    private void txtKodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeKeyTyped
+        if (txtKode.getText().length() >= 25 ) {
+                evt.consume();
+        }
+    }//GEN-LAST:event_txtKodeKeyTyped
+
+    private void txtHargaBeliKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtHargaJual.setText(null);
+            txtHargaJual.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtHargaBeli.setText("");
+        }
+    }//GEN-LAST:event_txtHargaBeliKeyPressed
+
+    private void txtHargaBeliFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliFocusLost
+        if (txtHargaBeli.getText() == null || txtHargaBeli.getText().trim().isEmpty()) {
+            txtHargaBeli.setText("0");
+        }
+        HBeli =txtHargaBeli.getText();          //Menyimpan di Variable HBeli
+        //Utility_Text ut = new Utility_Text();
+        ut.AngkaToRp(txtHargaBeli,HBeli); 
+    }//GEN-LAST:event_txtHargaBeliFocusLost
+
+    private void txtHargaJualFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualFocusLost
+        if (txtHargaJual.getText() == null || txtHargaJual.getText().trim().isEmpty()) {
+            txtHargaJual.setText("0");
+        }
+        HJual =txtHargaJual.getText();          //Menyimpan di Variable HJual
+        //Utility_Text ut = new Utility_Text();
+        ut.AngkaToRp(txtHargaJual,HJual); 
+    }//GEN-LAST:event_txtHargaJualFocusLost
+
+    private void txtDiscountFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountFocusLost
+       if (txtDiscount.getText() == null || txtDiscount.getText().trim().isEmpty()) {
+            txtDiscount.setText("0");
+        }
+        Disc =txtDiscount.getText();            //Menyimpan di Variable Disc
+        //Utility_Text ut = new Utility_Text();
+        ut.AngkaToRp(txtDiscount,Disc);        
+    }//GEN-LAST:event_txtDiscountFocusLost
+
+    private void txtHargaJualKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            txtDiscount.setText(null);
+            txtDiscount.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtHargaJual.setText("");
+        }
+    }//GEN-LAST:event_txtHargaJualKeyPressed
+
+    private void txtDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            Simpan();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtDiscount.setText("");
+        }
+    }//GEN-LAST:event_txtDiscountKeyPressed
+
+    private void tabelPilihFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabelPilihFocusLost
+        StabelPilih.setVisible(false);
+    }//GEN-LAST:event_tabelPilihFocusLost
+
+    private void tabelPilihMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelPilihMouseClicked
+        TampilPilih();
+    }//GEN-LAST:event_tabelPilihMouseClicked
+
+    private void tabelPilihKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelPilihKeyPressed
+         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+             TampilPilih();
+         }
+    }//GEN-LAST:event_tabelPilihKeyPressed
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable List;
-    private javax.swing.JList<String> Pilih;
-    private javax.swing.JScrollPane SList;
-    private javax.swing.JScrollPane SPilih;
+    private javax.swing.JScrollPane StabelList;
+    private javax.swing.JScrollPane StabelPilih;
     private static javax.swing.JLabel btnBersih;
     private static javax.swing.JLabel btnSimpan;
     private static javax.swing.JLabel btnTambahKategori;
@@ -839,6 +1084,8 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator9;
     private static javax.swing.JLabel lbExit;
+    private javax.swing.JTable tabelList;
+    private javax.swing.JTable tabelPilih;
     private javax.swing.JTextField txtDiscount;
     private javax.swing.JTextField txtHargaBeli;
     private javax.swing.JTextField txtHargaJual;

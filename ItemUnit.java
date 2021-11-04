@@ -10,12 +10,13 @@ import net.proteanit.sql.DbUtils;
 public class ItemUnit extends javax.swing.JInternalFrame {
     private int X,Y;
     private static String  unitId;
-
+    
     public ItemUnit() {
         initComponents();
         IframeBorderLess(); 
         SPtableTampil.getViewport().setBackground(new Color(255,255,255));
         TampilSatuan(); 
+        
     }
      
     private void IframeBorderLess() {
@@ -51,10 +52,11 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     
 
     private void TambahUnit(){
-         ItemUnitAdd iud = new ItemUnitAdd();
-         this.getParent().add(iud);
-         iud.setLocation(X, Y);
-        iud.setVisible(true);
+
+        ItemUnitAdd iud = new ItemUnitAdd();
+        this.getParent().add(iud);
+        iud.setLocation(X, Y);
+        iud.setVisible(true);        
     }
     
     public void EditUnit(){
@@ -420,6 +422,6 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelEH;
     private javax.swing.JTable tableTampil;
-    private javax.swing.JTextField txtSearch;
+    public javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
