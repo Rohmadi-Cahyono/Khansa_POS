@@ -94,13 +94,13 @@ Properties prop;
         txtDatabase = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         txtPassword = new javax.swing.JPasswordField();
-        btnSave = new javax.swing.JLabel();
-        btnCancel = new javax.swing.JLabel();
+        btnSimpan = new khansapos.Utility_ButtonFlat();
+        btnCancel1 = new khansapos.Utility_ButtonFlat();
         jPanel2 = new javax.swing.JPanel();
         lbSetting = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btnView = new javax.swing.JLabel();
+        utility_ButtonMetro1 = new khansapos.Utility_ButtonMetro();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -195,58 +195,24 @@ Properties prop;
             }
         });
 
-        btnSave.setBackground(new java.awt.Color(0, 123, 255));
-        btnSave.setDisplayedMnemonic('s');
-        btnSave.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSave.setForeground(new java.awt.Color(255, 255, 255));
-        btnSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnSave.setLabelFor(this);
-        btnSave.setText("Save");
-        btnSave.setAlignmentX(0.5F);
-        btnSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSave.setOpaque(true);
-        btnSave.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnSaveFocusLost(evt);
-            }
-        });
-        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSaveMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSaveMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSaveMouseExited(evt);
+        btnSimpan.setText("Simpan");
+        btnSimpan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnSimpan.setMouseHover(new java.awt.Color(26, 149, 255));
+        btnSimpan.setMousePress(new java.awt.Color(204, 204, 204));
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
             }
         });
 
-        btnCancel.setBackground(new java.awt.Color(235, 154, 35));
-        btnCancel.setDisplayedMnemonic('c');
-        btnCancel.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCancel.setLabelFor(this);
-        btnCancel.setText("Cancel");
-        btnCancel.setBorder(null);
-        btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancel.setOpaque(true);
-        btnCancel.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnCancelFocusLost(evt);
-            }
-        });
-        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCancelMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnCancelMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCancelMouseExited(evt);
+        btnCancel1.setText("Cancel");
+        btnCancel1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnCancel1.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnCancel1.setMousePress(new java.awt.Color(204, 204, 204));
+        btnCancel1.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCancel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancel1ActionPerformed(evt);
             }
         });
 
@@ -258,27 +224,28 @@ Properties prop;
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSeparator2)
-                            .addComponent(txtPort)
-                            .addComponent(jLabel4)
-                            .addComponent(jSeparator1)
-                            .addComponent(txtHost)
-                            .addComponent(jLabel5)
-                            .addComponent(txtUser)
-                            .addComponent(jSeparator3)
-                            .addComponent(jLabel6)
-                            .addComponent(jSeparator4)
-                            .addComponent(jLabel7)
-                            .addComponent(txtDatabase)
-                            .addComponent(jSeparator5)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jSeparator2)
+                        .addComponent(txtPort)
+                        .addComponent(jLabel4)
+                        .addComponent(jSeparator1)
+                        .addComponent(txtHost)
+                        .addComponent(jLabel5)
+                        .addComponent(txtUser)
+                        .addComponent(jSeparator3)
+                        .addComponent(jLabel6)
+                        .addComponent(jSeparator4)
+                        .addComponent(jLabel7)
+                        .addComponent(txtDatabase)
+                        .addComponent(jSeparator5)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,10 +280,10 @@ Properties prop;
                 .addComponent(txtDatabase, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -341,31 +308,15 @@ Properties prop;
         jLabel2.setText("<html>Untuk menghubungkan aplikasi ke database<br> isikan pengaturan berikut<html>");
         jLabel2.setToolTipText(null);
 
-        btnView.setBackground(new java.awt.Color(0, 123, 255));
-        btnView.setDisplayedMnemonic('v');
-        btnView.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnView.setForeground(new java.awt.Color(255, 255, 255));
-        btnView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnView.setLabelFor(this);
-        btnView.setText("View Setting");
-        btnView.setAlignmentX(0.5F);
-        btnView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        btnView.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnView.setOpaque(true);
-        btnView.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnViewFocusLost(evt);
-            }
-        });
-        btnView.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnViewMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnViewMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnViewMouseExited(evt);
+        utility_ButtonMetro1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        utility_ButtonMetro1.setText("View Setting");
+        utility_ButtonMetro1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        utility_ButtonMetro1.setMouseHover(new java.awt.Color(26, 149, 255));
+        utility_ButtonMetro1.setMousePress(new java.awt.Color(204, 204, 204));
+        utility_ButtonMetro1.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        utility_ButtonMetro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                utility_ButtonMetro1ActionPerformed(evt);
             }
         });
 
@@ -382,12 +333,11 @@ Properties prop;
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(utility_ButtonMetro1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,9 +352,9 @@ Properties prop;
                         .addComponent(lbSetting)
                         .addGap(18, 18, 18)))
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
+                .addComponent(utility_ButtonMetro1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 420));
@@ -457,60 +407,17 @@ Properties prop;
          }
     }//GEN-LAST:event_txtDatabaseKeyPressed
 
-    private void btnCancelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCancelFocusLost
-        Tutup();
-    }//GEN-LAST:event_btnCancelFocusLost
-
-    private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        Tutup();
-    }//GEN-LAST:event_btnCancelMouseClicked
-
-    private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
-        btnCancel.setBackground(new Color(255,180,61));
-        btnCancel.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnCancelMouseEntered
-
-    private void btnCancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseExited
-        btnCancel.setBackground(new Color(235,154,35));
-        btnCancel.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnCancelMouseExited
-
-    private void btnSaveFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnSaveFocusLost
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         CreatePropertiesFile();
-    }//GEN-LAST:event_btnSaveFocusLost
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
-    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
-        CreatePropertiesFile();
-    }//GEN-LAST:event_btnSaveMouseClicked
+    private void btnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel1ActionPerformed
+        Tutup();        
+    }//GEN-LAST:event_btnCancel1ActionPerformed
 
-    private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
-        btnSave.setForeground(new Color(0,0,0));
-        btnSave.setBackground(new Color(26,149,255));
-    }//GEN-LAST:event_btnSaveMouseEntered
-
-    private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
-        btnSave.setForeground(new Color(255,255,255));
-        btnSave.setBackground(new Color(0,123,255));
-    }//GEN-LAST:event_btnSaveMouseExited
-
-    private void btnViewFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnViewFocusLost
+    private void utility_ButtonMetro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utility_ButtonMetro1ActionPerformed
         ReadPropertiesFile();
-    }//GEN-LAST:event_btnViewFocusLost
-
-    private void btnViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewMouseClicked
-        ReadPropertiesFile();
-    }//GEN-LAST:event_btnViewMouseClicked
-
-    private void btnViewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewMouseEntered
-        btnView.setForeground(new Color(235,154,35));
-       btnView.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(235,154,35)));
-        //btnView.setBackground(new Color(0,0,0));
-    }//GEN-LAST:event_btnViewMouseEntered
-
-    private void btnViewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewMouseExited
-       btnView.setForeground(new Color(255,255,255));
-       btnView.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(255,255,255)));
-    }//GEN-LAST:event_btnViewMouseExited
+    }//GEN-LAST:event_utility_ButtonMetro1ActionPerformed
 
     private void Tutup(){
             new LoginForm().setVisible(true);
@@ -554,9 +461,8 @@ Properties prop;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JLabel btnCancel;
-    private javax.swing.JLabel btnSave;
-    private javax.swing.JLabel btnView;
+    private khansapos.Utility_ButtonFlat btnCancel1;
+    private khansapos.Utility_ButtonFlat btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -578,6 +484,7 @@ Properties prop;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtUser;
+    private khansapos.Utility_ButtonMetro utility_ButtonMetro1;
     // End of variables declaration//GEN-END:variables
 
 

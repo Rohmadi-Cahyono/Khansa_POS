@@ -1,14 +1,15 @@
 package khansapos;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class MemberForm extends javax.swing.JInternalFrame {
-    private int X,Y;
     private static String  memberId;
 
     public MemberForm() {
@@ -16,6 +17,8 @@ public class MemberForm extends javax.swing.JInternalFrame {
         IframeBorderLess(); 
         SPtableTampil.getViewport().setBackground(new Color(255,255,255));
         TampilMember(); 
+        Tengah();
+        SwingUtilities.invokeLater(() -> { txtSearch.requestFocusInWindow(); });
     }
    
     private void IframeBorderLess() {
@@ -36,11 +39,11 @@ public class MemberForm extends javax.swing.JInternalFrame {
         }
     }
     
-    private void SearchFocus(){
-        txtSearch.setText(null);
-        txtSearch.requestFocus();
+    private void Tengah(){
+        Dimension formIni = this.getSize();
+        this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
     }
- 
+    
     private void TambahMember(){
         MemberFormAdd ufa = new MemberFormAdd();
         this.getParent().add(ufa);
@@ -117,8 +120,8 @@ public class MemberForm extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
-        btnEdit = new javax.swing.JLabel();
-        btnHapus = new javax.swing.JLabel();
+        btnEdit = new khansapos.Utility_ButtonFlat();
+        btnHapus = new khansapos.Utility_ButtonFlat();
         SPtableTampil = new javax.swing.JScrollPane();
         tableTampil = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -128,9 +131,9 @@ public class MemberForm extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         txtSearch = new javax.swing.JTextField();
-        btnTambah = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        btnTambah = new khansapos.Utility_ButtonFlat();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1246, 714));
@@ -141,72 +144,31 @@ public class MemberForm extends javax.swing.JInternalFrame {
 
         panelEH.setOpaque(false);
         panelEH.setPreferredSize(new java.awt.Dimension(130, 30));
+        panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEdit.setBackground(new java.awt.Color(0, 123, 255));
-        btnEdit.setDisplayedMnemonic('h');
-        btnEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
-        btnEdit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEdit.setText("Edit");
-        btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEdit.setOpaque(true);
-        btnEdit.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnEditMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnEditMouseExited(evt);
+        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
+        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
             }
         });
+        panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnHapus.setBackground(new java.awt.Color(220, 53, 69));
-        btnHapus.setDisplayedMnemonic('h');
-        btnHapus.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
-        btnHapus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHapus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnHapus.setOpaque(true);
-        btnHapus.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHapusMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnHapusMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnHapusMouseExited(evt);
+        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
+        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
             }
         });
+        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, -1));
 
-        javax.swing.GroupLayout panelEHLayout = new javax.swing.GroupLayout(panelEH);
-        panelEH.setLayout(panelEHLayout);
-        panelEHLayout.setHorizontalGroup(
-            panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEHLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        panelEHLayout.setVerticalGroup(
-            panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEHLayout.createSequentialGroup()
-                .addGroup(panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, 130, 0));
+        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 130, 0));
 
         tableTampil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -260,35 +222,6 @@ public class MemberForm extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, 240, 20));
 
-        btnTambah.setBackground(new java.awt.Color(87, 176, 86));
-        btnTambah.setDisplayedMnemonic('a');
-        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
-        btnTambah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnTambah.setLabelFor(this);
-        btnTambah.setText("Tambah Member");
-        btnTambah.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTambah.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnTambah.setOpaque(true);
-        btnTambah.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnTambah.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnTambahFocusLost(evt);
-            }
-        });
-        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTambahMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnTambahMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnTambahMouseExited(evt);
-            }
-        });
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 130, 40));
-
         jSeparator1.setForeground(new java.awt.Color(78, 115, 223));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 290, 10));
 
@@ -296,6 +229,19 @@ public class MemberForm extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(78, 115, 223));
         jLabel1.setText("Master Member");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 300, 40));
+
+        btnTambah.setMnemonic('t');
+        btnTambah.setText("Tambah Member");
+        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnTambah.setMouseHover(new java.awt.Color(113, 202, 112));
+        btnTambah.setMousePress(new java.awt.Color(204, 204, 204));
+        btnTambah.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -311,43 +257,10 @@ public class MemberForm extends javax.swing.JInternalFrame {
         setBounds(0, 0, 1246, 714);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
-        panelEH.setSize(130, 0);
-        EditMember();
-    }//GEN-LAST:event_btnEditMouseClicked
-
-    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
-        btnEdit.setBackground(new Color(26,149,255));
-        btnEdit.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnEditMouseEntered
-
-    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
-        btnEdit.setBackground(new Color(0,123,255));
-        btnEdit.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnEditMouseExited
-
-    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
-        panelEH.setSize(130, 0);
-        HapusMember();
-    }//GEN-LAST:event_btnHapusMouseClicked
-
-    private void btnHapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseEntered
-        btnHapus.setBackground(new Color(246,79,95));
-        btnHapus.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnHapusMouseEntered
-
-    private void btnHapusMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseExited
-        btnHapus.setBackground(new Color(220,53,69));
-        btnHapus.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnHapusMouseExited
-
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
         String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
         setId(Id); // Kirim Id ke session setId()
-
-        X= evt.getXOnScreen()-70;
-        Y= evt.getYOnScreen()-60;
-        panelEH.setLocation(X, Y);
+        panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
 
@@ -364,30 +277,26 @@ public class MemberForm extends javax.swing.JInternalFrame {
         Cari();
     }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void btnTambahFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnTambahFocusLost
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         TambahMember();
-    }//GEN-LAST:event_btnTambahFocusLost
+    }//GEN-LAST:event_btnTambahActionPerformed
 
-    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
-        TambahMember();
-    }//GEN-LAST:event_btnTambahMouseClicked
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        panelEH.setSize(130, 0);
+        EditMember();
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void btnTambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseEntered
-        btnTambah.setForeground(new Color(0,0,0));
-        btnTambah.setBackground(new Color(113,202,112));
-    }//GEN-LAST:event_btnTambahMouseEntered
-
-    private void btnTambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseExited
-        btnTambah.setForeground(new Color(255,255,255));
-        btnTambah.setBackground(new Color(87,176,86));
-    }//GEN-LAST:event_btnTambahMouseExited
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        panelEH.setSize(130, 0);
+        HapusMember();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPtableTampil;
-    private static javax.swing.JLabel btnEdit;
-    private static javax.swing.JLabel btnHapus;
-    private static javax.swing.JLabel btnTambah;
+    private khansapos.Utility_ButtonFlat btnEdit;
+    private khansapos.Utility_ButtonFlat btnHapus;
+    private khansapos.Utility_ButtonFlat btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

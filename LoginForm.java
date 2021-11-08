@@ -28,9 +28,9 @@ public class LoginForm extends javax.swing.JFrame {
         try{
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();
-            java.sql.ResultSet rsCount=st.executeQuery("SELECT COUNT(*) AS rowcount FROM users");
-                rsCount.next();
-                 count = rsCount.getInt("rowcount");
+            java.sql.ResultSet rs=st.executeQuery("SELECT COUNT(*) AS rowcount FROM users");
+                rs.next();
+                 count = rs.getInt("rowcount");
                     if (count==0){
                             JOptionPane.showMessageDialog(null,"<html>Data user masih kosong, gunakan:<br> "
                                     + "User Name = admin <br> password = admin <br>untuk LOGIN<html>",
@@ -58,9 +58,9 @@ public class LoginForm extends javax.swing.JFrame {
         txtUserName = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        btnLogin = new khansapos.Utility_ButtonFlat();
+        btnCancel = new khansapos.Utility_ButtonFlat();
         lbSetting = new javax.swing.JLabel();
-        btnLogin = new javax.swing.JLabel();
-        btnCancel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -114,9 +114,32 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 320, 10));
         jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 320, -1));
 
+        btnLogin.setText("Login");
+        btnLogin.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnLogin.setMouseHover(new java.awt.Color(26, 149, 255));
+        btnLogin.setMousePress(new java.awt.Color(204, 204, 204));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 170, 100, 30));
+
+        btnCancel.setText("Cancel");
+        btnCancel.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnCancel.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnCancel.setMousePress(new java.awt.Color(204, 204, 204));
+        btnCancel.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 80, 30));
+
         lbSetting.setDisplayedMnemonic('t');
         lbSetting.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        lbSetting.setForeground(new java.awt.Color(102, 102, 102));
+        lbSetting.setForeground(new java.awt.Color(0, 123, 255));
         lbSetting.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\iconSettings16.png")); // NOI18N
         lbSetting.setLabelFor(this);
         lbSetting.setText("Database Setting ");
@@ -138,66 +161,7 @@ public class LoginForm extends javax.swing.JFrame {
                 lbSettingMouseExited(evt);
             }
         });
-        jPanel2.add(lbSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, 30));
-
-        btnLogin.setBackground(new java.awt.Color(0, 123, 255));
-        btnLogin.setDisplayedMnemonic('i');
-        btnLogin.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnLogin.setLabelFor(this);
-        btnLogin.setText("Login");
-        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnLogin.setOpaque(true);
-        btnLogin.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnLogin.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnLoginFocusLost(evt);
-            }
-        });
-        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLoginMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLoginMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLoginMouseExited(evt);
-            }
-        });
-        jPanel2.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 90, 30));
-
-        btnCancel.setBackground(new java.awt.Color(235, 154, 35));
-        btnCancel.setDisplayedMnemonic('c');
-        btnCancel.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCancel.setLabelFor(this);
-        btnCancel.setText("Cancel");
-        btnCancel.setToolTipText(null);
-        btnCancel.setBorder(null);
-        btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancel.setOpaque(true);
-        btnCancel.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnCancelFocusLost(evt);
-            }
-        });
-        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCancelMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnCancelMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCancelMouseExited(evt);
-            }
-        });
-        jPanel2.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 61, 30));
+        jPanel2.add(lbSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 380, 220));
 
@@ -229,7 +193,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel5.setLabelFor(this);
         jLabel5.setText("Welcome");
         jLabel5.setToolTipText(null);
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -278,41 +242,13 @@ public class LoginForm extends javax.swing.JFrame {
         Settings();
     }//GEN-LAST:event_lbSettingFocusLost
 
-    private void btnCancelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCancelFocusLost
-        Keluar();
-    }//GEN-LAST:event_btnCancelFocusLost
-
-    private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        Keluar();
-    }//GEN-LAST:event_btnCancelMouseClicked
-
-    private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
-        btnCancel.setBackground(new Color(255,180,61));
-        btnCancel.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnCancelMouseEntered
-
-    private void btnCancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseExited
-        btnCancel.setBackground(new Color(235,154,35));
-        btnCancel.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnCancelMouseExited
-
-    private void btnLoginFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnLoginFocusLost
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         Login();
-    }//GEN-LAST:event_btnLoginFocusLost
+    }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-        Login();
-    }//GEN-LAST:event_btnLoginMouseClicked
-
-    private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
-        btnLogin.setForeground(new Color(0,0,0));
-        btnLogin.setBackground(new Color(26,149,255));
-    }//GEN-LAST:event_btnLoginMouseEntered
-
-    private void btnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseExited
-        btnLogin.setForeground(new Color(255,255,255));
-        btnLogin.setBackground(new Color(0,123,255));
-    }//GEN-LAST:event_btnLoginMouseExited
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        Keluar();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void Keluar(){
         //UIManager.put("OptionPane.noButtonText", "Tidak");
@@ -419,8 +355,8 @@ private void Bersih(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
-    private static javax.swing.JLabel btnCancel;
-    private static javax.swing.JLabel btnLogin;
+    private khansapos.Utility_ButtonFlat btnCancel;
+    private khansapos.Utility_ButtonFlat btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

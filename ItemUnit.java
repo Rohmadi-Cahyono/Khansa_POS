@@ -1,14 +1,16 @@
 package khansapos;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class ItemUnit extends javax.swing.JInternalFrame {
-    private int X,Y;
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
     private static String  unitId;
     
     public ItemUnit() {
@@ -16,18 +18,24 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         IframeBorderLess(); 
         SPtableTampil.getViewport().setBackground(new Color(255,255,255));
         TampilSatuan(); 
-        
+        Tengah();
+        SwingUtilities.invokeLater(() -> {txtSearch.requestFocusInWindow(); });  //fokus pertama    
     }
      
     private void IframeBorderLess() {
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
         bi.setNorthPane(null); 
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.setSize(290,480);
     }
    
+    private void Tengah(){
+        Dimension formIni = this.getSize();
+        this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
+    }
+        
     private void TampilSatuan() {      
-        try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+        try {            
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT unit_id,unit_name FROM iunits ORDER BY unit_name ");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
@@ -38,8 +46,7 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     }
     
     private void Cari(){
-        try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+        try {           
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT  unit_id,unit_name FROM iunits WHERE unit_name LIKE '%"+txtSearch.getText()+"%' ORDER BY unit_name");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
@@ -52,10 +59,9 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     
 
     private void TambahUnit(){
-
+        ItemUnitAdd.setPemanggil("ItemUnit");
         ItemUnitAdd iud = new ItemUnitAdd();
         this.getParent().add(iud);
-        iud.setLocation(X, Y);
         iud.setVisible(true);        
     }
     
@@ -71,7 +77,6 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         if (JOptionPane.showConfirmDialog(null, "Yakin data Satuan akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
             try {
-                    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
                     java.sql.Statement st = con.createStatement();           
                     st.executeUpdate("DELETE FROM iunits WHERE unit_id="+unitId);            
                     JOptionPane.showMessageDialog(null, "Data Satuan berhasil dihapus!");
@@ -88,14 +93,21 @@ public class ItemUnit extends javax.swing.JInternalFrame {
             ut.Header(tableTampil,1,"Satuan Barang",100);
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
-     
+    
+     //---------------------------Simpan IdUnit divariable Id----------------------------------------
     public static void setId(String Id){
         unitId=Id;        
     }    
     public static String getId(){
         return unitId;
     }
-
+    //---------------------------------------------------------------------------------------------------------
+    
+    private void Keluar(){
+        Beranda br = new Beranda();
+        br.RemovePanel();
+        this.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,9 +119,9 @@ public class ItemUnit extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
-        btnEdit = new javax.swing.JLabel();
-        btnHapus = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        btnEdit = new khansapos.Utility_ButtonFlat();
+        btnHapus = new khansapos.Utility_ButtonFlat();
+        panelSatuan = new javax.swing.JPanel();
         SPtableTampil = new javax.swing.JScrollPane();
         tableTampil = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -117,89 +129,58 @@ public class ItemUnit extends javax.swing.JInternalFrame {
             }
         };
         txtSearch = new javax.swing.JTextField();
-        btnTambah = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnClose = new khansapos.Utility_ButtonMetro();
         jLabel2 = new javax.swing.JLabel();
+        btnTambah = new khansapos.Utility_ButtonFlat();
 
-        setPreferredSize(new java.awt.Dimension(1246, 714));
+        setClosable(true);
+        setMaximumSize(new java.awt.Dimension(306, 510));
+        setMinimumSize(new java.awt.Dimension(306, 510));
+        setPreferredSize(new java.awt.Dimension(306, 510));
 
         jPanel1.setBackground(new java.awt.Color(248, 251, 251));
+        jPanel1.setMaximumSize(new java.awt.Dimension(290, 480));
+        jPanel1.setMinimumSize(new java.awt.Dimension(290, 480));
+        jPanel1.setPreferredSize(new java.awt.Dimension(290, 480));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelEH.setOpaque(false);
         panelEH.setPreferredSize(new java.awt.Dimension(130, 30));
+        panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEdit.setBackground(new java.awt.Color(0, 123, 255));
-        btnEdit.setDisplayedMnemonic('h');
-        btnEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
-        btnEdit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEdit.setText("Edit");
-        btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEdit.setOpaque(true);
-        btnEdit.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnEditMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnEditMouseExited(evt);
+        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
+        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
             }
         });
+        panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnHapus.setBackground(new java.awt.Color(220, 53, 69));
-        btnHapus.setDisplayedMnemonic('h');
-        btnHapus.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
-        btnHapus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHapus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnHapus.setOpaque(true);
-        btnHapus.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHapusMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnHapusMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnHapusMouseExited(evt);
+        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
+        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
             }
         });
+        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, -1));
 
-        javax.swing.GroupLayout panelEHLayout = new javax.swing.GroupLayout(panelEH);
-        panelEH.setLayout(panelEHLayout);
-        panelEHLayout.setHorizontalGroup(
-            panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEHLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        panelEHLayout.setVerticalGroup(
-            panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEHLayout.createSequentialGroup()
-                .addGroup(panelEHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 130, 0));
 
-        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, 130, 0));
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelSatuan.setBackground(new java.awt.Color(255, 255, 255));
+        panelSatuan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelSatuan.setMaximumSize(new java.awt.Dimension(290, 480));
+        panelSatuan.setMinimumSize(new java.awt.Dimension(290, 480));
+        panelSatuan.setPreferredSize(new java.awt.Dimension(290, 480));
+        panelSatuan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SPtableTampil.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         SPtableTampil.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -237,7 +218,7 @@ public class ItemUnit extends javax.swing.JInternalFrame {
             tableTampil.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jPanel2.add(SPtableTampil, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 118, 270, 350));
+        panelSatuan.add(SPtableTampil, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 118, 270, 350));
 
         txtSearch.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         txtSearch.setToolTipText(null);
@@ -251,40 +232,11 @@ public class ItemUnit extends javax.swing.JInternalFrame {
                 txtSearchKeyReleased(evt);
             }
         });
-        jPanel2.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 110, 20));
-
-        btnTambah.setBackground(new java.awt.Color(87, 176, 86));
-        btnTambah.setDisplayedMnemonic('a');
-        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
-        btnTambah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnTambah.setLabelFor(this);
-        btnTambah.setText("Tambah");
-        btnTambah.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTambah.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnTambah.setOpaque(true);
-        btnTambah.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnTambah.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnTambahFocusLost(evt);
-            }
-        });
-        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTambahMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnTambahMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnTambahMouseExited(evt);
-            }
-        });
-        jPanel2.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 60, 30));
+        panelSatuan.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 110, 20));
 
         jSeparator1.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator1.setToolTipText("");
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 110, 10));
+        panelSatuan.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 110, 10));
 
         jPanel3.setBackground(new java.awt.Color(235, 154, 35));
 
@@ -295,105 +247,76 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         jLabel1.setText(" Satuan Barang");
         jLabel1.setToolTipText("");
 
+        btnClose.setMnemonic('c');
+        btnClose.setText("Close");
+        btnClose.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 130, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        panelSatuan.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\Search-icon.png")); // NOI18N
         jLabel2.setToolTipText(null);
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+        panelSatuan.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 290, 480));
+        btnTambah.setMnemonic('s');
+        btnTambah.setText("Tambah");
+        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnTambah.setMouseHover(new java.awt.Color(113, 202, 112));
+        btnTambah.setMousePress(new java.awt.Color(204, 204, 204));
+        btnTambah.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+        panelSatuan.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 90, 30));
+
+        jPanel1.add(panelSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, 480));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setBounds(0, 0, 1246, 714);
+        setBounds(0, 0, 306, 510);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
-        panelEH.setSize(130, 0);
-        EditUnit();
-    }//GEN-LAST:event_btnEditMouseClicked
-
-    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
-        btnEdit.setBackground(new Color(26,149,255));
-        btnEdit.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnEditMouseEntered
-
-    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
-        btnEdit.setBackground(new Color(0,123,255));
-        btnEdit.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnEditMouseExited
-
-    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
-        panelEH.setSize(130, 0);
-        HapusUnit();
-    }//GEN-LAST:event_btnHapusMouseClicked
-
-    private void btnHapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseEntered
-        btnHapus.setBackground(new Color(246,79,95));
-        btnHapus.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnHapusMouseEntered
-
-    private void btnHapusMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseExited
-        btnHapus.setBackground(new Color(220,53,69));
-        btnHapus.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnHapusMouseExited
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
         String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
         setId(Id); // Kirim Id ke session setId()
-
-        X= evt.getXOnScreen()-70;
-        Y= evt.getYOnScreen()-60;
-        panelEH.setLocation(X, Y);
+        panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
-
-    private void btnTambahFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnTambahFocusLost
-        TambahUnit();
-    }//GEN-LAST:event_btnTambahFocusLost
-
-    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
-        X= evt.getXOnScreen()-70;
-        Y= evt.getYOnScreen()-60;
-             
-        TambahUnit();
-    }//GEN-LAST:event_btnTambahMouseClicked
-
-    private void btnTambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseEntered
-        btnTambah.setForeground(new Color(0,0,0));
-        btnTambah.setBackground(new Color(113,202,112));
-    }//GEN-LAST:event_btnTambahMouseEntered
-
-    private void btnTambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseExited
-        btnTambah.setForeground(new Color(255,255,255));
-        btnTambah.setBackground(new Color(87,176,86));
-    }//GEN-LAST:event_btnTambahMouseExited
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
@@ -408,19 +331,38 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         Cari();
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        TambahUnit();
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        Keluar();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        panelEH.setSize(130, 0);
+        EditUnit();
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        panelEH.setSize(130, 0);
+        HapusUnit();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPtableTampil;
-    private static javax.swing.JLabel btnEdit;
-    private static javax.swing.JLabel btnHapus;
-    private static javax.swing.JLabel btnTambah;
+    private khansapos.Utility_ButtonMetro btnClose;
+    private khansapos.Utility_ButtonFlat btnEdit;
+    private khansapos.Utility_ButtonFlat btnHapus;
+    private khansapos.Utility_ButtonFlat btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelEH;
+    private javax.swing.JPanel panelSatuan;
     private javax.swing.JTable tableTampil;
     public javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

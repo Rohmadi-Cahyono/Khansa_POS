@@ -1,6 +1,7 @@
 package khansapos;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -19,19 +20,21 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         SPtableAutoComplete.setVisible(false);
         SPtableAutoComplete.getViewport().setBackground(Color.WHITE);
         SPlistUserLevel.setVisible(false);
-
-        //SetFocus pertama form aktif
-        SwingUtilities.invokeLater(() -> {
-            txtUserName.requestFocusInWindow();
-        });
+        Tengah();
+        SwingUtilities.invokeLater(() -> { txtUserName.requestFocusInWindow(); }); 
     }
         
     private void IframeBorderLess(){
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
         bi.setNorthPane(null);
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.setSize(970, 438);
     }
     
+    private void Tengah(){
+        Dimension formIni = this.getSize();
+        this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
+    }    
    
     private void Keluar(){
         UserForm uf = new UserForm();
@@ -131,7 +134,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -158,17 +160,19 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         jSeparator6 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
-        btnSimpan = new javax.swing.JLabel();
-        btnBersih = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        btnSimpan = new khansapos.Utility_ButtonFlat();
+        btnBersih = new khansapos.Utility_ButtonFlat();
 
         setBackground(new java.awt.Color(242, 248, 248));
-        setPreferredSize(new java.awt.Dimension(1246, 714));
-
-        jPanel3.setBackground(new java.awt.Color(248, 251, 251));
+        setMinimumSize(new java.awt.Dimension(970, 438));
+        setPreferredSize(new java.awt.Dimension(970, 438));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setMaximumSize(new java.awt.Dimension(970, 438));
+        jPanel1.setMinimumSize(new java.awt.Dimension(970, 438));
+        jPanel1.setPreferredSize(new java.awt.Dimension(970, 438));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(87, 176, 86));
@@ -231,7 +235,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         SPtableAutoComplete.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         SPtableAutoComplete.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         SPtableAutoComplete.setFocusable(false);
-        SPtableAutoComplete.setNextFocusableComponent(txtAlamat);
 
         tableAutoComplete.setForeground(new java.awt.Color(153, 153, 153));
         tableAutoComplete.setModel(new javax.swing.table.DefaultTableModel(
@@ -272,7 +275,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        listUserLevel.setNextFocusableComponent(PasswordField);
         listUserLevel.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 listUserLevelFocusLost(evt);
@@ -295,7 +297,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         txtUserName.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtUserName.setToolTipText(null);
         txtUserName.setBorder(null);
-        txtUserName.setNextFocusableComponent(txtAlamat);
         txtUserName.setOpaque(false);
         txtUserName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -315,7 +316,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         txtAlamat.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtAlamat.setToolTipText(null);
         txtAlamat.setBorder(null);
-        txtAlamat.setNextFocusableComponent(txtPhone);
         txtAlamat.setOpaque(false);
         txtAlamat.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -327,7 +327,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         txtPhone.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtPhone.setToolTipText(null);
         txtPhone.setBorder(null);
-        txtPhone.setNextFocusableComponent(txtUserLevel);
         txtPhone.setOpaque(false);
         txtPhone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -339,7 +338,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         txtUserLevel.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtUserLevel.setToolTipText(null);
         txtUserLevel.setBorder(null);
-        txtUserLevel.setNextFocusableComponent(PasswordField);
         txtUserLevel.setOpaque(false);
         txtUserLevel.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -351,7 +349,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         PasswordField.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         PasswordField.setToolTipText(null);
         PasswordField.setBorder(null);
-        PasswordField.setNextFocusableComponent(RePasswordField);
         PasswordField.setOpaque(false);
         PasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -363,7 +360,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         RePasswordField.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         RePasswordField.setToolTipText(null);
         RePasswordField.setBorder(null);
-        RePasswordField.setNextFocusableComponent(txtUserName);
         RePasswordField.setOpaque(false);
         RePasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -414,64 +410,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 341, -1, 20));
         jPanel1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 361, 318, 10));
 
-        btnSimpan.setBackground(new java.awt.Color(87, 176, 86));
-        btnSimpan.setDisplayedMnemonic('s');
-        btnSimpan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
-        btnSimpan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnSimpan.setLabelFor(this);
-        btnSimpan.setText("Simpan");
-        btnSimpan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSimpan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSimpan.setOpaque(true);
-        btnSimpan.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnSimpan.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnSimpanFocusLost(evt);
-            }
-        });
-        btnSimpan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSimpanMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSimpanMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSimpanMouseExited(evt);
-            }
-        });
-        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(734, 373, 213, 36));
-
-        btnBersih.setBackground(new java.awt.Color(235, 154, 35));
-        btnBersih.setDisplayedMnemonic('h');
-        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnBersih.setForeground(new java.awt.Color(255, 255, 255));
-        btnBersih.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnBersih.setLabelFor(this);
-        btnBersih.setText("Bersih");
-        btnBersih.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBersih.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnBersih.setOpaque(true);
-        btnBersih.setPreferredSize(new java.awt.Dimension(75, 25));
-        btnBersih.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                btnBersihFocusLost(evt);
-            }
-        });
-        btnBersih.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBersihMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnBersihMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnBersihMouseExited(evt);
-            }
-        });
-        jPanel1.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 374, 86, 35));
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -485,35 +423,44 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(148, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
-        );
+        btnSimpan.setMnemonic('s');
+        btnSimpan.setText("Simpan");
+        btnSimpan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnSimpan.setMouseHover(new java.awt.Color(113, 202, 112));
+        btnSimpan.setMousePress(new java.awt.Color(204, 204, 204));
+        btnSimpan.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 210, 30));
+
+        btnBersih.setMnemonic('b');
+        btnBersih.setText("Bersih");
+        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        btnBersih.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnBersih.setMousePress(new java.awt.Color(204, 204, 204));
+        btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnBersih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBersihActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 390, 90, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setBounds(0, 0, 1246, 714);
+        setBounds(0, 0, 986, 466);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -547,47 +494,11 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
 
     private void RePasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RePasswordFieldKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            Simpan();            
+            //Simpan();            
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
            RePasswordField.setText(null);
          }
     }//GEN-LAST:event_RePasswordFieldKeyPressed
-
-    private void btnSimpanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnSimpanFocusLost
-        Simpan();
-    }//GEN-LAST:event_btnSimpanFocusLost
-
-    private void btnSimpanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseClicked
-        Simpan();
-    }//GEN-LAST:event_btnSimpanMouseClicked
-
-    private void btnSimpanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseEntered
-        btnSimpan.setForeground(new Color(0,0,0));
-        btnSimpan.setBackground(new Color(113,202,112));
-    }//GEN-LAST:event_btnSimpanMouseEntered
-
-    private void btnSimpanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseExited
-        btnSimpan.setForeground(new Color(255,255,255));
-        btnSimpan.setBackground(new Color(87,176,86));
-    }//GEN-LAST:event_btnSimpanMouseExited
-
-    private void btnBersihFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnBersihFocusLost
-        Bersih();
-    }//GEN-LAST:event_btnBersihFocusLost
-
-    private void btnBersihMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBersihMouseClicked
-        Bersih();
-    }//GEN-LAST:event_btnBersihMouseClicked
-
-    private void btnBersihMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBersihMouseEntered
-        btnBersih.setBackground(new Color(255,180,61));
-        btnBersih.setForeground(new Color(0,0,0));
-    }//GEN-LAST:event_btnBersihMouseEntered
-
-    private void btnBersihMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBersihMouseExited
-        btnBersih.setBackground(new Color(235,154,35));
-        btnBersih.setForeground(new Color(255,255,255));
-    }//GEN-LAST:event_btnBersihMouseExited
 
     private void txtAlamatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlamatKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
@@ -648,6 +559,14 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
         }         
     }//GEN-LAST:event_txtUserNameKeyReleased
 
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        Simpan();
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
+        Bersih();
+    }//GEN-LAST:event_btnBersihActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -655,8 +574,8 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
     private javax.swing.JPasswordField RePasswordField;
     private javax.swing.JScrollPane SPlistUserLevel;
     private javax.swing.JScrollPane SPtableAutoComplete;
-    private static javax.swing.JLabel btnBersih;
-    private static javax.swing.JLabel btnSimpan;
+    private khansapos.Utility_ButtonFlat btnBersih;
+    private khansapos.Utility_ButtonFlat btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -666,7 +585,6 @@ public class UserFormAdd extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;

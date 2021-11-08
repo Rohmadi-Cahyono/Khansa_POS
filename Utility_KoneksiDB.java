@@ -37,7 +37,7 @@ public class Utility_KoneksiDB {
     public String namadb;
     public String user;
     public String pswd;
-    public java.sql.Connection conn = null;
+    public java.sql.Connection con = null;
     Properties prop;
 
     @SuppressWarnings("FinallyDiscardsException")
@@ -54,8 +54,8 @@ public class Utility_KoneksiDB {
             String DriverDB = "jdbc:mysql://";
             String server = namaserver + ":" + port + "/";
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(DriverDB + server + namadb, user, pswd);
-            if (conn == null) {
+            con = DriverManager.getConnection(DriverDB + server + namadb, user, pswd);
+            if (con == null) {
                 throw new SQLException();
             }
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class Utility_KoneksiDB {
         } catch (ClassNotFoundException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Kesalahan berikut terjadi: " + e.getMessage());
         } finally {
-            return conn;
+            return con;
         }
     }
 }
