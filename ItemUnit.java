@@ -11,8 +11,8 @@ import net.proteanit.sql.DbUtils;
 
 public class ItemUnit extends javax.swing.JInternalFrame {
     java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
-    private static String  unitId;
-    
+    public static String  Id;
+        
     public ItemUnit() {
         initComponents();
         IframeBorderLess(); 
@@ -58,27 +58,27 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     }
     
 
-    private void TambahUnit(){
-        ItemUnitAdd.setPemanggil("ItemUnit");
+    private void Tambah(){
+        ItemUnitAdd.formPemanggil="ItemUnit";        
         ItemUnitAdd iud = new ItemUnitAdd();
         this.getParent().add(iud);
+        this.setVisible(false);
         iud.setVisible(true);        
     }
     
-    public void EditUnit(){
-   /*     ItemUnitEdit ufe = new ItemUnitEdit();
+    public void Edit(){
+        ItemUnitEdit ufe = new ItemUnitEdit();
         this.getParent().add(ufe);
-        ufe.setVisible(true);       
-        this.setVisible(false);  */
-          
+        this.setVisible(false); 
+        ufe.setVisible(true);            
     }
     
-    private void HapusUnit(){       
+    private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data Satuan akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
             try {
                     java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM iunits WHERE unit_id="+unitId);            
+                    st.executeUpdate("DELETE FROM iunits WHERE unit_id="+Id);            
                     JOptionPane.showMessageDialog(null, "Data Satuan berhasil dihapus!");
                     TampilSatuan();
             } catch (SQLException e) {
@@ -93,21 +93,12 @@ public class ItemUnit extends javax.swing.JInternalFrame {
             ut.Header(tableTampil,1,"Satuan Barang",100);
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
-    
-     //---------------------------Simpan IdUnit divariable Id----------------------------------------
-    public static void setId(String Id){
-        unitId=Id;        
-    }    
-    public static String getId(){
-        return unitId;
-    }
-    //---------------------------------------------------------------------------------------------------------
-    
+     
     private void Keluar(){
-        Beranda br = new Beranda();
-        br.RemovePanel();
         this.dispose();
-    }
+    }     
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,8 +143,9 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -163,8 +155,8 @@ public class ItemUnit extends javax.swing.JInternalFrame {
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +230,7 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         jSeparator1.setToolTipText("");
         panelSatuan.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 110, 10));
 
-        jPanel3.setBackground(new java.awt.Color(235, 154, 35));
+        jPanel3.setBackground(new java.awt.Color(0, 123, 255));
 
         jLabel1.setBackground(new java.awt.Color(235, 154, 35));
         jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
@@ -282,7 +274,7 @@ public class ItemUnit extends javax.swing.JInternalFrame {
         jLabel2.setToolTipText(null);
         panelSatuan.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
-        btnTambah.setMnemonic('s');
+        btnTambah.setMnemonic('t');
         btnTambah.setText("Tambah");
         btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         btnTambah.setMouseHover(new java.awt.Color(113, 202, 112));
@@ -312,8 +304,8 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke session setId()
+        Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
@@ -332,7 +324,7 @@ public class ItemUnit extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahUnit();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -341,12 +333,12 @@ public class ItemUnit extends javax.swing.JInternalFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditUnit();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusUnit();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 

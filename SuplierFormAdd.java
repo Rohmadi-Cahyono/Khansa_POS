@@ -11,7 +11,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class SuplierFormAdd extends javax.swing.JInternalFrame {
-
+     java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+     
     public SuplierFormAdd() {
         initComponents();
         IframeBorderLess();
@@ -43,7 +44,6 @@ public class SuplierFormAdd extends javax.swing.JInternalFrame {
     
     private void PopUp(){
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT suplier_id,suplier_name FROM supliers WHERE suplier_name LIKE '"+txtSuplierName.getText()+"%'");
             tableAutoComplete.setModel(DbUtils.resultSetToTableModel(rs));           
@@ -92,7 +92,7 @@ public class SuplierFormAdd extends javax.swing.JInternalFrame {
                         String currentTime = sdf.format(dt);
                     
                         String sql ="INSERT INTO supliers(suplier_name,suplier_address,suplier_phone,suplier_created) VALUES ('"+txtSuplierName.getText()+"','"+txtAddress.getText()+"','"+txtPhone.getText()+"','"+currentTime+"')";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+                  
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
@@ -141,7 +141,7 @@ public class SuplierFormAdd extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(1246, 714));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
         jPanel1.setMaximumSize(new java.awt.Dimension(970, 347));
         jPanel1.setMinimumSize(new java.awt.Dimension(970, 347));
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 347));
@@ -408,7 +408,7 @@ public class SuplierFormAdd extends javax.swing.JInternalFrame {
 
     private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Simpan();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtPhone.setText("");
         }

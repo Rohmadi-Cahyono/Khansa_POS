@@ -74,10 +74,13 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
                 <Property name="mouseHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="95" red="1a" type="rgb"/>
+                  <Color blue="3d" green="b4" red="ff" type="rgb"/>
                 </Property>
                 <Property name="mousePress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                  <Color blue="70" green="e7" red="ff" type="rgb"/>
+                </Property>
+                <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="23" green="9a" red="eb" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
@@ -94,10 +97,10 @@
                 <Property name="mnemonic" type="int" value="104"/>
                 <Property name="text" type="java.lang.String" value="Hapus"/>
                 <Property name="mouseHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="66" red="ff" type="rgb"/>
+                  <Color blue="1a" green="1a" red="ff" type="rgb"/>
                 </Property>
                 <Property name="mousePress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                  <Color blue="4d" green="4d" red="ff" type="rgb"/>
                 </Property>
                 <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="ff" type="rgb"/>

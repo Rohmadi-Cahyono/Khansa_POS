@@ -42,7 +42,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder>
-              <Color PropertyName="color" blue="f0" green="f0" red="f0" type="rgb"/>
+              <Color PropertyName="color" blue="3d" green="b4" red="ff" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -64,7 +64,7 @@
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="7b" red="0" type="rgb"/>
+              <Color blue="3d" green="b4" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Constraints>
@@ -539,32 +539,6 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Component class="khansapos.Utility_ButtonFlat" name="btnBersih">
-          <Properties>
-            <Property name="mnemonic" type="int" value="98"/>
-            <Property name="text" type="java.lang.String" value="Bersih"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="MS Reference Sans Serif" size="14" style="0"/>
-            </Property>
-            <Property name="mouseHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="3d" green="b4" red="ff" type="rgb"/>
-            </Property>
-            <Property name="mousePress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="cc" type="rgb"/>
-            </Property>
-            <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="23" green="9a" red="eb" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBersihActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="630" y="380" width="90" height="30"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="khansapos.Utility_ButtonFlat" name="btnUpdate">
           <Properties>
             <Property name="mnemonic" type="int" value="117"/>
@@ -573,10 +547,13 @@
               <Font name="MS Reference Sans Serif" size="14" style="0"/>
             </Property>
             <Property name="mouseHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="95" red="1a" type="rgb"/>
+              <Color blue="3d" green="b4" red="ff" type="rgb"/>
             </Property>
             <Property name="mousePress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+              <Color blue="70" green="e7" red="ff" type="rgb"/>
+            </Property>
+            <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="3d" green="b4" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Events>

@@ -11,21 +11,17 @@ import net.proteanit.sql.DbUtils;
 
 public class ItemCategory extends javax.swing.JInternalFrame {
     java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
-    private static String  categoryId;
+    public static String Id;
     
     public ItemCategory() {
         initComponents();
         IframeBorderLess(); 
         SPtableTampil.getViewport().setBackground(new Color(255,255,255));
-        TampilKategori(); 
-        Tengah();       
-        SwingUtilities.invokeLater(() -> {txtSearch.requestFocusInWindow(); });  //fokus pertama      
+        Tampil(); 
+        Tengah();        
+        SwingUtilities.invokeLater(() -> {txtSearch.requestFocusInWindow(); });  //fokus pertama  
     }
     
-    public void Mulai(){
-    TampilKategori();    
-    }
-     
     private void IframeBorderLess() {
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
         bi.setNorthPane(null); 
@@ -37,7 +33,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         Dimension formIni = this.getSize();
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
     }
-    private void TampilKategori() {      
+    private void Tampil() {      
         try {            
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT category_id,category_name FROM icategory ORDER BY category_name ");
@@ -49,8 +45,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     }
     
     private void Cari(){
-        try {
-            
+        try {            
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT  category_id,category_name FROM icategory WHERE category_name LIKE '%"+txtSearch.getText()+"%' ORDER BY category_name");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
@@ -61,59 +56,46 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         }         
     }
     
-
-    private void TambahCategory(){
-
-        ItemCategoryAdd.setPemanggil("ItemCategory");
-        ItemCategoryAdd iud = new ItemCategoryAdd();
-        this.getParent().add(iud);              
-        iud.setVisible(true);
-        
-    }
-    
-    public void EditCategory(){
-       
-        ItemCategoryEdit ice = new ItemCategoryEdit();
-        this.getParent().add(ice);              
-        ice.setVisible(true);
-       
-    }
-    
-    private void HapusCategory(){       
-        if (JOptionPane.showConfirmDialog(null, "Yakin data Kategori akan dihapus?", "Khansa POS",
-            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
-            try {
-                    java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM icategory WHERE category_id="+categoryId);            
-                    JOptionPane.showMessageDialog(null, "Data Kategori berhasil dihapus!");
-                    TampilKategori();
-            } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, e);
-            }  
-        }        
-    }
-    
      private void TampilkanDiTabel() {                     
             Utility_Table ut = new Utility_Table();           
             ut.Header(tableTampil,0,"",-10);
             ut.Header(tableTampil,1,"Kategori Barang",100);
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
- 
-     //------------------Simpan IdCategori divariable Id------------------------------------
-    public static void setId(String Id){
-        categoryId=Id;        
-    }    
-    public static String getId(){
-        return categoryId;
+     
+    private void Tambah(){
+        ItemCategoryAdd.formPemanggil= "ItemCategory";
+        ItemCategoryAdd ica = new ItemCategoryAdd();
+        this.getParent().add(ica);
+        this.setVisible(false);
+        ica.setVisible(true);  
+    }     
+    
+        
+    public void Edit(){
+        ItemCategoryEdit ice = new ItemCategoryEdit();
+        this.getParent().add(ice);
+        this.setVisible(false);
+        ice.setVisible(true);  
     }
-    //-----------------------------------------------------------------------------------------------------
+        
+    private void Hapus(){       
+        if (JOptionPane.showConfirmDialog(null, "Yakin data Kategori akan dihapus?", "Khansa POS",
+            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
+            try {
+                    java.sql.Statement st = con.createStatement();           
+                    st.executeUpdate("DELETE FROM icategory WHERE category_id="+Id);            
+                    JOptionPane.showMessageDialog(null, "Data Kategori berhasil dihapus!");
+                    Tampil();
+            } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }  
+        }        
+    }
     
     private void Keluar(){
-        this.dispose();
-        Beranda br =new Beranda();
-        br.RemovePanel();
-    }
+        this.dispose(); 
+    } 
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,7 +106,6 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         panelKategori = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
         btnEdit = new khansapos.Utility_ButtonFlat();
@@ -148,14 +129,8 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(306, 510));
         setPreferredSize(new java.awt.Dimension(306, 510));
 
-        jPanel1.setBackground(new java.awt.Color(248, 251, 251));
-        jPanel1.setMaximumSize(new java.awt.Dimension(290, 480));
-        jPanel1.setMinimumSize(new java.awt.Dimension(290, 480));
-        jPanel1.setPreferredSize(new java.awt.Dimension(290, 480));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         panelKategori.setBackground(new java.awt.Color(255, 255, 255));
-        panelKategori.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelKategori.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 123, 255)));
         panelKategori.setMaximumSize(new java.awt.Dimension(290, 480));
         panelKategori.setMinimumSize(new java.awt.Dimension(290, 480));
         panelKategori.setPreferredSize(new java.awt.Dimension(290, 480));
@@ -166,8 +141,9 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -177,8 +153,8 @@ public class ItemCategory extends javax.swing.JInternalFrame {
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,7 +219,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         jSeparator1.setToolTipText("");
         panelKategori.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 110, 10));
 
-        jPanel3.setBackground(new java.awt.Color(235, 154, 35));
+        jPanel3.setBackground(new java.awt.Color(0, 123, 255));
 
         jLabel1.setBackground(new java.awt.Color(235, 154, 35));
         jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
@@ -287,11 +263,11 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         jLabel2.setToolTipText(null);
         panelKategori.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
-        btnTambah.setMnemonic('s');
+        btnTambah.setMnemonic('t');
         btnTambah.setText("Tambah");
         btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         btnTambah.setMouseHover(new java.awt.Color(113, 202, 112));
-        btnTambah.setMousePress(new java.awt.Color(204, 204, 204));
+        btnTambah.setMousePress(new java.awt.Color(164, 253, 163));
         btnTambah.setWarnaBackground(new java.awt.Color(87, 176, 86));
         btnTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,26 +276,27 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         });
         panelKategori.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 90, 30));
 
-        jPanel1.add(panelKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, 480));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setBounds(0, 0, 306, 510);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke session setId()
-
+         Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+        //setId(Id);
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
@@ -342,17 +319,17 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahCategory();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditCategory();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusCategory();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 
@@ -364,7 +341,6 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     private khansapos.Utility_ButtonFlat btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelEH;

@@ -6,19 +6,18 @@ import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class ItemFormAdd extends javax.swing.JInternalFrame {
-    private static String  formPemanggil;
+    java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+    public static String  formPemanggil;
     private String Pilihan,HBeli,HJual,Disc,Dipilih;
-    DecimalFormat desimalFormat;
-    
+    DecimalFormat desimalFormat;    
     Utility_Text ut = new Utility_Text();
-    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+
     
     public ItemFormAdd() {
         initComponents();
@@ -52,25 +51,8 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
     private void Tengah(){
         Dimension formIni = this.getSize();
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
-    }
-    
-    public static void setPemanggil(String Nama){
-        formPemanggil=Nama;        
-    }    
-    public static String getPemanggil(){
-        return formPemanggil;
-    }
-    
-    private void Keluar(){
-        if ("ItemForm".equals(getPemanggil())){
-            ItemForm itf = new ItemForm();
-            this.getParent().add(itf);
-            itf.setVisible(true);
-        }else {
-            
-        }
-        this.dispose();
-    }
+    }  
+
  
     private void PopUpCode(){
         try {
@@ -101,8 +83,37 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
-  
-        private void PopUpName(){
+
+        private void CekKode(){
+         try {
+            java.sql.Statement st = con.createStatement();           
+            java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_delete FROM items WHERE item_code LIKE '"+txtKode.getText()+"'");
+                 if(rs.next()){            
+                     if(!"0".equals(rs.getString("item_delete"))){
+                        if (JOptionPane.showConfirmDialog(null, "Data Barang sudah ada, UnDelete data?", "Khansa POS",
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
+                                String Id = rs.getString("item_id");
+                                String sql ="UPDATE items SET item_delete='"+0+"' WHERE item_id='"+Id+"' ";                              
+                                java.sql.PreparedStatement pst=con.prepareStatement(sql);
+                                pst.execute();
+                                 Keluar();  
+                            } else {
+                                txtKode.setText("");
+                                txtKode.requestFocus();                            
+                        }  
+                     } else {
+                        JOptionPane.showMessageDialog(null, "Kode Barang sudah digunakan!", "Khansa POS", 
+                            JOptionPane.WARNING_MESSAGE); 
+                            txtKode.setText("");
+                            txtKode.requestFocus();
+                     }
+                 }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }   
+    }
+    
+    private void PopUpName(){
         try {
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_name FROM items WHERE item_name LIKE '"+txtNamaBarang.getText()+"%'");
@@ -131,55 +142,8 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
-   
-    private void Bersih(){
-        StabelPilih.setVisible(false);
-        txtDiscount.setText("");
-        txtHargaBeli.setText("");
-        txtHargaJual.setText("");       
-        txtSatuan.setText("");
-        txtKategori.setText("");
-        txtNamaBarang.setText("");
-        txtKode.setText("");
-        txtKode.requestFocus();
-    }
-   
-    private void Simpan(){
-        
-        if(txtHargaJual.getText().trim().isEmpty()){
-            HJual="0";
-        }
-        if(txtHargaBeli.getText().trim().isEmpty()){
-            HBeli="0";
-        }
-        if(txtDiscount.getText().trim().isEmpty()){
-            Disc="0"; 
-        }
 
-        if (txtKode.getText().trim().isEmpty() || txtNamaBarang.getText().trim().isEmpty() || txtKategori.getText().trim().isEmpty() || txtSatuan.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Data Barang Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
-        }else {
-                try{   
-                        java.util.Date dt = new java.util.Date();
-                        java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentTime = sdf.format(dt);
-                    
-                        String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,item_sprice,item_bprice,item_discount,item_created) "
-                                + "VALUES ('"+txtKode.getText()+"','"+txtNamaBarang.getText()+"','"+txtKategori.getText()+"',"
-                                + "'"+txtSatuan.getText()+"','"+HJual+"','"+HBeli+"','"+Disc+"','"+currentTime+"')";
-                       
-                        java.sql.PreparedStatement pst=con.prepareStatement(sql);
-                        pst.execute();
-                    
-                        JOptionPane.showMessageDialog(null, "Penyimpanan Data Barang Berhasil");
-                        Keluar();                  
-                    }                
-                        catch(HeadlessException | SQLException b){
-                        JOptionPane.showMessageDialog(null, b.getMessage());
-                    }
-        }         
-    }
-    
+
   
     private void TampilKategori(){
         StabelPilih.setVisible(false);
@@ -210,15 +174,6 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }      
     }
-    
-    private void TambahKategori(){
-        txtKode.requestFocus();     //Kembalikan Fokus ke Text Kode
-        ItemCategoryAdd.setPemanggil("ItemFormAdd");
-        ItemCategoryAdd ica = new ItemCategoryAdd();
-        this.getParent().add(ica);
-        ica.setVisible(true);
-    }
-    
 
     private void TampilSatuan(){
         StabelPilih.setVisible(false);
@@ -249,14 +204,46 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         } 
     }
-     
-    private void TambahSatuan(){
-        txtKode.requestFocus();     //Kembalikan Fokus ke Text Kode
-        ItemUnitAdd.setPemanggil("ItemFormAdd");
-        ItemUnitAdd iud = new ItemUnitAdd();
-        this.getParent().add(iud);
-        iud.setVisible(true);
+   
+    private void Simpan(){
+        
+        if(txtHargaJual.getText().trim().isEmpty()){
+            HJual="0";
+        }
+        if(txtHargaBeli.getText().trim().isEmpty()){
+            HBeli="0";
+        }
+        if(txtDiscount.getText().trim().isEmpty()){
+            Disc="0"; 
+        }else{
+            Disc =txtDiscount.getText(); 
+        }
+
+        if (txtKode.getText().trim().isEmpty() || txtNamaBarang.getText().trim().isEmpty() || txtKategori.getText().trim().isEmpty() || txtSatuan.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Data Barang Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
+        }else {
+                try{   
+                        java.util.Date dt = new java.util.Date();
+                        java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String currentTime = sdf.format(dt);
+                    
+                        String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,"
+                                + "item_bprice,item_sprice,item_discount,item_created) "
+                                + "VALUES ('"+txtKode.getText()+"','"+txtNamaBarang.getText()+"','"+txtKategori.getText()+"',"
+                                + "'"+txtSatuan.getText()+"','"+HBeli+"','"+HJual+"','"+Disc+"','"+currentTime+"')";
+                       
+                        java.sql.PreparedStatement pst=con.prepareStatement(sql);
+                        pst.execute();
+                    
+                        JOptionPane.showMessageDialog(null, "Penyimpanan Data Barang Berhasil");
+                        Keluar();                  
+                    }                
+                        catch(HeadlessException | SQLException b){
+                        JOptionPane.showMessageDialog(null, b.getMessage());
+                    }
+        }         
     }
+    
  
     private void TampilPilih(){
         if("kategori".equals(Pilihan)){
@@ -273,30 +260,45 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         }
     }
     
-    private void CekKode(){
-         try {
-            java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_delete FROM items WHERE item_code LIKE '"+txtKode.getText()+"'");
-                 if(rs.next()){            
-                     if(!"0".equals(rs.getString("item_delete"))){
-                        if (JOptionPane.showConfirmDialog(null, "Data Barang sudah ada, UnDelete data?", "Khansa POS",
-                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
-                                String Id = rs.getString("item_id");
-                                String sql ="UPDATE items SET item_delete='"+0+"' WHERE item_id='"+Id+"' ";                              
-                                java.sql.PreparedStatement pst=con.prepareStatement(sql);
-                                pst.execute();
-                                 Keluar();  
-                        }     
-                     }else{
-                        JOptionPane.showMessageDialog(null, "Kode Barang sudah digunakan!", "Khansa POS", 
-                            JOptionPane.WARNING_MESSAGE); 
-                            txtKode.setText("");
-                            txtKode.requestFocus();
-                     }
-                 }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }   
+
+    
+    private void TambahKategori(){
+        txtKode.requestFocus();     //Kembalikan Fokus ke Text Kode
+        ItemCategoryAdd.formPemanggil="ItemFormAdd";
+        ItemCategoryAdd ica = new ItemCategoryAdd();
+        this.getParent().add(ica);
+        ica.setVisible(true);
+    }
+     
+    private void TambahSatuan(){
+        txtKode.requestFocus();     //Kembalikan Fokus ke Text Kode
+        ItemUnitAdd.formPemanggil="ItemFormAdd";
+        ItemUnitAdd iud = new ItemUnitAdd();
+        this.getParent().add(iud);
+        iud.setVisible(true);
+    }
+   
+    private void Bersih(){
+        StabelPilih.setVisible(false);
+        txtDiscount.setText("");
+        txtHargaBeli.setText("");
+        txtHargaJual.setText("");       
+        txtSatuan.setText("");
+        txtKategori.setText("");
+        txtNamaBarang.setText("");
+        txtKode.setText("");
+        txtKode.requestFocus();
+    }
+    
+    private void Keluar(){
+        if ("ItemForm".equals(formPemanggil)){
+            ItemForm itf = new ItemForm();
+            this.getParent().add(itf);
+            itf.setVisible(true);
+        }else {
+            
+        }
+        this.dispose();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -354,7 +356,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(1246, 714));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
         jPanel1.setPreferredSize(new java.awt.Dimension(791, 477));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -775,7 +777,7 @@ public class ItemFormAdd extends javax.swing.JInternalFrame {
 
     private void txtDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Simpan();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtDiscount.setText("");
         }

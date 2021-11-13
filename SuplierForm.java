@@ -10,7 +10,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class SuplierForm extends javax.swing.JInternalFrame {
-    private static String  suplierId;
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    public static String  Id;
     
     public SuplierForm() {
         initComponents();
@@ -26,10 +27,13 @@ public class SuplierForm extends javax.swing.JInternalFrame {
         bi.setNorthPane(null); 
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
-   
+    
+    private void Tengah(){
+        Dimension formIni = this.getSize();
+        this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
+    }
     private void TampilSuplier() {      
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT suplier_id,suplier_name, suplier_address, suplier_phone, suplier_created, suplier_update FROM supliers ");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
@@ -38,33 +42,27 @@ public class SuplierForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    private void Tengah(){
-        Dimension formIni = this.getSize();
-        this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
-    }
-    
-    private void TambahSuplier(){
+
+    private void Tambah(){
         SuplierFormAdd ufa = new SuplierFormAdd();
         this.getParent().add(ufa);
         ufa.setVisible(true);
         this.setVisible(false);       
     }
     
-    public void EditSuplier(){
+    public void Edit(){
         SuplierFormEdit ufe = new SuplierFormEdit();
         this.getParent().add(ufe);
         ufe.setVisible(true);       
         this.setVisible(false);      
     }
     
-    private void HapusSuplier(){       
+    private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data Suplier akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
             try {
-                    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
                     java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM supliers WHERE suplier_id="+suplierId);            
+                    st.executeUpdate("DELETE FROM supliers WHERE suplier_id="+Id);            
                     JOptionPane.showMessageDialog(null, "Data Suplier berhasil dihapus!");
                     TampilSuplier();
             } catch (SQLException e) {
@@ -77,7 +75,8 @@ public class SuplierForm extends javax.swing.JInternalFrame {
         try {
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT  suplier_id,suplier_name, suplier_address, suplier_phone, suplier_created, suplier_update  FROM supliers WHERE suplier_name LIKE '%"+txtSearch.getText()+"%'");
+            java.sql.ResultSet rs = st.executeQuery("SELECT  suplier_id,suplier_name, suplier_address, suplier_phone, "
+                    + "suplier_created, suplier_update  FROM supliers WHERE suplier_name LIKE '%"+txtSearch.getText()+"%'");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
             TampilkanDiTabel();
 
@@ -100,13 +99,6 @@ public class SuplierForm extends javax.swing.JInternalFrame {
             tableTampil.getColumnModel().getColumn(5).setCellRenderer(ut.formatTanggal);
             //tableSuplier.getColumnModel().getColumn(2).setCellRenderer(new Utility_RupiahCellRenderer());
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
-    }
-
-    public static void setId(String Id){
-        suplierId=Id;        
-    }    
-    public static String getId(){
-        return suplierId;
     }
 
     /**
@@ -145,8 +137,9 @@ public class SuplierForm extends javax.swing.JInternalFrame {
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -156,8 +149,8 @@ public class SuplierForm extends javax.swing.JInternalFrame {
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,8 +249,8 @@ public class SuplierForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke session setId()
+        Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
@@ -276,17 +269,17 @@ public class SuplierForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahSuplier();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditSuplier();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusSuplier();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 

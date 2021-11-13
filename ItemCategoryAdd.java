@@ -11,7 +11,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class ItemCategoryAdd extends javax.swing.JInternalFrame {
-    private static String  formPemanggil;
+    java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+    public static String  formPemanggil;
     
     public ItemCategoryAdd() {
         initComponents();
@@ -32,34 +33,13 @@ public class ItemCategoryAdd extends javax.swing.JInternalFrame {
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
     }
     
-    public static void setPemanggil(String Nama){
-        formPemanggil=Nama;        
-    }    
-    public static String getPemanggil(){
-        return formPemanggil;
-    }
-    
-    private void Keluar(){
-        if ("ItemCategory".equals(getPemanggil())){
-            ItemCategory ic = new ItemCategory();
-            this.getParent().add(ic);  
-            ic.setVisible(true);
-        }else {
-            ItemFormAdd ifa = new ItemFormAdd();
-            this.getParent().add(ifa);              
-            ifa.setVisible(true); 
-        }
-        this.dispose();
-    }
-    
     private void Simpan(){             
         if (txtKategori.getText() == null || txtKategori.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Kategori Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
         }else {
                 try{   
                        String sql ="INSERT INTO icategory(category_name) "
-                                + "VALUES ('"+txtKategori.getText()+"')";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+                                + "VALUES ('"+txtKategori.getText()+"')";                        
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
@@ -74,14 +54,12 @@ public class ItemCategoryAdd extends javax.swing.JInternalFrame {
     
         
    private void PopUpKategori(){
-        try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+        try {            
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT category_id,category_name FROM icategory WHERE category_name LIKE '"+txtKategori.getText()+"%'");
             List.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                Utility_Table uts = new Utility_Table();
                 List.setBackground(new Color(255,255,255));
                 List.setShowGrid(false);
                 List.removeColumn(List.getColumnModel().getColumn(0));
@@ -99,6 +77,19 @@ public class ItemCategoryAdd extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }  
+    }
+     
+    private void Keluar(){
+        if ("ItemCategory".equals(formPemanggil)){
+            ItemCategory ic = new ItemCategory();
+            this.getParent().add(ic);  
+            ic.setVisible(true);
+        }else {
+            ItemFormAdd ifa = new ItemFormAdd();
+            this.getParent().add(ifa);              
+            ifa.setVisible(true); 
+        }
+        this.dispose();
     }
 
     /**
@@ -126,7 +117,7 @@ public class ItemCategoryAdd extends javax.swing.JInternalFrame {
         btnSimpan = new khansapos.Utility_ButtonFlat();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
         jPanel1.setPreferredSize(new java.awt.Dimension(421, 156));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -242,7 +233,7 @@ public class ItemCategoryAdd extends javax.swing.JInternalFrame {
 
     private void txtKategoriKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Simpan();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtKategori.setText("");
         }

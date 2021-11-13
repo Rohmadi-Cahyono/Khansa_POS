@@ -11,7 +11,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class MemberFormAdd extends javax.swing.JInternalFrame {
-
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
     public MemberFormAdd() {
         initComponents();
         IframeBorderLess();
@@ -43,7 +43,6 @@ public class MemberFormAdd extends javax.swing.JInternalFrame {
     
     private void PopUp(){
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT member_id,member_name FROM members WHERE member_name LIKE '"+txtMemberName.getText()+"%'");
             tableAutoComplete.setModel(DbUtils.resultSetToTableModel(rs));           
@@ -80,7 +79,6 @@ public class MemberFormAdd extends javax.swing.JInternalFrame {
     }
    
     private void Simpan(){
-
              
         if (txtMemberName.getText() == null || txtMemberName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Member Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
@@ -92,7 +90,7 @@ public class MemberFormAdd extends javax.swing.JInternalFrame {
                         String currentTime = sdf.format(dt);
                     
                         String sql ="INSERT INTO members(member_name,member_address,member_phone,member_created) VALUES ('"+txtMemberName.getText()+"','"+txtAddress.getText()+"','"+txtPhone.getText()+"','"+currentTime+"')";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+                       
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
@@ -140,7 +138,7 @@ public class MemberFormAdd extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(1246, 714));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
         jPanel1.setMaximumSize(new java.awt.Dimension(970, 330));
         jPanel1.setMinimumSize(new java.awt.Dimension(970, 330));
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 330));
@@ -406,7 +404,7 @@ public class MemberFormAdd extends javax.swing.JInternalFrame {
 
     private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Simpan();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtPhone.setText("");
         }

@@ -21,7 +21,7 @@ public class Utility_Table {
     
     TableCellRenderer formatRupiah = new DefaultTableCellRenderer() {        
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel component = (JLabel) super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);
             component.setHorizontalAlignment(JLabel.RIGHT);
             
@@ -33,8 +33,7 @@ public class Utility_Table {
         }          
     };
     
-        TableCellRenderer formatAngka = new DefaultTableCellRenderer() {     
-            
+    TableCellRenderer formatAngka = new DefaultTableCellRenderer() {                 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JLabel component = (JLabel) super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);

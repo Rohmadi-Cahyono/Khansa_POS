@@ -2,7 +2,6 @@ package khansapos;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -12,6 +11,9 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class UserFormEdit extends javax.swing.JInternalFrame {
+    java.sql.Connection con=new Utility_KoneksiDB().koneksi();   
+    String Id;
+    
     public UserFormEdit() {
         initComponents();
         IframeBorderLess();
@@ -38,11 +40,9 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
     
     private void TampilEdit(){
          final String secretKey = "khansaPOS";
-        String Id = UserForm.getId();  //Ambil variabel userId dari form UserForm
+        Id = UserForm.Id;  //Ambil variabel userId dari form UserForm
         
         try {
-            //JOptionPane.showMessageDialog(null, "masuk ke try");
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT * FROM users WHERE user_id =' "+Id+" ' ");
                 if(rs.next()){                    
@@ -58,9 +58,6 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null,e);
         }  
-        //
-        //UserId=Integer.toString(uf.Id);
-        //txtUserName.setText(UserId);
     }
    
     private void Keluar(){
@@ -74,7 +71,8 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
         try {
             java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT user_id,user_name FROM users WHERE user_name LIKE '"+txtUserName.getText()+"%'");
+            java.sql.ResultSet rs = st.executeQuery("SELECT user_id,user_name FROM users "
+                    + "WHERE user_name LIKE '"+txtUserName.getText()+"%'");
             tableAutoComplete.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
@@ -99,19 +97,8 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
-  
-   
-    private void Bersih(){
-        RePasswordField.setText("");
-        PasswordField.setText("");
-        txtUserLevel.setText("");
-        txtPhone.setText("");
-        txtAlamat.setText("");
-        txtUserName.setText("");
-        txtUserName.requestFocus();
-    }
-   
-    private void Simpan(){
+
+    private void Update(){
         final String secretKey = "khansaPOS";     
         String password = String.valueOf(PasswordField.getPassword());
         String rePassword = String.valueOf(RePasswordField.getPassword());
@@ -132,9 +119,10 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                         */
-                        String Id = UserForm.getId();
-                        String sql ="UPDATE users SET user_name='"+txtUserName.getText()+"', user_address='"+txtAlamat.getText()+"', user_phone='"+txtPhone.getText()+"', user_level='"+txtUserLevel.getText()+"', user_password='"+encryptedString+"' WHERE user_id='"+Id+"' ";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+                        Id = UserForm.Id;
+                        String sql ="UPDATE users SET user_name='"+txtUserName.getText()+"', user_address='"+txtAlamat.getText()+"', "
+                                + "user_phone='"+txtPhone.getText()+"', user_level='"+txtUserLevel.getText()+"', "
+                                + "user_password='"+encryptedString+"' WHERE user_id='"+Id+"' ";
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
 
@@ -193,19 +181,18 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
-        btnBersih = new khansapos.Utility_ButtonFlat();
         btnUpdate = new khansapos.Utility_ButtonFlat();
 
         setPreferredSize(new java.awt.Dimension(1246, 714));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 180, 61)));
         jPanel1.setMaximumSize(new java.awt.Dimension(970, 438));
         jPanel1.setMinimumSize(new java.awt.Dimension(970, 438));
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 438));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(0, 123, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 180, 61));
 
         jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -453,24 +440,12 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnBersih.setMnemonic('b');
-        btnBersih.setText("Bersih");
-        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnBersih.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnBersih.setMousePress(new java.awt.Color(204, 204, 204));
-        btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnBersih.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBersihActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 380, 90, 30));
-
         btnUpdate.setMnemonic('u');
         btnUpdate.setText("Update");
         btnUpdate.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnUpdate.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnUpdate.setMousePress(new java.awt.Color(204, 204, 204));
+        btnUpdate.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnUpdate.setMousePress(new java.awt.Color(255, 231, 112));
+        btnUpdate.setWarnaBackground(new java.awt.Color(255, 180, 61));
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -580,18 +555,14 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
 
     private void RePasswordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RePasswordFieldKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Update();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             RePasswordField.setText(null);
         }
     }//GEN-LAST:event_RePasswordFieldKeyPressed
 
-    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
-        Bersih();
-    }//GEN-LAST:event_btnBersihActionPerformed
-
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        Simpan();
+        Update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
 
@@ -600,7 +571,6 @@ public class UserFormEdit extends javax.swing.JInternalFrame {
     private javax.swing.JPasswordField RePasswordField;
     private javax.swing.JScrollPane SPlistUserLevel;
     private javax.swing.JScrollPane SPtableAutoComplete;
-    private khansapos.Utility_ButtonFlat btnBersih;
     private static javax.swing.JLabel btnExit;
     private khansapos.Utility_ButtonFlat btnUpdate;
     private javax.swing.JLabel jLabel1;

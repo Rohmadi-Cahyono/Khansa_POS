@@ -10,8 +10,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class ItemForm extends javax.swing.JInternalFrame {
-    private static String  itemId;
     java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    public static String  Id;
     
     public ItemForm() {
         initComponents();
@@ -32,45 +32,31 @@ public class ItemForm extends javax.swing.JInternalFrame {
         Dimension formIni = this.getSize();
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
     }
-    
-    private void TampilBarang() {      
-        try {
-            //java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
-            java.sql.Statement st = con.createStatement();
-            java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_name, "
-                    + "item_stock, item_unit,item_sprice,item_bprice, item_discount,item_created, item_update FROM items WHERE item_delete = 0 ");
-            tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
-            TampilkanDiTabel();         
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
-    
 
-    private void TambahBarang(){
-        ItemFormAdd.setPemanggil("ItemForm");
+
+    private void Tambah(){
+        ItemFormAdd.formPemanggil="ItemForm";
         ItemFormAdd ifa = new ItemFormAdd();
         this.getParent().add(ifa);
-        ifa.setVisible(true);
-       // this.setVisible(false);     
-       this.dispose();
+        ifa.setVisible(true);           
+        this.dispose();
     }
     
-    public void EditBarang(){
+    public void Edit(){
         ItemFormEdit ufe = new ItemFormEdit();
         this.getParent().add(ufe);
         ufe.setVisible(true);       
-        this.setVisible(false);      
+        this.dispose();      
     }
    
-    private void HapusBarang(){   
+    private void Hapus(){   
         
         Object[] options = {"Hapus Sementara","Hapus Permanent", "Batal"};
         int value = JOptionPane.showOptionDialog(null,    "Yakin data Barang akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,  options[2]);
             if (value == JOptionPane.YES_OPTION) {
                 try{                          
-                    String sql ="UPDATE items SET item_delete='"+1+"' WHERE item_id='"+itemId+"' ";                              
+                    String sql ="UPDATE items SET item_delete='"+1+"' WHERE item_id='"+Id+"' ";                              
                     java.sql.PreparedStatement pst=con.prepareStatement(sql);
                     pst.execute();
                     TampilBarang();
@@ -80,7 +66,7 @@ public class ItemForm extends javax.swing.JInternalFrame {
             }else if (value == JOptionPane.NO_OPTION) {
                 try {                    
                     java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM items WHERE item_id="+itemId);            
+                    st.executeUpdate("DELETE FROM items WHERE item_id="+Id);            
                     JOptionPane.showMessageDialog(null, "Data Barang berhasil dihapus!");
                     TampilBarang();
                 } catch (SQLException e) {
@@ -95,7 +81,7 @@ public class ItemForm extends javax.swing.JInternalFrame {
             //java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_name, "
-                    + "item_stock, item_unit,item_sprice,item_bprice, item_discount,item_created, item_update FROM items"
+                    + "item_stock, item_unit,item_bprice,item_sprice, item_discount,item_created, item_update FROM items"
                     + " WHERE item_name LIKE '%"+txtSearch.getText()+"%'");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
             TampilkanDiTabel();
@@ -104,6 +90,20 @@ public class ItemForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
+         
+    private void TampilBarang() {      
+        try {
+            //java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+            java.sql.Statement st = con.createStatement();
+            java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_name, "
+                    + "item_stock, item_unit,item_bprice,item_sprice, item_discount,item_created, item_update FROM items WHERE item_delete = 0 ");
+            tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
+            TampilkanDiTabel();         
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
      
      private void TampilkanDiTabel() {                     
             Utility_Table ut = new Utility_Table();         
@@ -113,8 +113,8 @@ public class ItemForm extends javax.swing.JInternalFrame {
             ut.Header(tableTampil,2,"Nama Barang",400);
             ut.Header(tableTampil,3,"Stok",50); 
             ut.Header(tableTampil,4,"Satuan",50);
-            ut.Header(tableTampil,5,"Harga Jual",100);
-            ut.Header(tableTampil,6,"Harga Beli",100);
+            ut.Header(tableTampil,5,"Harga Beli",100);
+            ut.Header(tableTampil,6,"Harga Jual",100);            
             ut.Header(tableTampil,7,"Discount",50);
             ut.Header(tableTampil,8,"Date Created",120);
             ut.Header(tableTampil,9,"Date Update",120);
@@ -125,16 +125,10 @@ public class ItemForm extends javax.swing.JInternalFrame {
             tableTampil.getColumnModel().getColumn(7).setCellRenderer(ut.formatAngka);
             tableTampil.getColumnModel().getColumn(8).setCellRenderer(ut.formatTanggal);
             tableTampil.getColumnModel().getColumn(9).setCellRenderer(ut.formatTanggal);
-            //tableBarang.getColumnModel().getColumn(2).setCellRenderer(new Utility_RupiahCellRenderer());
+            
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
 
-    public static void setId(String Id){
-        itemId=Id;        
-    }    
-    public static String getId(){
-        return itemId;
-    }
 
 
     /**
@@ -174,8 +168,9 @@ public class ItemForm extends javax.swing.JInternalFrame {
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -185,8 +180,8 @@ public class ItemForm extends javax.swing.JInternalFrame {
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,8 +280,8 @@ public class ItemForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke session setId()
+        Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
@@ -305,17 +300,17 @@ public class ItemForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahBarang();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditBarang();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusBarang();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 

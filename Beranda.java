@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 public class Beranda extends javax.swing.JFrame {
 
@@ -27,7 +28,7 @@ public class Beranda extends javax.swing.JFrame {
 
 
     private void Icon(){       
-        ImageIcon icon = new ImageIcon("image/shopping-bags64.png");
+        ImageIcon icon = new ImageIcon("image/khansa_pos64.png");
         setIconImage(icon.getImage());        
     }
     
@@ -47,9 +48,9 @@ public class Beranda extends javax.swing.JFrame {
             SimpleDateFormat fTahun = new SimpleDateFormat(" yyyy", Locale.getDefault());
             int copyrightSymbolCodePoint = 169 ;
             String s = Character.toString( copyrightSymbolCodePoint ) ;
-            String tahun=s +" Copy right " + fTahun.format(tglsekarang) + "  Rohmadi Cahyono";
+            String copyRight=s +" Copy right " + fTahun.format(tglsekarang) + "  Rohmadi Cahyono";
              lblTanggal.setText(tanggal);
-             lblCopyright.setText(tahun);
+             lblCopyright.setText(copyRight);
     }
   
     private void setJam(){
@@ -72,8 +73,8 @@ public class Beranda extends javax.swing.JFrame {
     }  
         
     private void getSizeJDesktopPane(){
-        Utility_Session.setPanelW(panelUtama1.getWidth());
-        Utility_Session.setPanelH(panelUtama1.getHeight());   
+        Utility_Session.setPanelW(panelUtama.getWidth());
+        Utility_Session.setPanelH(panelUtama.getHeight());   
     }
 
 
@@ -130,7 +131,7 @@ public class Beranda extends javax.swing.JFrame {
         lblJam = new javax.swing.JLabel();
         btnExit = new khansapos.Utility_ButtonMetro();
         btnExit1 = new khansapos.Utility_ButtonMetro();
-        panelUtama1 =  new javax.swing.JDesktopPane() {
+        panelUtama =  new javax.swing.JDesktopPane() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -509,21 +510,21 @@ public class Beranda extends javax.swing.JFrame {
 
         getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        panelUtama1.setBackground(new java.awt.Color(248, 251, 251));
-        panelUtama1.setMinimumSize(new java.awt.Dimension(1246, 698));
+        panelUtama.setBackground(new java.awt.Color(248, 251, 251));
+        panelUtama.setMinimumSize(new java.awt.Dimension(1246, 698));
 
-        javax.swing.GroupLayout panelUtama1Layout = new javax.swing.GroupLayout(panelUtama1);
-        panelUtama1.setLayout(panelUtama1Layout);
-        panelUtama1Layout.setHorizontalGroup(
-            panelUtama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelUtamaLayout = new javax.swing.GroupLayout(panelUtama);
+        panelUtama.setLayout(panelUtamaLayout);
+        panelUtamaLayout.setHorizontalGroup(
+            panelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1246, Short.MAX_VALUE)
         );
-        panelUtama1Layout.setVerticalGroup(
-            panelUtama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelUtamaLayout.setVerticalGroup(
+            panelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 698, Short.MAX_VALUE)
         );
 
-        getContentPane().add(panelUtama1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 1246, 698));
+        getContentPane().add(panelUtama, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 1246, 698));
 
         lblCopyright.setBackground(new java.awt.Color(153, 153, 153));
         lblCopyright.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -620,43 +621,48 @@ public class Beranda extends javax.swing.JFrame {
     private void UserFormShow(){
         RemovePanel();
         UserForm Uf= new UserForm();
-        panelUtama1.add(Uf);
+        panelUtama.add(Uf);
         Uf.setVisible(true);           
     }
     
     private void MemberFormShow(){
         RemovePanel();
         MemberForm Mf = new MemberForm();
-        panelUtama1.add(Mf);
+        panelUtama.add(Mf);
         Mf.setVisible(true);
     }
     
     private void SuplierFormShow(){
         RemovePanel();
         SuplierForm Sf = new SuplierForm();
-        panelUtama1.add(Sf);
+        panelUtama.add(Sf);
         Sf.setVisible(true);
     }
     
     private void ItemFormShow(){
         RemovePanel();
         ItemForm If = new ItemForm();
-        panelUtama1.add(If);
+        panelUtama.add(If);
         If.setVisible(true);
     }
     
     private void ItemUnitShow(){
-        RemovePanel();
+        //RemovePanel();
         ItemUnit iu = new ItemUnit();
-        panelUtama1.add(iu);
+        panelUtama.add(iu);
         iu.setVisible(true);
     }
       
     private void ItemCategoryShow(){
-        RemovePanel();
+        //RemovePanel();
         ItemCategory ic = new ItemCategory();
-        panelUtama1.add(ic);
-        ic.setVisible(true);
+        if(ic.isShowing()){
+            JOptionPane.showMessageDialog(null, "Show");
+        }
+        panelUtama.add(ic);
+        //ic.setVisible(true);
+        ic.show();
+       
     }
     
     private void popUpMenu(){
@@ -664,8 +670,8 @@ public class Beranda extends javax.swing.JFrame {
     }
     
     public void RemovePanel(){
-        panelUtama1.removeAll();
-        panelUtama1.updateUI();      
+        panelUtama.removeAll();
+        panelUtama.updateUI();      
     }
     
     private void Logout(){
@@ -729,7 +735,7 @@ public class Beranda extends javax.swing.JFrame {
     private javax.swing.JMenuItem mUser;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelSidebar;
-    private javax.swing.JDesktopPane panelUtama1;
+    private javax.swing.JDesktopPane panelUtama;
     private javax.swing.JMenuItem pbBayar;
     private javax.swing.JMenuItem pbRetur;
     private javax.swing.JMenuItem pjBayar;

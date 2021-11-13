@@ -11,7 +11,9 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class SuplierFormEdit extends javax.swing.JInternalFrame {
-
+     java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+     String Id;
+     
     public SuplierFormEdit() {
         initComponents();
         IframeBorderLess();
@@ -37,10 +39,9 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
     }
     
     private void TampilEdit(){
-        String Id = SuplierForm.getId();  //Ambil variabel suplierId dari form SuplierForm
+        Id = SuplierForm.Id;  //Ambil variabel suplierId dari form SuplierForm
         
-        try {            
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+        try {  
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT * FROM supliers WHERE suplier_id =' "+Id+" ' ");
                 if(rs.next()){                    
@@ -62,7 +63,6 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
     
     private void PopUp(){
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT suplier_id,suplier_name FROM supliers WHERE suplier_name LIKE '"+txtSuplierName.getText()+"%'");
             tableAutoComplete.setModel(DbUtils.resultSetToTableModel(rs));           
@@ -89,24 +89,17 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
-  
-   
-    private void Bersih(){
-        txtPhone.setText("");
-        txtAdress.setText("");
-        txtSuplierName.setText("");
-        txtSuplierName.requestFocus();
-    }
-   
-    private void Simpan(){
+    
+    private void Update(){
                    
         if (txtSuplierName.getText() == null || txtSuplierName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Suplier Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
         }else {  
                 try{ 
-                        String Id = SuplierForm.getId();
-                        String sql ="UPDATE supliers SET suplier_name='"+txtSuplierName.getText()+"', suplier_address='"+txtAdress.getText()+"', suplier_phone='"+txtPhone.getText()+"'  WHERE suplier_id='"+Id+"' ";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
+                        Id = SuplierForm.Id;
+                        String sql ="UPDATE supliers SET suplier_name='"+txtSuplierName.getText()+"', suplier_address='"+txtAdress.getText()+"', "
+                                + "suplier_phone='"+txtPhone.getText()+"'  WHERE suplier_id='"+Id+"' ";
+                       
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
 
@@ -144,21 +137,20 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
-        btnBersih = new khansapos.Utility_ButtonFlat();
         btnUpdate = new khansapos.Utility_ButtonFlat();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1246, 714));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 180, 61)));
         jPanel1.setMaximumSize(new java.awt.Dimension(970, 339));
         jPanel1.setMinimumSize(new java.awt.Dimension(970, 339));
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 339));
         jPanel1.setRequestFocusEnabled(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(0, 123, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 180, 61));
 
         jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,24 +319,12 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnBersih.setMnemonic('b');
-        btnBersih.setText("Bersih");
-        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnBersih.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnBersih.setMousePress(new java.awt.Color(204, 204, 204));
-        btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnBersih.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBersihActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 290, 90, 30));
-
         btnUpdate.setMnemonic('u');
         btnUpdate.setText("Update");
         btnUpdate.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnUpdate.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnUpdate.setMousePress(new java.awt.Color(204, 204, 204));
+        btnUpdate.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnUpdate.setMousePress(new java.awt.Color(255, 231, 112));
+        btnUpdate.setWarnaBackground(new java.awt.Color(255, 180, 61));
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -416,24 +396,19 @@ public class SuplierFormEdit extends javax.swing.JInternalFrame {
 
     private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Update();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtPhone.setText("");
         }
     }//GEN-LAST:event_txtPhoneKeyPressed
 
-    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
-        Bersih();
-    }//GEN-LAST:event_btnBersihActionPerformed
-
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        Simpan();
+        Update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPtableAutoComplete;
-    private khansapos.Utility_ButtonFlat btnBersih;
     private static javax.swing.JLabel btnExit;
     private khansapos.Utility_ButtonFlat btnUpdate;
     private javax.swing.JLabel jLabel1;

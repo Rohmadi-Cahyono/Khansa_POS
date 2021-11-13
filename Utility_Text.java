@@ -9,6 +9,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 public  class Utility_Text extends DocumentFilter {
+
         //Merubah Format ke Huruf Besar------------------------------------------------------------------------------------------------------
         @Override
         public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr)

@@ -11,7 +11,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class ItemUnitAdd extends javax.swing.JInternalFrame {
-    private static String  formPemanggil;
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    public static String  formPemanggil;
     
     public ItemUnitAdd() {
         initComponents();
@@ -32,36 +33,14 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);  
     }
     
-    public static void setPemanggil(String Nama){
-        formPemanggil=Nama;        
-    }    
-    public static String getPemanggil(){
-        return formPemanggil;
-    }
-    
-    private void Keluar(){
-        if ("ItemUnit".equals(getPemanggil())){
-            ItemUnit iu = new ItemUnit();
-            this.getParent().add(iu);  
-            iu.setVisible(true);
-            
-        }else {
-            ItemFormAdd ifa = new ItemFormAdd();
-            this.getParent().add(ifa);              
-            ifa.setVisible(true); 
-        }
-        this.dispose();
-    }
-    
-        private void Simpan(){
-             
+
+        private void Simpan(){             
         if (txtSatuan.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Satuan Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
         }else {
                 try{   
                        String sql ="INSERT INTO iunits(unit_name) "
                                 + "VALUES ('"+txtSatuan.getText()+"')";
-                        java.sql.Connection con=new Utility_KoneksiDB().koneksi();
                         java.sql.PreparedStatement pst=con.prepareStatement(sql);
                         pst.execute();
                     
@@ -75,16 +54,12 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
     }
         
    private void PopUpSatuan(){
-        try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+        try {           
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT unit_id,unit_name FROM iunits WHERE unit_name LIKE '"+txtSatuan.getText()+"%'");
             List.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                //Utility_Table uts = new Utility_Table();
-                //uts.Header(List,0,"",-10);
-                //uts.Header(List,1,"",1);
                 List.setBackground(new Color(255,255,255));
                 List.setShowGrid(false);
                 List.removeColumn(List.getColumnModel().getColumn(0));
@@ -103,6 +78,21 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }  
     }
+   
+    private void Keluar(){
+        if ("ItemUnit".equals(formPemanggil)){
+            ItemUnit iu = new ItemUnit();
+            this.getParent().add(iu);  
+            iu.setVisible(true);
+            
+        }else {
+            ItemFormAdd ifa = new ItemFormAdd();
+            this.getParent().add(ifa);              
+            ifa.setVisible(true); 
+        }
+        this.dispose();
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -125,7 +115,7 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
         btnSimpan = new khansapos.Utility_ButtonFlat();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
         jPanel1.setPreferredSize(new java.awt.Dimension(421, 156));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -249,7 +239,7 @@ public class ItemUnitAdd extends javax.swing.JInternalFrame {
 
     private void txtSatuanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            //Simpan();
+            Simpan();
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtSatuan.setText("");
         }

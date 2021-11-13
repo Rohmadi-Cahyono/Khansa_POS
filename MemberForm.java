@@ -10,7 +10,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class MemberForm extends javax.swing.JInternalFrame {
-    private static String  memberId;
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    public static String  Id;
 
     public MemberForm() {
         initComponents(); 
@@ -29,7 +30,6 @@ public class MemberForm extends javax.swing.JInternalFrame {
    
     private void TampilMember() {      
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT member_id,member_name, member_address, member_phone, member_created, member_update FROM members ");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
@@ -44,27 +44,26 @@ public class MemberForm extends javax.swing.JInternalFrame {
         this.setLocation(( Utility_Session.getPanelW()-formIni.width )/2,(Utility_Session.getPanelH()-formIni.height )/2);
     }
     
-    private void TambahMember(){
+    private void Tambah(){
         MemberFormAdd ufa = new MemberFormAdd();
         this.getParent().add(ufa);
         ufa.setVisible(true);
         this.setVisible(false);        
     }
     
-    public void EditMember(){
+    public void Edit(){
         MemberFormEdit ufe = new MemberFormEdit();
         this.getParent().add(ufe);
         ufe.setVisible(true);       
         this.setVisible(false);         
     }
     
-    private void HapusMember(){       
+    private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data Member akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
             try {
-                    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
                     java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM members WHERE member_id="+memberId);            
+                    st.executeUpdate("DELETE FROM members WHERE member_id="+Id);            
                     JOptionPane.showMessageDialog(null, "Data Member berhasil dihapus!");
                     TampilMember();
             } catch (SQLException e) {
@@ -75,9 +74,9 @@ public class MemberForm extends javax.swing.JInternalFrame {
     
      private void Cari(){
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT  member_id,member_name, member_address, member_phone, member_created, member_update  FROM members WHERE member_name LIKE '%"+txtSearch.getText()+"%'");
+            java.sql.ResultSet rs = st.executeQuery("SELECT  member_id,member_name, member_address, member_phone, "
+                    + "member_created, member_update  FROM members WHERE member_name LIKE '%"+txtSearch.getText()+"%'");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
             TampilkanDiTabel();
 
@@ -100,13 +99,6 @@ public class MemberForm extends javax.swing.JInternalFrame {
             tableTampil.getColumnModel().getColumn(5).setCellRenderer(ut.formatTanggal);
             //tableMember.getColumnModel().getColumn(2).setCellRenderer(new Utility_RupiahCellRenderer());
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
-    }
-
-    public static void setId(String Id){
-        memberId=Id;        
-    }    
-    public static String getId(){
-        return memberId;
     }
 
     /**
@@ -147,8 +139,9 @@ public class MemberForm extends javax.swing.JInternalFrame {
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -158,8 +151,8 @@ public class MemberForm extends javax.swing.JInternalFrame {
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,8 +251,8 @@ public class MemberForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke session setId()
+        Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+       
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
@@ -278,17 +271,17 @@ public class MemberForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahMember();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditMember();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusMember();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 

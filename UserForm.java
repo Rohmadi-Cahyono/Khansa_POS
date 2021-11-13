@@ -10,8 +10,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
 
 public class UserForm extends javax.swing.JInternalFrame {
-private int X,Y;
-private static String  userId;
+    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    public static String  Id;
     
     public UserForm() {        
         initComponents();      
@@ -37,7 +37,6 @@ private static String  userId;
     
     private void TampilUser() {      
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT user_id,user_name, user_address, user_phone, user_level,date_created, date_update FROM users ");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
@@ -47,27 +46,26 @@ private static String  userId;
         }
     }
  
-    private void TambahUser(){
+    private void Tambah(){
         UserFormAdd ufa = new UserFormAdd();
         this.getParent().add(ufa);
         ufa.setVisible(true);
         this.setVisible(false);        
     }
     
-    public void EditUser(){
+    public void Edit(){
         UserFormEdit ufe = new UserFormEdit();
         this.getParent().add(ufe);
         ufe.setVisible(true);       
         this.setVisible(false);           
     }
     
-    private void HapusUser(){       
+    private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data User akan dihapus?", "Khansa POS",
             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {            
             try {
-                    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
                     java.sql.Statement st = con.createStatement();           
-                    st.executeUpdate("DELETE FROM users WHERE user_id="+userId);            
+                    st.executeUpdate("DELETE FROM users WHERE user_id="+Id);            
                     JOptionPane.showMessageDialog(null, "Data User berhasil dihapus!");
                     TampilUser();
             } catch (SQLException e) {
@@ -78,9 +76,9 @@ private static String  userId;
     
      private void Cari(){
         try {
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
-            java.sql.ResultSet rs = st.executeQuery("SELECT  user_id,user_name, user_address, user_phone, user_level,date_created, date_update  FROM users WHERE user_name LIKE '%"+txtSearch.getText()+"%'");
+            java.sql.ResultSet rs = st.executeQuery("SELECT  user_id,user_name, user_address, user_phone, "
+                    + "user_level,date_created, date_update  FROM users WHERE user_name LIKE '%"+txtSearch.getText()+"%'");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
             TampilkanDiTabel();
 
@@ -106,13 +104,6 @@ private static String  userId;
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
      
-    public static void setId(String Id){
-        userId=Id;        
-    }    
-    public static String getId(){
-        return userId;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,8 +142,9 @@ private static String  userId;
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnEdit.setMousePress(new java.awt.Color(204, 204, 204));
+        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
+        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -162,8 +154,8 @@ private static String  userId;
 
         btnHapus.setMnemonic('h');
         btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 102, 102));
-        btnHapus.setMousePress(new java.awt.Color(204, 204, 204));
+        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
+        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,24 +268,24 @@ private static String  userId;
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void tableTampilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTampilMouseClicked
-        String  Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
-        setId(Id); // Kirim Id ke kelas variabel setId()
+        Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
+       
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
         panelEH.setSize(130, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        TambahUser();
+        Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         panelEH.setSize(130, 0);
-        EditUser();
+        Edit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         panelEH.setSize(130, 0);
-        HapusUser();
+        Hapus();
     }//GEN-LAST:event_btnHapusActionPerformed
 
 
