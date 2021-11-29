@@ -14,7 +14,7 @@ import javax.swing.JButton;
 public class Utility_ButtonMetro extends JButton {
 
     private Color MouseHover = new Color(255, 0,0);
-    private Color MousePress = new Color(255,153,153);
+    private Color MousePress = new Color(255,77,77);
     private Color WarnaBackground = new Color(85,118,118);
     private boolean enter, press;
 
@@ -41,7 +41,7 @@ public class Utility_ButtonMetro extends JButton {
         setBorderPainted(true);
         setFocusPainted(false);
         setContentAreaFilled(false);
-        setForeground(Color.white);
+        setForeground(new Color(255,255,255));
         setFont(getFont().deriveFont(Font.PLAIN));
         addMouseListener(new MouseAdapter() {
 

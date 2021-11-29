@@ -9,33 +9,104 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import javax.swing.JDesktopPane;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Beranda extends javax.swing.JFrame {
-
+    public static Integer PW,PH;
+    User UserForm ;
+    Member MemberForm ;
+    Suplier SuplierForm ;
+    Item ItemForm ;
+    ItemUnit ItemUnit ;
+    ItemCategory ItemCategory ;
+    Purchase Purchase ;
+    
     public Beranda() {
         initComponents();
         Icon();
         setUser();   
         setWaktu();
         setJam(); 
- 
-   }
+        ShortcutMenu();
         
-
-
+        SwingUtilities.invokeLater(() -> {
+           PW=panelUtama.getWidth();
+           PH=panelUtama.getHeight();
+           
+           UserForm = new User();
+           MemberForm = new Member();
+           SuplierForm = new Suplier();
+           ItemForm = new Item();
+           ItemUnit = new ItemUnit();
+           ItemCategory = new ItemCategory();
+           Purchase = new Purchase();
+        });
+        
+   }
+  
+    private void ShortcutMenu() {
+        KeyboardFocusManager keyManager;
+        keyManager=KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        keyManager.addKeyEventDispatcher((KeyEvent e) -> {
+            if(e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==27){
+                JOptionPane.showMessageDialog(null, "escape"); 
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==112) {
+                
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==113) {
+                
+                return true;
+            }
+            
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==114) {
+                PurchaseShow();
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==115) {
+                
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==116) {
+                
+                return true;
+            }
+            
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==117) {
+                
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==118) {
+                
+                return true;
+            }
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==119) {
+                
+                return true;
+            }
+            
+            else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==123) {
+                Logout();
+                return true;
+            }            
+            return false;
+        });
+}
     private void Icon(){       
         ImageIcon icon = new ImageIcon("image/khansa_pos64.png");
         setIconImage(icon.getImage());        
     }
     
     private void setUser(){      
-            String userId = Utility_Session.getUserId();
-            String userName=Utility_Session.getUserName();
-            String userLevel=Utility_Session.getUserLevel();          
+            String userId = LoginForm.sessionId;
+            String userName=LoginForm.sessionName;
+            String userLevel=LoginForm.sessionLevel;          
 
             lblUser.setText(userLevel + ":  " +userName);
                  
@@ -71,11 +142,7 @@ public class Beranda extends javax.swing.JFrame {
         };
         new Timer(1000, taskPerformer).start();
     }  
-        
-    private void getSizeJDesktopPane(){
-        Utility_Session.setPanelW(panelUtama.getWidth());
-        Utility_Session.setPanelH(panelUtama.getHeight());   
-    }
+
 
 
 
@@ -114,23 +181,23 @@ public class Beranda extends javax.swing.JFrame {
         mUser = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         logOut = new javax.swing.JMenuItem();
-        jLabel3 = new javax.swing.JLabel();
         panelSidebar = new javax.swing.JPanel();
-        btnClose = new khansapos.Utility_ButtonMetro();
-        btnClose7 = new khansapos.Utility_ButtonMetro();
-        btnClose6 = new khansapos.Utility_ButtonMetro();
-        btnClose5 = new khansapos.Utility_ButtonMetro();
-        btnClose4 = new khansapos.Utility_ButtonMetro();
-        btnClose10 = new khansapos.Utility_ButtonMetro();
-        btnClose11 = new khansapos.Utility_ButtonMetro();
-        btnClose8 = new khansapos.Utility_ButtonMetro();
-        shortcutLogout = new khansapos.Utility_ButtonMetro();
+        btnSC1 = new khansapos.Utility_ButtonMetro();
+        btnSC2 = new khansapos.Utility_ButtonMetro();
+        btnSC3 = new khansapos.Utility_ButtonMetro();
+        btnSC4 = new khansapos.Utility_ButtonMetro();
+        btnSC5 = new khansapos.Utility_ButtonMetro();
+        btnSC6 = new khansapos.Utility_ButtonMetro();
+        btnSC7 = new khansapos.Utility_ButtonMetro();
+        btnSC8 = new khansapos.Utility_ButtonMetro();
+        btnSC9 = new khansapos.Utility_ButtonMetro();
         panelHeader = new javax.swing.JPanel();
         lblTanggal = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblJam = new javax.swing.JLabel();
         btnExit = new khansapos.Utility_ButtonMetro();
-        btnExit1 = new khansapos.Utility_ButtonMetro();
+        jLabel3 = new javax.swing.JLabel();
+        btnMenu = new khansapos.Utility_ButtonMetro();
         panelUtama =  new javax.swing.JDesktopPane() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -159,6 +226,11 @@ public class Beranda extends javax.swing.JFrame {
 
         Pembelian.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pembelian.setText("Pembelian");
+        Pembelian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PembelianActionPerformed(evt);
+            }
+        });
         popUp.add(Pembelian);
 
         pbBayar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -270,137 +342,145 @@ public class Beranda extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
         setResizable(false);
         setSize(new java.awt.Dimension(1366, 768));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\logoKhansa1.png")); // NOI18N
-        jLabel3.setOpaque(true);
-        jLabel3.setPreferredSize(new java.awt.Dimension(150, 50));
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 50));
-
         panelSidebar.setBackground(new java.awt.Color(0, 123, 255));
         panelSidebar.setPreferredSize(new java.awt.Dimension(120, 718));
 
-        btnClose.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-checkout.png")); // NOI18N
-        btnClose.setToolTipText("PENJUALAN");
-        btnClose.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
+        btnSC1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC1.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-checkout.png")); // NOI18N
+        btnSC1.setMnemonic('1');
+        btnSC1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC1.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC1.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC1.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC1.setPress(true);
+        btnSC1.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
+                btnSC1ActionPerformed(evt);
             }
         });
 
-        btnClose7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose7.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-notes.png")); // NOI18N
-        btnClose7.setToolTipText("PEMBAYARAN PENJUALAN");
-        btnClose7.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose7.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose7.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose7.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose7.addActionListener(new java.awt.event.ActionListener() {
+        btnSC2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC2.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-delivery.png")); // NOI18N
+        btnSC2.setMnemonic('1');
+        btnSC2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC2.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC2.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC2.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC2.setPress(true);
+        btnSC2.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose7ActionPerformed(evt);
+                btnSC2ActionPerformed(evt);
             }
         });
 
-        btnClose6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose6.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-delivery.png")); // NOI18N
-        btnClose6.setToolTipText("PEMBELIAN");
-        btnClose6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose6.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose6.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose6.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose6.addActionListener(new java.awt.event.ActionListener() {
+        btnSC3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\019-loan.png")); // NOI18N
+        btnSC3.setMnemonic('1');
+        btnSC3.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC3.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC3.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC3.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC3.setPress(true);
+        btnSC3.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose6ActionPerformed(evt);
+                btnSC3ActionPerformed(evt);
             }
         });
 
-        btnClose5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose5.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\019-loan.png")); // NOI18N
-        btnClose5.setToolTipText("PEMBAYARAN PEMBELIAN");
-        btnClose5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose5.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose5.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose5.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose5.addActionListener(new java.awt.event.ActionListener() {
+        btnSC4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC4.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\027-list.png")); // NOI18N
+        btnSC4.setMnemonic('1');
+        btnSC4.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC4.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC4.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC4.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC4.setPress(true);
+        btnSC4.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose5ActionPerformed(evt);
+                btnSC4ActionPerformed(evt);
             }
         });
 
-        btnClose4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose4.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\027-list.png")); // NOI18N
-        btnClose4.setToolTipText("LAPORAN PEMBELIAN");
-        btnClose4.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose4.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose4.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose4.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose4.addActionListener(new java.awt.event.ActionListener() {
+        btnSC5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC5.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\026-file.png")); // NOI18N
+        btnSC5.setMnemonic('1');
+        btnSC5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC5.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC5.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC5.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC5.setPress(true);
+        btnSC5.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose4ActionPerformed(evt);
+                btnSC5ActionPerformed(evt);
             }
         });
 
-        btnClose10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose10.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\026-file.png")); // NOI18N
-        btnClose10.setToolTipText("LAPORAN PENJUALAN");
-        btnClose10.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose10.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose10.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose10.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose10.addActionListener(new java.awt.event.ActionListener() {
+        btnSC6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC6.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-time-is-money.png")); // NOI18N
+        btnSC6.setMnemonic('1');
+        btnSC6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC6.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC6.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC6.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC6.setPress(true);
+        btnSC6.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose10ActionPerformed(evt);
+                btnSC6ActionPerformed(evt);
             }
         });
 
-        btnClose11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose11.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-time-is-money.png")); // NOI18N
-        btnClose11.setToolTipText("LAPORAN LABA KOTOR");
-        btnClose11.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose11.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose11.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose11.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose11.addActionListener(new java.awt.event.ActionListener() {
+        btnSC7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC7.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\011-graph.png")); // NOI18N
+        btnSC7.setMnemonic('1');
+        btnSC7.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC7.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC7.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC7.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC7.setPress(true);
+        btnSC7.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose11ActionPerformed(evt);
+                btnSC7ActionPerformed(evt);
             }
         });
 
-        btnClose8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        btnClose8.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\011-graph.png")); // NOI18N
-        btnClose8.setToolTipText("GRAFIK PENJUALAN");
-        btnClose8.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnClose8.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnClose8.setMousePress(new java.awt.Color(51, 174, 255));
-        btnClose8.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose8.addActionListener(new java.awt.event.ActionListener() {
+        btnSC8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC8.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\lock-landscape-48.png")); // NOI18N
+        btnSC8.setMnemonic('1');
+        btnSC8.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC8.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC8.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC8.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC8.setPress(true);
+        btnSC8.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClose8ActionPerformed(evt);
+                btnSC8ActionPerformed(evt);
             }
         });
 
-        shortcutLogout.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 174, 255)));
-        shortcutLogout.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\lock-landscape-48.png")); // NOI18N
-        shortcutLogout.setToolTipText("KUNCI APLIKASI");
-        shortcutLogout.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        shortcutLogout.setMouseHover(new java.awt.Color(26, 149, 255));
-        shortcutLogout.setMousePress(new java.awt.Color(51, 174, 255));
-        shortcutLogout.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        shortcutLogout.addActionListener(new java.awt.event.ActionListener() {
+        btnSC9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
+        btnSC9.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-notes.png")); // NOI18N
+        btnSC9.setMnemonic('1');
+        btnSC9.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnSC9.setMouseHover(new java.awt.Color(77, 200, 255));
+        btnSC9.setMousePress(new java.awt.Color(26, 149, 255));
+        btnSC9.setPreferredSize(new java.awt.Dimension(80, 60));
+        btnSC9.setPress(true);
+        btnSC9.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnSC9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shortcutLogoutActionPerformed(evt);
+                btnSC9ActionPerformed(evt);
             }
         });
 
@@ -409,46 +489,41 @@ public class Beranda extends javax.swing.JFrame {
         panelSidebarLayout.setHorizontalGroup(
             panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSidebarLayout.createSequentialGroup()
-                .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSidebarLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelSidebarLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnClose8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(shortcutLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnClose6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20)
+                .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSC8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSC7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         panelSidebarLayout.setVerticalGroup(
             panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSidebarLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btnSC1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnClose6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnClose4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose10, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose11, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSC6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClose8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(shortcutLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addComponent(btnSC7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(btnSC8, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 120, -1));
@@ -481,32 +556,38 @@ public class Beranda extends javax.swing.JFrame {
 
         btnExit.setMnemonic('x');
         btnExit.setText("Exit");
-        btnExit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnExit.setPreferredSize(new java.awt.Dimension(80, 50));
-        btnExit.setWarnaBackground(new java.awt.Color(34, 67, 67));
+        btnExit.setToolTipText("");
+        btnExit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnExit.setWarnaBackground(new java.awt.Color(9, 42, 42));
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
             }
         });
-        panelHeader.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1285, 0, 80, 50));
+        panelHeader.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1287, 0, 80, 50));
 
-        btnExit1.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\MenuIcon32.png")); // NOI18N
-        btnExit1.setMnemonic('m');
-        btnExit1.setText("Menu");
-        btnExit1.setToolTipText(null);
-        btnExit1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnExit1.setMouseHover(new java.awt.Color(60, 93, 93));
-        btnExit1.setMousePress(new java.awt.Color(85, 118, 118));
-        btnExit1.setName(""); // NOI18N
-        btnExit1.setPreferredSize(new java.awt.Dimension(105, 50));
-        btnExit1.setWarnaBackground(new java.awt.Color(34, 67, 67));
-        btnExit1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\logoKhansa.png")); // NOI18N
+        jLabel3.setOpaque(true);
+        jLabel3.setPreferredSize(new java.awt.Dimension(150, 50));
+        panelHeader.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 50));
+
+        btnMenu.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\MenuIcon32.png")); // NOI18N
+        btnMenu.setMnemonic('m');
+        btnMenu.setText("Menu");
+        btnMenu.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        btnMenu.setMouseHover(new java.awt.Color(85, 118, 118));
+        btnMenu.setMousePress(new java.awt.Color(34, 67, 67));
+        btnMenu.setWarnaBackground(new java.awt.Color(9, 42, 42));
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExit1ActionPerformed(evt);
+                btnMenuActionPerformed(evt);
             }
         });
-        panelHeader.add(btnExit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 110, 50));
+        panelHeader.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, 50));
 
         getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -576,93 +657,135 @@ public class Beranda extends javax.swing.JFrame {
         Keluar();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void btnExit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit1ActionPerformed
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         popUp.show(this, 155, 55); 
-        getSizeJDesktopPane();
-    }//GEN-LAST:event_btnExit1ActionPerformed
+        //getSizeJDesktopPane();
+    }//GEN-LAST:event_btnMenuActionPerformed
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+    private void btnSc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc1ActionPerformed
 
-    }//GEN-LAST:event_btnCloseActionPerformed
+    }//GEN-LAST:event_btnSc1ActionPerformed
 
-    private void btnClose4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose4ActionPerformed
+    private void btnSc5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose4ActionPerformed
+    }//GEN-LAST:event_btnSc5ActionPerformed
 
-    private void btnClose5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose5ActionPerformed
+    private void btnSc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose5ActionPerformed
+    }//GEN-LAST:event_btnSc4ActionPerformed
 
-    private void btnClose6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose6ActionPerformed
+    private void btnSc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc3ActionPerformed
+        PurchaseShow();
+    }//GEN-LAST:event_btnSc3ActionPerformed
+
+    private void btnSc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose6ActionPerformed
+    }//GEN-LAST:event_btnSc2ActionPerformed
 
-    private void btnClose7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose7ActionPerformed
+    private void btnSc8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc8ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose7ActionPerformed
+    }//GEN-LAST:event_btnSc8ActionPerformed
 
-    private void btnClose8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose8ActionPerformed
-
-    private void shortcutLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shortcutLogoutActionPerformed
+    private void btnScLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScLogOutActionPerformed
         Logout();
-    }//GEN-LAST:event_shortcutLogoutActionPerformed
+    }//GEN-LAST:event_btnScLogOutActionPerformed
 
-    private void btnClose10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose10ActionPerformed
+    private void btnSc6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose10ActionPerformed
+    }//GEN-LAST:event_btnSc6ActionPerformed
 
-    private void btnClose11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose11ActionPerformed
+    private void btnSc7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClose11ActionPerformed
+    }//GEN-LAST:event_btnSc7ActionPerformed
+
+    private void PembelianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PembelianActionPerformed
+        PurchaseShow();
+    }//GEN-LAST:event_PembelianActionPerformed
+
+    private void btnSC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC1ActionPerformed
+       
+    }//GEN-LAST:event_btnSC1ActionPerformed
+
+    private void btnSC2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC2ActionPerformed
+
+    private void btnSC3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC3ActionPerformed
+
+    private void btnSC4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC4ActionPerformed
+
+    private void btnSC5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC5ActionPerformed
+
+    private void btnSC6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC6ActionPerformed
+
+    private void btnSC7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC7ActionPerformed
+
+    private void btnSC8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC8ActionPerformed
+
+    private void btnSC9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSC9ActionPerformed
   
       
     private void UserFormShow(){
-        RemovePanel();
-        UserForm Uf= new UserForm();
-        panelUtama.add(Uf);
-        Uf.setVisible(true);           
+        RemovePanel();  
+        panelUtama.add(UserForm);
+        UserForm.setVisible(true);  
+        UserForm.Focus();
     }
     
     private void MemberFormShow(){
-        RemovePanel();
-        MemberForm Mf = new MemberForm();
-        panelUtama.add(Mf);
-        Mf.setVisible(true);
+        RemovePanel();           
+        panelUtama.add(MemberForm);
+        MemberForm.setVisible(true);
+        MemberForm.Focus();
     }
     
     private void SuplierFormShow(){
-        RemovePanel();
-        SuplierForm Sf = new SuplierForm();
-        panelUtama.add(Sf);
-        Sf.setVisible(true);
+        RemovePanel(); 
+        panelUtama.add(SuplierForm);
+        SuplierForm.setVisible(true);
+        SuplierForm.Focus();
     }
     
     private void ItemFormShow(){
-        RemovePanel();
-        ItemForm If = new ItemForm();
-        panelUtama.add(If);
-        If.setVisible(true);
+        RemovePanel();   
+        panelUtama.add(ItemForm);
+        ItemForm.setVisible(true);
+        ItemForm.Focus();
     }
     
     private void ItemUnitShow(){
-        //RemovePanel();
-        ItemUnit iu = new ItemUnit();
-        panelUtama.add(iu);
-        iu.setVisible(true);
+        RemovePanel(); 
+        panelUtama.add(ItemUnit);
+        ItemUnit.setVisible(true);
+        ItemUnit.Focus();
     }
       
     private void ItemCategoryShow(){
-        //RemovePanel();
-        ItemCategory ic = new ItemCategory();
-        if(ic.isShowing()){
-            JOptionPane.showMessageDialog(null, "Show");
-        }
-        panelUtama.add(ic);
-        //ic.setVisible(true);
-        ic.show();
-       
+        RemovePanel();
+        panelUtama.add(ItemCategory);
+        ItemCategory.setVisible(true); 
+        ItemCategory.Focus();
+    }
+    
+    private void PurchaseShow(){
+        RemovePanel();          
+        panelUtama.add(Purchase);
+        Purchase.setVisible(true);
+        Purchase.Focus();
     }
     
     private void popUpMenu(){
@@ -670,6 +793,7 @@ public class Beranda extends javax.swing.JFrame {
     }
     
     public void RemovePanel(){
+        
         panelUtama.removeAll();
         panelUtama.updateUI();      
     }
@@ -687,13 +811,14 @@ public class Beranda extends javax.swing.JFrame {
      * @param args the command line arguments
      * @throws javax.swing.UnsupportedLookAndFeelException
      */
+    
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         /* Create and display the form */
 
         java.awt.EventQueue.invokeLater(() -> {            
             new Beranda().setVisible(true);
         });
-        
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -702,16 +827,17 @@ public class Beranda extends javax.swing.JFrame {
     private javax.swing.JMenuItem Penjualan;
     private javax.swing.JMenuItem StokBarang;
     private javax.swing.JMenuItem StokOpnam;
-    private khansapos.Utility_ButtonMetro btnClose;
-    private khansapos.Utility_ButtonMetro btnClose10;
-    private khansapos.Utility_ButtonMetro btnClose11;
-    private khansapos.Utility_ButtonMetro btnClose4;
-    private khansapos.Utility_ButtonMetro btnClose5;
-    private khansapos.Utility_ButtonMetro btnClose6;
-    private khansapos.Utility_ButtonMetro btnClose7;
-    private khansapos.Utility_ButtonMetro btnClose8;
     private khansapos.Utility_ButtonMetro btnExit;
-    private khansapos.Utility_ButtonMetro btnExit1;
+    private khansapos.Utility_ButtonMetro btnMenu;
+    private khansapos.Utility_ButtonMetro btnSC1;
+    private khansapos.Utility_ButtonMetro btnSC2;
+    private khansapos.Utility_ButtonMetro btnSC3;
+    private khansapos.Utility_ButtonMetro btnSC4;
+    private khansapos.Utility_ButtonMetro btnSC5;
+    private khansapos.Utility_ButtonMetro btnSC6;
+    private khansapos.Utility_ButtonMetro btnSC7;
+    private khansapos.Utility_ButtonMetro btnSC8;
+    private khansapos.Utility_ButtonMetro btnSC9;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -741,6 +867,5 @@ public class Beranda extends javax.swing.JFrame {
     private javax.swing.JMenuItem pjBayar;
     private javax.swing.JMenuItem pjRetur;
     private javax.swing.JPopupMenu popUp;
-    private khansapos.Utility_ButtonMetro shortcutLogout;
     // End of variables declaration//GEN-END:variables
 }

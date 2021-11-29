@@ -10,8 +10,9 @@ import javax.swing.ImageIcon;
         
 
 public class LoginForm extends javax.swing.JFrame {  
-   static Cipher cipher;  
-   private int count;
+    public static String sessionId, sessionName, sessionLevel;
+    static Cipher cipher;  
+    private int count;
    
     public LoginForm() {
         initComponents(); 
@@ -63,7 +64,6 @@ public class LoginForm extends javax.swing.JFrame {
         lbSetting = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
@@ -173,20 +173,9 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 0, 0));
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setText("hansa");
+        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\logoKhansaLogin.png")); // NOI18N
         jLabel3.setToolTipText(null);
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 160, 50));
-
-        jLabel4.setBackground(new java.awt.Color(255, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 56)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("K");
-        jLabel4.setToolTipText(null);
-        jLabel4.setAlignmentX(0.5F);
-        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel4.setOpaque(true);
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 61, 55));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 220, 70));
 
         jLabel5.setBackground(new java.awt.Color(187, 220, 220));
         jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 24)); // NOI18N
@@ -199,7 +188,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Point Of Sale");
         jLabel6.setToolTipText(null);
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 220));
 
@@ -273,10 +262,10 @@ public class LoginForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "User Name atau Password Tidak Boleh Kosong!!", "Khansa POS", 
                     JOptionPane.WARNING_MESSAGE);
         }else {           
-            if (count==0  && "admin".equals(password) && "admin".equals(userName)){               
-                Utility_Session.setUserId("0");
-                Utility_Session.setUserName("admin");
-                Utility_Session.setUserLevel("Admin");
+            if (count==0  && "admin".equals(password) && "admin".equals(userName)){             
+                sessionId="0";
+                sessionName="Login Pertama";
+                sessionLevel="Admin";
                 new Beranda().setVisible(true);               
                 dispose();                        
             } else if (count > 0){
@@ -286,10 +275,10 @@ public class LoginForm extends javax.swing.JFrame {
                     java.sql.ResultSet rsLogin = st.executeQuery("SELECT * FROM users WHERE user_name='"+txtUserName.getText()
                                 +"' AND user_password='"+encryptedString+"'");
         
-                            if(rsLogin.next()){                        
-                                Utility_Session.setUserId(rsLogin.getString("user_id"));
-                                Utility_Session.setUserName(rsLogin.getString("user_name"));
-                                Utility_Session.setUserLevel(rsLogin.getString("user_level"));
+                            if(rsLogin.next()){    
+                                sessionId=rsLogin.getString("user_id");
+                                sessionName=rsLogin.getString("user_name");
+                                sessionLevel=rsLogin.getString("user_level");
                                 new Beranda().setVisible(true);               
                                 dispose(); 
                             } else{
@@ -360,7 +349,6 @@ private void Bersih(){
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
