@@ -9,21 +9,21 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Beranda extends javax.swing.JFrame {
-    public static Integer PW,PH;
-    User UserForm ;
-    Member MemberForm ;
-    Suplier SuplierForm ;
-    Item ItemForm ;
-    ItemUnit ItemUnit ;
-    ItemCategory ItemCategory ;
-    Purchase Purchase ;
+    java.sql.Connection con =  new UDbConnection().koneksi();
+    public static Integer PW,PH,SW,SH; 
+    Purchase PurchaseForm ;
     
     public Beranda() {
         initComponents();
@@ -32,21 +32,83 @@ public class Beranda extends javax.swing.JFrame {
         setWaktu();
         setJam(); 
         ShortcutMenu();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        SH = screenSize.height;
+        SW = screenSize.width;
         
         SwingUtilities.invokeLater(() -> {
            PW=panelUtama.getWidth();
            PH=panelUtama.getHeight();
-           
-           UserForm = new User();
-           MemberForm = new Member();
-           SuplierForm = new Suplier();
-           ItemForm = new Item();
-           ItemUnit = new ItemUnit();
-           ItemCategory = new ItemCategory();
-           Purchase = new Purchase();
+
+           PurchaseForm = new Purchase();
         });
+        UserAkses();
         
    }
+    
+    private void UserAkses(){
+        String Level=Login.sessionLevel;
+        try {
+            java.sql.Statement st = con.createStatement();
+            java.sql.ResultSet rs = st.executeQuery("SELECT id,user_level,form,access FROM user_access "
+                    + "WHERE user_level LIKE '"+Level+"' ORDER BY form");                      
+
+            while (rs.next()) {
+                Boolean ac;
+                ac = rs.getInt("access")==1;
+                
+                if (null != rs.getString("form"))switch (rs.getString("form")) {
+                    case "cb01" -> {
+                        pop01.setEnabled(ac);
+                       // sm01.setEnabled(ac);
+                    }
+                    case "cb02" -> {
+                        pop02.setEnabled(ac);
+                        //sm02.setEnabled(ac);
+                    }
+                    case "cb03" -> pop03.setEnabled(ac);
+                    
+                    case "cb04" -> {
+                        pop04.setEnabled(ac);
+                        //sm04.setEnabled(ac);
+                    }
+                    case "cb05" -> {
+                        pop05.setEnabled(ac);
+                        //sm05.setEnabled(ac);
+                    }
+                    case "cb06" -> pop06.setEnabled(ac);
+                    
+                    case "cb07" -> {
+                        pop07.setEnabled(ac);
+                       // sm07.setEnabled(ac);
+                    }
+                    case "cb08" -> {
+                        pop08.setEnabled(ac);
+                        //sm08.setEnabled(ac);
+                    }
+                    case "cb09" -> {
+                        pop09.setEnabled(ac);
+                        //sm09.setEnabled(ac);
+                    }
+                    case "cb10" -> {
+                        pop10.setEnabled(ac);
+                       // sm10.setEnabled(ac);
+                    }
+                    case "cb11" -> pop11.setEnabled(ac);
+                    case "cb12" -> pop12.setEnabled(ac);
+                    case "cb13" -> pop13.setEnabled(ac);
+                    case "cb14" -> pop14.setEnabled(ac);
+                    case "cb15" -> pop15.setEnabled(ac);
+                    case "cb16" -> pop16.setEnabled(ac);
+                    case "cb17" -> pop17.setEnabled(ac);
+                    default -> {
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }        
+    }
   
     private void ShortcutMenu() {
         KeyboardFocusManager keyManager;
@@ -66,6 +128,7 @@ public class Beranda extends javax.swing.JFrame {
             }
             
             else if (e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==114) {
+                
                 PurchaseShow();
                 return true;
             }
@@ -104,9 +167,9 @@ public class Beranda extends javax.swing.JFrame {
     }
     
     private void setUser(){      
-            String userId = LoginForm.sessionId;
-            String userName=LoginForm.sessionName;
-            String userLevel=LoginForm.sessionLevel;          
+            String userId = Login.sessionId;
+            String userName=Login.sessionName;
+            String userLevel=Login.sessionLevel;          
 
             lblUser.setText(userLevel + ":  " +userName);
                  
@@ -156,48 +219,49 @@ public class Beranda extends javax.swing.JFrame {
     private void initComponents() {
 
         popUp = new javax.swing.JPopupMenu();
-        Penjualan = new javax.swing.JMenuItem();
-        pjBayar = new javax.swing.JMenuItem();
-        pjRetur = new javax.swing.JMenuItem();
+        pop01 = new javax.swing.JMenuItem();
+        pop02 = new javax.swing.JMenuItem();
+        pop03 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        Pembelian = new javax.swing.JMenuItem();
-        pbBayar = new javax.swing.JMenuItem();
-        pbRetur = new javax.swing.JMenuItem();
+        pop04 = new javax.swing.JMenuItem();
+        pop05 = new javax.swing.JMenuItem();
+        pop06 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        lapPembelian = new javax.swing.JMenuItem();
-        lapPenjualan = new javax.swing.JMenuItem();
-        lapLaba = new javax.swing.JMenuItem();
-        lapGrafik = new javax.swing.JMenuItem();
+        pop07 = new javax.swing.JMenuItem();
+        pop08 = new javax.swing.JMenuItem();
+        pop09 = new javax.swing.JMenuItem();
+        pop10 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        StokBarang = new javax.swing.JMenuItem();
-        StokOpnam = new javax.swing.JMenuItem();
+        pop11 = new javax.swing.JMenuItem();
+        pop12 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        Barang = new javax.swing.JMenu();
+        pop13 = new javax.swing.JMenu();
         mBarang = new javax.swing.JMenuItem();
         mBarangSatuan = new javax.swing.JMenuItem();
         mBarangKategori = new javax.swing.JMenuItem();
-        mSuplier = new javax.swing.JMenuItem();
-        mMember = new javax.swing.JMenuItem();
-        mUser = new javax.swing.JMenuItem();
+        pop14 = new javax.swing.JMenuItem();
+        pop15 = new javax.swing.JMenuItem();
+        pop16 = new javax.swing.JMenuItem();
+        pop17 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         logOut = new javax.swing.JMenuItem();
         panelSidebar = new javax.swing.JPanel();
-        btnSC1 = new khansapos.Utility_ButtonMetro();
-        btnSC2 = new khansapos.Utility_ButtonMetro();
-        btnSC3 = new khansapos.Utility_ButtonMetro();
-        btnSC4 = new khansapos.Utility_ButtonMetro();
-        btnSC5 = new khansapos.Utility_ButtonMetro();
-        btnSC6 = new khansapos.Utility_ButtonMetro();
-        btnSC7 = new khansapos.Utility_ButtonMetro();
-        btnSC8 = new khansapos.Utility_ButtonMetro();
-        btnSC9 = new khansapos.Utility_ButtonMetro();
+        Sm09 = new Utility.UButton();
+        Sm01 = new Utility.UButton();
+        Sm02 = new Utility.UButton();
+        Sm03 = new Utility.UButton();
+        Sm04 = new Utility.UButton();
+        Sm05 = new Utility.UButton();
+        Sm06 = new Utility.UButton();
+        Sm07 = new Utility.UButton();
+        Sm08 = new Utility.UButton();
         panelHeader = new javax.swing.JPanel();
         lblTanggal = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblJam = new javax.swing.JLabel();
-        btnExit = new khansapos.Utility_ButtonMetro();
         jLabel3 = new javax.swing.JLabel();
-        btnMenu = new khansapos.Utility_ButtonMetro();
+        btnMenu = new Utility.UButton();
+        btnClose = new Utility.UButton();
         panelUtama =  new javax.swing.JDesktopPane() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -210,77 +274,84 @@ public class Beranda extends javax.swing.JFrame {
 
         popUp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        Penjualan.setBackground(new java.awt.Color(0, 0, 0));
-        Penjualan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Penjualan.setText("Penjualan");
-        popUp.add(Penjualan);
-
-        pjBayar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        pjBayar.setText("Penjualan Bayar");
-        popUp.add(pjBayar);
-
-        pjRetur.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        pjRetur.setText("Penjualan Retur");
-        popUp.add(pjRetur);
-        popUp.add(jSeparator1);
-
-        Pembelian.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Pembelian.setText("Pembelian");
-        Pembelian.addActionListener(new java.awt.event.ActionListener() {
+        pop01.setBackground(new java.awt.Color(0, 0, 0));
+        pop01.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
+        pop01.setText("Penjualan");
+        pop01.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PembelianActionPerformed(evt);
+                pop01ActionPerformed(evt);
             }
         });
-        popUp.add(Pembelian);
+        popUp.add(pop01);
 
-        pbBayar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        pbBayar.setText("Pembelian Bayar");
-        popUp.add(pbBayar);
+        pop02.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop02.setText("Bayar Penjualan");
+        pop02.setToolTipText("");
+        popUp.add(pop02);
 
-        pbRetur.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        pbRetur.setText("Pembelian Retur");
-        popUp.add(pbRetur);
+        pop03.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop03.setText("Retur Penjualan");
+        pop03.setToolTipText("");
+        popUp.add(pop03);
+        popUp.add(jSeparator1);
+
+        pop04.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
+        pop04.setText("Pembelian");
+        pop04.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pop04ActionPerformed(evt);
+            }
+        });
+        popUp.add(pop04);
+
+        pop05.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop05.setText("Bayar Pembelian");
+        popUp.add(pop05);
+
+        pop06.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop06.setText("Retur Pembelian");
+        popUp.add(pop06);
         popUp.add(jSeparator2);
 
-        lapPembelian.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lapPembelian.setText("Laporan Pembelian");
-        popUp.add(lapPembelian);
+        pop07.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop07.setText("Laporan Pembelian");
+        popUp.add(pop07);
 
-        lapPenjualan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lapPenjualan.setText("Laporan Penjualan");
-        popUp.add(lapPenjualan);
+        pop08.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop08.setText("Laporan Penjualan");
+        popUp.add(pop08);
 
-        lapLaba.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lapLaba.setText("Laporan Laba");
-        popUp.add(lapLaba);
+        pop09.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop09.setText("Laporan Laba Kotor");
+        popUp.add(pop09);
 
-        lapGrafik.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lapGrafik.setText("Laporan Grafik");
-        popUp.add(lapGrafik);
+        pop10.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop10.setText("Grafik Penjualan");
+        popUp.add(pop10);
         popUp.add(jSeparator3);
 
-        StokBarang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        StokBarang.setText("Stok Barang");
-        popUp.add(StokBarang);
+        pop11.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop11.setText("Stok Barang");
+        popUp.add(pop11);
 
-        StokOpnam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        StokOpnam.setText("Stok Opname");
-        popUp.add(StokOpnam);
+        pop12.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop12.setText("Stok Opname");
+        popUp.add(pop12);
         popUp.add(jSeparator5);
 
-        Barang.setText("Barang");
-        Barang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pop13.setText("Barang");
+        pop13.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
 
-        mBarang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mBarang.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         mBarang.setText("Master Barang");
         mBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mBarangActionPerformed(evt);
             }
         });
-        Barang.add(mBarang);
+        pop13.add(mBarang);
 
-        mBarangSatuan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mBarangSatuan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         mBarangSatuan.setText("Satuan Barang");
         mBarangSatuan.setToolTipText("");
         mBarangSatuan.addActionListener(new java.awt.event.ActionListener() {
@@ -288,9 +359,9 @@ public class Beranda extends javax.swing.JFrame {
                 mBarangSatuanActionPerformed(evt);
             }
         });
-        Barang.add(mBarangSatuan);
+        pop13.add(mBarangSatuan);
 
-        mBarangKategori.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mBarangKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
         mBarangKategori.setText("Kategori Barang");
         mBarangKategori.setToolTipText("");
         mBarangKategori.addActionListener(new java.awt.event.ActionListener() {
@@ -298,39 +369,48 @@ public class Beranda extends javax.swing.JFrame {
                 mBarangKategoriActionPerformed(evt);
             }
         });
-        Barang.add(mBarangKategori);
+        pop13.add(mBarangKategori);
 
-        popUp.add(Barang);
+        popUp.add(pop13);
 
-        mSuplier.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        mSuplier.setText("Master Suplier");
-        mSuplier.addActionListener(new java.awt.event.ActionListener() {
+        pop14.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop14.setText("Master Suplier");
+        pop14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mSuplierActionPerformed(evt);
+                pop14ActionPerformed(evt);
             }
         });
-        popUp.add(mSuplier);
+        popUp.add(pop14);
 
-        mMember.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        mMember.setText("Master Member");
-        mMember.addActionListener(new java.awt.event.ActionListener() {
+        pop15.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop15.setText("Master Member");
+        pop15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mMemberActionPerformed(evt);
+                pop15ActionPerformed(evt);
             }
         });
-        popUp.add(mMember);
+        popUp.add(pop15);
 
-        mUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        mUser.setText("Master User");
-        mUser.addActionListener(new java.awt.event.ActionListener() {
+        pop16.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop16.setText("Master User");
+        pop16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mUserActionPerformed(evt);
+                pop16ActionPerformed(evt);
             }
         });
-        popUp.add(mUser);
+        popUp.add(pop16);
+
+        pop17.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        pop17.setText("Master Setting");
+        pop17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pop17ActionPerformed(evt);
+            }
+        });
+        popUp.add(pop17);
         popUp.add(jSeparator4);
 
-        logOut.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        logOut.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
         logOut.setText("Log Out");
         logOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,187 +426,101 @@ public class Beranda extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1366, 768));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelSidebar.setBackground(new java.awt.Color(0, 123, 255));
+        panelSidebar.setBackground(new java.awt.Color(60, 93, 93));
         panelSidebar.setPreferredSize(new java.awt.Dimension(120, 718));
+        panelSidebar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnSC1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC1.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-checkout.png")); // NOI18N
-        btnSC1.setMnemonic('1');
-        btnSC1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC1.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC1.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC1.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC1.setPress(true);
-        btnSC1.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC1ActionPerformed(evt);
-            }
-        });
+        Sm09.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-09.png")); // NOI18N
+        Sm09.setKetebalanBorder(0.8F);
+        Sm09.setKetumpulanSudut(25);
+        Sm09.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm09.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm09.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm09.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm09.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm09, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, -1, -1));
 
-        btnSC2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC2.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-delivery.png")); // NOI18N
-        btnSC2.setMnemonic('1');
-        btnSC2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC2.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC2.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC2.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC2.setPress(true);
-        btnSC2.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC2ActionPerformed(evt);
-            }
-        });
+        Sm01.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-01.png")); // NOI18N
+        Sm01.setKetebalanBorder(0.8F);
+        Sm01.setKetumpulanSudut(25);
+        Sm01.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm01.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm01.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm01.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm01.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm01, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        btnSC3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\019-loan.png")); // NOI18N
-        btnSC3.setMnemonic('1');
-        btnSC3.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC3.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC3.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC3.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC3.setPress(true);
-        btnSC3.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC3ActionPerformed(evt);
-            }
-        });
+        Sm02.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-02.png")); // NOI18N
+        Sm02.setKetebalanBorder(0.8F);
+        Sm02.setKetumpulanSudut(25);
+        Sm02.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm02.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm02.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm02.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm02.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm02, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
-        btnSC4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC4.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\027-list.png")); // NOI18N
-        btnSC4.setMnemonic('1');
-        btnSC4.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC4.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC4.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC4.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC4.setPress(true);
-        btnSC4.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC4ActionPerformed(evt);
-            }
-        });
+        Sm03.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-03.png")); // NOI18N
+        Sm03.setKetebalanBorder(0.8F);
+        Sm03.setKetumpulanSudut(25);
+        Sm03.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm03.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm03.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm03.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm03.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm03, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        btnSC5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC5.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\026-file.png")); // NOI18N
-        btnSC5.setMnemonic('1');
-        btnSC5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC5.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC5.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC5.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC5.setPress(true);
-        btnSC5.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC5ActionPerformed(evt);
-            }
-        });
+        Sm04.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-04.png")); // NOI18N
+        Sm04.setKetebalanBorder(0.8F);
+        Sm04.setKetumpulanSudut(25);
+        Sm04.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm04.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm04.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm04.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm04.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm04, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
-        btnSC6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC6.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\009-time-is-money.png")); // NOI18N
-        btnSC6.setMnemonic('1');
-        btnSC6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC6.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC6.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC6.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC6.setPress(true);
-        btnSC6.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC6ActionPerformed(evt);
-            }
-        });
+        Sm05.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-05.png")); // NOI18N
+        Sm05.setKetebalanBorder(0.8F);
+        Sm05.setKetumpulanSudut(25);
+        Sm05.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm05.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm05.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm05.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm05.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm05, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, -1, -1));
 
-        btnSC7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC7.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\011-graph.png")); // NOI18N
-        btnSC7.setMnemonic('1');
-        btnSC7.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC7.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC7.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC7.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC7.setPress(true);
-        btnSC7.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC7ActionPerformed(evt);
-            }
-        });
+        Sm06.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-06.png")); // NOI18N
+        Sm06.setKetebalanBorder(0.8F);
+        Sm06.setKetumpulanSudut(25);
+        Sm06.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm06.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm06.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm06.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm06.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm06, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, -1, -1));
 
-        btnSC8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC8.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\lock-landscape-48.png")); // NOI18N
-        btnSC8.setMnemonic('1');
-        btnSC8.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC8.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC8.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC8.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC8.setPress(true);
-        btnSC8.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC8ActionPerformed(evt);
-            }
-        });
+        Sm07.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-07.png")); // NOI18N
+        Sm07.setKetebalanBorder(0.8F);
+        Sm07.setKetumpulanSudut(25);
+        Sm07.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm07.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm07.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm07.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm07.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm07, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, -1));
 
-        btnSC9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 149, 255)));
-        btnSC9.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\006-notes.png")); // NOI18N
-        btnSC9.setMnemonic('1');
-        btnSC9.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnSC9.setMouseHover(new java.awt.Color(77, 200, 255));
-        btnSC9.setMousePress(new java.awt.Color(26, 149, 255));
-        btnSC9.setPreferredSize(new java.awt.Dimension(80, 60));
-        btnSC9.setPress(true);
-        btnSC9.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnSC9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSC9ActionPerformed(evt);
-            }
-        });
+        Sm08.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\icon48\\sm-08.png")); // NOI18N
+        Sm08.setKetebalanBorder(0.8F);
+        Sm08.setKetumpulanSudut(25);
+        Sm08.setPreferredSize(new java.awt.Dimension(100, 65));
+        Sm08.setWarnaBackground(new java.awt.Color(85, 118, 118));
+        Sm08.setWarnaBackgroundHover(new java.awt.Color(111, 144, 144));
+        Sm08.setWarnaBackgroundPress(new java.awt.Color(124, 157, 157));
+        Sm08.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        panelSidebar.add(Sm08, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, -1, -1));
 
-        javax.swing.GroupLayout panelSidebarLayout = new javax.swing.GroupLayout(panelSidebar);
-        panelSidebar.setLayout(panelSidebarLayout);
-        panelSidebarLayout.setHorizontalGroup(
-            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSidebarLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnSC8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSC7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        panelSidebarLayout.setVerticalGroup(
-            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSidebarLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(btnSC1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSC9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSC2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSC3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSC4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSC5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSC6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSC7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(btnSC8, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-
-        getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 120, -1));
+        getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, -1, -1));
 
         panelHeader.setBackground(new java.awt.Color(0, 0, 0));
         panelHeader.setPreferredSize(new java.awt.Dimension(1366, 50));
@@ -554,18 +548,6 @@ public class Beranda extends javax.swing.JFrame {
         lblJam.setOpaque(true);
         panelHeader.add(lblJam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 0, 67, 50));
 
-        btnExit.setMnemonic('x');
-        btnExit.setText("Exit");
-        btnExit.setToolTipText("");
-        btnExit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnExit.setWarnaBackground(new java.awt.Color(9, 42, 42));
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
-            }
-        });
-        panelHeader.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1287, 0, 80, 50));
-
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 0, 0));
@@ -578,16 +560,40 @@ public class Beranda extends javax.swing.JFrame {
         btnMenu.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\MenuIcon32.png")); // NOI18N
         btnMenu.setMnemonic('m');
         btnMenu.setText("Menu");
-        btnMenu.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnMenu.setMouseHover(new java.awt.Color(85, 118, 118));
-        btnMenu.setMousePress(new java.awt.Color(34, 67, 67));
+        btnMenu.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnMenu.setKetebalanBorder(0.0F);
+        btnMenu.setKetumpulanSudut(0);
+        btnMenu.setPreferredSize(new java.awt.Dimension(120, 50));
         btnMenu.setWarnaBackground(new java.awt.Color(9, 42, 42));
+        btnMenu.setWarnaBackgroundHover(new java.awt.Color(60, 93, 93));
+        btnMenu.setWarnaBackgroundPress(new java.awt.Color(9, 42, 42));
+        btnMenu.setWarnaBorder(new java.awt.Color(9, 42, 42));
+        btnMenu.setWarnaForeground(new java.awt.Color(153, 153, 153));
+        btnMenu.setWarnaForegroundHover(new java.awt.Color(255, 255, 255));
         btnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuActionPerformed(evt);
             }
         });
-        panelHeader.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, 50));
+        panelHeader.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, -1));
+
+        btnClose.setMnemonic('x');
+        btnClose.setKetebalanBorder(0.0F);
+        btnClose.setKetumpulanSudut(0);
+        btnClose.setLabel("Exit");
+        btnClose.setPreferredSize(new java.awt.Dimension(90, 50));
+        btnClose.setWarnaBackground(new java.awt.Color(9, 42, 42));
+        btnClose.setWarnaBackgroundHover(new java.awt.Color(255, 0, 0));
+        btnClose.setWarnaBackgroundPress(new java.awt.Color(255, 51, 51));
+        btnClose.setWarnaBorder(new java.awt.Color(9, 42, 42));
+        btnClose.setWarnaForeground(new java.awt.Color(153, 153, 153));
+        btnClose.setWarnaForegroundHover(new java.awt.Color(255, 255, 255));
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        panelHeader.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1280, 0, -1, -1));
 
         getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -621,25 +627,23 @@ public class Beranda extends javax.swing.JFrame {
         setBounds(0, 0, 1367, 764);
     }// </editor-fold>//GEN-END:initComponents
    
-    private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {                                     
-        popUp.show(this, 155, 55);
-    }  
+
     
     private void logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutActionPerformed
         Logout();
     }//GEN-LAST:event_logOutActionPerformed
 
-    private void mUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUserActionPerformed
+    private void pop16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop16ActionPerformed
         UserFormShow();
-    }//GEN-LAST:event_mUserActionPerformed
+    }//GEN-LAST:event_pop16ActionPerformed
 
-    private void mMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMemberActionPerformed
+    private void pop15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop15ActionPerformed
         MemberFormShow();
-    }//GEN-LAST:event_mMemberActionPerformed
+    }//GEN-LAST:event_pop15ActionPerformed
 
-    private void mSuplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSuplierActionPerformed
+    private void pop14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop14ActionPerformed
         SuplierFormShow();
-    }//GEN-LAST:event_mSuplierActionPerformed
+    }//GEN-LAST:event_pop14ActionPerformed
 
     private void mBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mBarangActionPerformed
         ItemFormShow();
@@ -653,101 +657,47 @@ public class Beranda extends javax.swing.JFrame {
         ItemCategoryShow();
     }//GEN-LAST:event_mBarangKategoriActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        Keluar();
-    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void pop04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop04ActionPerformed
+        RemovePanel();
+        PurchaseShow();
+    }//GEN-LAST:event_pop04ActionPerformed
+
+    private void pop01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop01ActionPerformed
+      
+    }//GEN-LAST:event_pop01ActionPerformed
+
+    private void pop17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pop17ActionPerformed
+        SettingFormShow();
+    }//GEN-LAST:event_pop17ActionPerformed
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        popUp.show(this, 155, 55); 
-        //getSizeJDesktopPane();
+        popUp.show(this, 150,55);
     }//GEN-LAST:event_btnMenuActionPerformed
 
-    private void btnSc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc1ActionPerformed
-
-    }//GEN-LAST:event_btnSc1ActionPerformed
-
-    private void btnSc5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc5ActionPerformed
-
-    private void btnSc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc4ActionPerformed
-
-    private void btnSc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc3ActionPerformed
-        PurchaseShow();
-    }//GEN-LAST:event_btnSc3ActionPerformed
-
-    private void btnSc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc2ActionPerformed
-
-    private void btnSc8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc8ActionPerformed
-
-    private void btnScLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScLogOutActionPerformed
-        Logout();
-    }//GEN-LAST:event_btnScLogOutActionPerformed
-
-    private void btnSc6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc6ActionPerformed
-
-    private void btnSc7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSc7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSc7ActionPerformed
-
-    private void PembelianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PembelianActionPerformed
-        PurchaseShow();
-    }//GEN-LAST:event_PembelianActionPerformed
-
-    private void btnSC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC1ActionPerformed
-       
-    }//GEN-LAST:event_btnSC1ActionPerformed
-
-    private void btnSC2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC2ActionPerformed
-
-    private void btnSC3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC3ActionPerformed
-
-    private void btnSC4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC4ActionPerformed
-
-    private void btnSC5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC5ActionPerformed
-
-    private void btnSC6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC6ActionPerformed
-
-    private void btnSC7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC7ActionPerformed
-
-    private void btnSC8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC8ActionPerformed
-
-    private void btnSC9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSC9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSC9ActionPerformed
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        Keluar();
+    }//GEN-LAST:event_btnCloseActionPerformed
   
+    private void SettingFormShow(){
+        RemovePanel();  
+        Setting SettingForm = new Setting();
+        panelUtama.add(SettingForm);
+        SettingForm.setVisible(true);  
+        SettingForm.Focus();
+    }    
       
     private void UserFormShow(){
         RemovePanel();  
+        User UserForm = new User();
         panelUtama.add(UserForm);
         UserForm.setVisible(true);  
         UserForm.Focus();
     }
     
     private void MemberFormShow(){
-        RemovePanel();           
+        RemovePanel();
+        Member MemberForm = new Member();
         panelUtama.add(MemberForm);
         MemberForm.setVisible(true);
         MemberForm.Focus();
@@ -755,6 +705,7 @@ public class Beranda extends javax.swing.JFrame {
     
     private void SuplierFormShow(){
         RemovePanel(); 
+        Suplier SuplierForm = new Suplier();
         panelUtama.add(SuplierForm);
         SuplierForm.setVisible(true);
         SuplierForm.Focus();
@@ -762,6 +713,7 @@ public class Beranda extends javax.swing.JFrame {
     
     private void ItemFormShow(){
         RemovePanel();   
+        Item ItemForm = new Item();
         panelUtama.add(ItemForm);
         ItemForm.setVisible(true);
         ItemForm.Focus();
@@ -769,23 +721,25 @@ public class Beranda extends javax.swing.JFrame {
     
     private void ItemUnitShow(){
         RemovePanel(); 
-        panelUtama.add(ItemUnit);
-        ItemUnit.setVisible(true);
-        ItemUnit.Focus();
+        ItemUnit ItemUnitForm = new ItemUnit();
+        panelUtama.add(ItemUnitForm);
+        ItemUnitForm.setVisible(true);
+        ItemUnitForm.Focus();
     }
       
     private void ItemCategoryShow(){
         RemovePanel();
-        panelUtama.add(ItemCategory);
-        ItemCategory.setVisible(true); 
-        ItemCategory.Focus();
+        ItemCategory ItemCategoryForm = new ItemCategory();
+        panelUtama.add(ItemCategoryForm);
+        ItemCategoryForm.setVisible(true); 
+        ItemCategoryForm.Focus();
     }
     
     private void PurchaseShow(){
         RemovePanel();          
-        panelUtama.add(Purchase);
-        Purchase.setVisible(true);
-        Purchase.Focus();
+        panelUtama.add(PurchaseForm);
+        PurchaseForm.setVisible(true);
+        PurchaseForm.Focus();
     }
     
     private void popUpMenu(){
@@ -793,13 +747,23 @@ public class Beranda extends javax.swing.JFrame {
     }
     
     public void RemovePanel(){
-        
+        closeAllDialogs();
         panelUtama.removeAll();
         panelUtama.updateUI();      
+        
+    }
+    
+    private void closeAllDialogs(){
+        Window[] windows = getWindows();
+            for (Window window : windows){
+                if (window instanceof JDialog){
+                    window.dispose();
+                }
+            }
     }
     
     private void Logout(){
-          new LoginForm().setVisible(true);
+          new Login().setVisible(true);
          dispose();  
     }
     private void Keluar(){
@@ -822,32 +786,23 @@ public class Beranda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu Barang;
-    private javax.swing.JMenuItem Pembelian;
-    private javax.swing.JMenuItem Penjualan;
-    private javax.swing.JMenuItem StokBarang;
-    private javax.swing.JMenuItem StokOpnam;
-    private khansapos.Utility_ButtonMetro btnExit;
-    private khansapos.Utility_ButtonMetro btnMenu;
-    private khansapos.Utility_ButtonMetro btnSC1;
-    private khansapos.Utility_ButtonMetro btnSC2;
-    private khansapos.Utility_ButtonMetro btnSC3;
-    private khansapos.Utility_ButtonMetro btnSC4;
-    private khansapos.Utility_ButtonMetro btnSC5;
-    private khansapos.Utility_ButtonMetro btnSC6;
-    private khansapos.Utility_ButtonMetro btnSC7;
-    private khansapos.Utility_ButtonMetro btnSC8;
-    private khansapos.Utility_ButtonMetro btnSC9;
+    private Utility.UButton Sm01;
+    private Utility.UButton Sm02;
+    private Utility.UButton Sm03;
+    private Utility.UButton Sm04;
+    private Utility.UButton Sm05;
+    private Utility.UButton Sm06;
+    private Utility.UButton Sm07;
+    private Utility.UButton Sm08;
+    private Utility.UButton Sm09;
+    private Utility.UButton btnClose;
+    private Utility.UButton btnMenu;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
-    private javax.swing.JMenuItem lapGrafik;
-    private javax.swing.JMenuItem lapLaba;
-    private javax.swing.JMenuItem lapPembelian;
-    private javax.swing.JMenuItem lapPenjualan;
     private javax.swing.JLabel lblCopyright;
     private javax.swing.JLabel lblJam;
     private javax.swing.JLabel lblTanggal;
@@ -856,16 +811,26 @@ public class Beranda extends javax.swing.JFrame {
     private javax.swing.JMenuItem mBarang;
     private javax.swing.JMenuItem mBarangKategori;
     private javax.swing.JMenuItem mBarangSatuan;
-    private javax.swing.JMenuItem mMember;
-    private javax.swing.JMenuItem mSuplier;
-    private javax.swing.JMenuItem mUser;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelSidebar;
     private javax.swing.JDesktopPane panelUtama;
-    private javax.swing.JMenuItem pbBayar;
-    private javax.swing.JMenuItem pbRetur;
-    private javax.swing.JMenuItem pjBayar;
-    private javax.swing.JMenuItem pjRetur;
+    private javax.swing.JMenuItem pop01;
+    private javax.swing.JMenuItem pop02;
+    private javax.swing.JMenuItem pop03;
+    private javax.swing.JMenuItem pop04;
+    private javax.swing.JMenuItem pop05;
+    private javax.swing.JMenuItem pop06;
+    private javax.swing.JMenuItem pop07;
+    private javax.swing.JMenuItem pop08;
+    private javax.swing.JMenuItem pop09;
+    private javax.swing.JMenuItem pop10;
+    private javax.swing.JMenuItem pop11;
+    private javax.swing.JMenuItem pop12;
+    private javax.swing.JMenu pop13;
+    private javax.swing.JMenuItem pop14;
+    private javax.swing.JMenuItem pop15;
+    private javax.swing.JMenuItem pop16;
+    private javax.swing.JMenuItem pop17;
     private javax.swing.JPopupMenu popUp;
     // End of variables declaration//GEN-END:variables
 }

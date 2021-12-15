@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 
 public final class KoneksiSetting extends javax.swing.JFrame {
@@ -18,6 +19,8 @@ Properties prop;
     public KoneksiSetting() {
         initComponents();
         setIcon();
+        SwingUtilities.invokeLater(() -> { txtHost.requestFocusInWindow(); });
+        super.setBackground(new Color(0, 0, 0, 0));   
     }
     
     private void setIcon(){
@@ -25,7 +28,7 @@ Properties prop;
         setIconImage(icon.getImage());   
 }
     
-    private void CreatePropertiesFile () {
+    private void CreatePropertiesFile() {
         if (txtHost.getText().trim().isEmpty() || txtPort.getText().trim().isEmpty() || txtUser.getText().trim().isEmpty() || 
                 txtDatabase.getText().trim().isEmpty() ) {
             JOptionPane.showMessageDialog(null, "<html>Host Name <br> Port Number <br> User <br> Database Name <br>"
@@ -78,7 +81,11 @@ Properties prop;
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        uPanelRoundrect1 = new Utility.UPanelRoundrect();
+        jLabel2 = new javax.swing.JLabel();
+        lbSetting = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        uPanelRoundrect2 = new Utility.UPanelRoundrect();
         jLabel3 = new javax.swing.JLabel();
         txtHost = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -94,13 +101,9 @@ Properties prop;
         txtDatabase = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         txtPassword = new javax.swing.JPasswordField();
-        btnSimpan = new khansapos.Utility_ButtonFlat();
-        btnCancel1 = new khansapos.Utility_ButtonFlat();
-        jPanel2 = new javax.swing.JPanel();
-        lbSetting = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        utility_ButtonMetro1 = new khansapos.Utility_ButtonMetro();
+        btnCancel = new Utility.UButton();
+        btnSimpan = new Utility.UButton();
+        btnTampil = new Utility.UButton();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -118,14 +121,39 @@ Properties prop;
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
-        jPanel1.setToolTipText(null);
+        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(77, 200, 255));
+        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("( Untuk menghubungkan aplikasi ke database )");
+        jLabel2.setToolTipText(null);
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        uPanelRoundrect1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 310, -1));
+
+        lbSetting.setBackground(new java.awt.Color(255, 255, 255));
+        lbSetting.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 11)); // NOI18N
+        lbSetting.setForeground(new java.awt.Color(102, 102, 102));
+        lbSetting.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\database-settings-icon.png")); // NOI18N
+        lbSetting.setToolTipText(null);
+        lbSetting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        uPanelRoundrect1.add(lbSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 50, 60));
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DataBase Settings");
+        jLabel1.setToolTipText(null);
+        uPanelRoundrect1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 220, -1));
+
+        uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Ip Address / Server Name");
         jLabel3.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
         txtHost.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtHost.setToolTipText(null);
@@ -136,11 +164,16 @@ Properties prop;
                 txtHostKeyPressed(evt);
             }
         });
+        uPanelRoundrect2.add(txtHost, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 260, 20));
+
+        jSeparator1.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 260, 10));
 
         jLabel4.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setText("Port");
         jLabel4.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
         txtPort.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtPort.setToolTipText(null);
@@ -151,11 +184,16 @@ Properties prop;
                 txtPortKeyPressed(evt);
             }
         });
+        uPanelRoundrect2.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 260, 20));
+
+        jSeparator2.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 260, 10));
 
         jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("User Name");
         jLabel5.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
 
         txtUser.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtUser.setToolTipText(null);
@@ -166,16 +204,25 @@ Properties prop;
                 txtUserKeyPressed(evt);
             }
         });
+        uPanelRoundrect2.add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 260, 20));
+
+        jSeparator3.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 260, 10));
 
         jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setText("Password");
         jLabel6.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
+
+        jSeparator4.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 260, 10));
 
         jLabel7.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("Database Name");
         jLabel7.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
         txtDatabase.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtDatabase.setToolTipText(null);
@@ -186,6 +233,10 @@ Properties prop;
                 txtDatabaseKeyPressed(evt);
             }
         });
+        uPanelRoundrect2.add(txtDatabase, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 260, 20));
+
+        jSeparator5.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 260, 10));
 
         txtPassword.setBorder(null);
         txtPassword.setOpaque(false);
@@ -194,170 +245,59 @@ Properties prop;
                 txtPasswordKeyPressed(evt);
             }
         });
+        uPanelRoundrect2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 260, -1));
 
-        btnSimpan.setText("Simpan");
-        btnSimpan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpan.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnSimpan.setMousePress(new java.awt.Color(204, 204, 204));
+        btnCancel.setMnemonic('c');
+        btnCancel.setText("Cancel");
+        btnCancel.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCancel.setKetebalanBorder(2.0F);
+        btnCancel.setKetumpulanSudut(35);
+        btnCancel.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnCancel.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCancel.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnCancel.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnCancel.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect2.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 100, -1));
+
+        btnSimpan.setMnemonic('s');
+        btnSimpan.setText("Simpan Settings");
+        btnSimpan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpan.setKetebalanBorder(2.0F);
+        btnSimpan.setKetumpulanSudut(35);
+        btnSimpan.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnSimpan.setWarnaBorder(new java.awt.Color(164, 253, 163));
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
+        uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 150, -1));
 
-        btnCancel1.setText("Cancel");
-        btnCancel1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCancel1.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnCancel1.setMousePress(new java.awt.Color(204, 204, 204));
-        btnCancel1.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnCancel1.addActionListener(new java.awt.event.ActionListener() {
+        uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 330, 420));
+
+        btnTampil.setMnemonic('t');
+        btnTampil.setText("Tampilkan Settings");
+        btnTampil.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnTampil.setKetebalanBorder(2.0F);
+        btnTampil.setKetumpulanSudut(35);
+        btnTampil.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnTampil.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnTampil.setWarnaBackgroundHover(new java.awt.Color(77, 200, 255));
+        btnTampil.setWarnaBackgroundPress(new java.awt.Color(0, 123, 255));
+        btnTampil.setWarnaBorder(new java.awt.Color(77, 200, 255));
+        btnTampil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancel1ActionPerformed(evt);
+                btnTampilActionPerformed(evt);
             }
         });
+        uPanelRoundrect1.add(btnTampil, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 190, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jSeparator2)
-                        .addComponent(txtPort)
-                        .addComponent(jLabel4)
-                        .addComponent(jSeparator1)
-                        .addComponent(txtHost)
-                        .addComponent(jLabel5)
-                        .addComponent(txtUser)
-                        .addComponent(jSeparator3)
-                        .addComponent(jLabel6)
-                        .addComponent(jSeparator4)
-                        .addComponent(jLabel7)
-                        .addComponent(txtDatabase)
-                        .addComponent(jSeparator5)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addGap(4, 4, 4)
-                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
-                .addGap(4, 4, 4)
-                .addComponent(txtDatabase, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, -1, 420));
-
-        jPanel2.setBackground(new java.awt.Color(0, 123, 255));
-
-        lbSetting.setBackground(new java.awt.Color(255, 255, 255));
-        lbSetting.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 11)); // NOI18N
-        lbSetting.setForeground(new java.awt.Color(102, 102, 102));
-        lbSetting.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\database-settings-icon.png")); // NOI18N
-        lbSetting.setToolTipText(null);
-        lbSetting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("DataBase Settings");
-        jLabel1.setToolTipText(null);
-
-        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("<html>Untuk menghubungkan aplikasi ke database<br> isikan pengaturan berikut<html>");
-        jLabel2.setToolTipText(null);
-
-        utility_ButtonMetro1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        utility_ButtonMetro1.setText("View Setting");
-        utility_ButtonMetro1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        utility_ButtonMetro1.setMouseHover(new java.awt.Color(26, 149, 255));
-        utility_ButtonMetro1.setMousePress(new java.awt.Color(204, 204, 204));
-        utility_ButtonMetro1.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        utility_ButtonMetro1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                utility_ButtonMetro1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(lbSetting)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(utility_ButtonMetro1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel1)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbSetting)
-                        .addGap(18, 18, 18)))
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
-                .addComponent(utility_ButtonMetro1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
-        );
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 420));
+        getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 440));
 
         pack();
         setLocationRelativeTo(null);
@@ -407,20 +347,20 @@ Properties prop;
          }
     }//GEN-LAST:event_txtDatabaseKeyPressed
 
+    private void btnTampilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilActionPerformed
+        ReadPropertiesFile();
+    }//GEN-LAST:event_btnTampilActionPerformed
+
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         CreatePropertiesFile();
     }//GEN-LAST:event_btnSimpanActionPerformed
 
-    private void btnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel1ActionPerformed
-        Tutup();        
-    }//GEN-LAST:event_btnCancel1ActionPerformed
-
-    private void utility_ButtonMetro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utility_ButtonMetro1ActionPerformed
-        ReadPropertiesFile();
-    }//GEN-LAST:event_utility_ButtonMetro1ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        Tutup();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void Tutup(){
-            new LoginForm().setVisible(true);
+            new Login().setVisible(true);
             dispose();
     }
     /**
@@ -461,8 +401,9 @@ Properties prop;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private khansapos.Utility_ButtonFlat btnCancel1;
-    private khansapos.Utility_ButtonFlat btnSimpan;
+    private Utility.UButton btnCancel;
+    private Utility.UButton btnSimpan;
+    private Utility.UButton btnTampil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -470,8 +411,6 @@ Properties prop;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -484,7 +423,8 @@ Properties prop;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtUser;
-    private khansapos.Utility_ButtonMetro utility_ButtonMetro1;
+    private Utility.UPanelRoundrect uPanelRoundrect1;
+    private Utility.UPanelRoundrect uPanelRoundrect2;
     // End of variables declaration//GEN-END:variables
 
 

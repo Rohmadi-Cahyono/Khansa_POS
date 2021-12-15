@@ -3,12 +3,13 @@ package khansapos;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-public  class Utility_Text extends DocumentFilter {
+public  class UText extends DocumentFilter {
 
         //Merubah Format ke Huruf Besar------------------------------------------------------------------------------------------------------
         @Override
@@ -32,6 +33,17 @@ public  class Utility_Text extends DocumentFilter {
             df.applyPattern(pattern);
             String formattedText = df.format(Double.parseDouble(ISI));        
             JTF.setText(formattedText);      
+        } 
+        
+        public String LabelToRp(String ISI){
+            Locale localeID = new Locale("in", "ID");
+            String pattern = "###,###.###";
+            NumberFormat nf = NumberFormat.getNumberInstance(localeID);
+            DecimalFormat df = (DecimalFormat)nf;
+            df.applyPattern(pattern);
+            String formattedLabel = df.format(Double.parseDouble(ISI));        
+            //LB.setText(formattedLabel); 
+            return formattedLabel;
         } 
 }   
 

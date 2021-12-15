@@ -12,7 +12,7 @@ import net.proteanit.sql.DbUtils;
 
 
 public class Suplier extends javax.swing.JInternalFrame {
-    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    java.sql.Connection con =  new UDbConnection().koneksi();
     private static String  Id;
     
     public Suplier() {
@@ -58,8 +58,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         this.setVisible(false); 
         Bersih(); 
         SwingUtilities.invokeLater(() -> {txtNameAdd.requestFocusInWindow(); });
-        SuplierAdd.setSize(970, 330);                     
-        SuplierAdd.setLocation(((Beranda.PW+120)-970 )/2,((Beranda.PH+50)-330 )/2);
+        SuplierAdd.setSize(1000,315);                     
+        SuplierAdd.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-315 )/2);
+        SuplierAdd.setBackground(new Color(0, 0, 0, 0)); 
         SuplierAdd.setVisible(true);
     }
     
@@ -67,8 +68,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         this.setVisible(false);
         TampilEdit();
         SwingUtilities.invokeLater(() -> {txtNameEdit.requestFocusInWindow(); });
-        SuplierEdit.setSize(970, 330);                     
-        SuplierEdit.setLocation(((Beranda.PW+120)-970 )/2,((Beranda.PH+50)-330 )/2);
+        SuplierEdit.setSize(1000, 315);                     
+        SuplierEdit.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-315 )/2);
+        SuplierEdit.setBackground(new Color(0, 0, 0, 0)); 
         SuplierEdit.setVisible(true);         
     }
     
@@ -100,7 +102,7 @@ public class Suplier extends javax.swing.JInternalFrame {
     }
      
      private void TampilkanDiTabel() {                     
-            Utility_Table ut = new Utility_Table();         
+            UTable ut = new UTable();         
           
             ut.Header(tableTampil,0,"",-10);
             ut.Header(tableTampil,1,"Suplier Name",200);
@@ -123,7 +125,7 @@ public class Suplier extends javax.swing.JInternalFrame {
             ListAdd.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                Utility_Table uts = new Utility_Table();
+                UTable uts = new UTable();
                 uts.Header(ListAdd,0,"",-10);
                 uts.Header(ListAdd,1,"",200);
                 ListAdd.setBackground(new Color(255,255,255));
@@ -212,7 +214,7 @@ public class Suplier extends javax.swing.JInternalFrame {
             ListEdit.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                Utility_Table uts = new Utility_Table();
+                UTable uts = new UTable();
                 uts.Header(ListEdit,0,"",-10);
                 uts.Header(ListEdit,1,"",200);
                 ListEdit.setBackground(new Color(255,255,255));
@@ -273,46 +275,44 @@ public class Suplier extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         SuplierAdd = new javax.swing.JDialog();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        uPanelRoundrect1 = new Utility.UPanelRoundrect();
         jLabel3 = new javax.swing.JLabel();
-        btnCloseSuplierAdd = new khansapos.Utility_ButtonMetro();
+        btnCloseAdd = new Utility.UButton();
+        uPanelRoundrect2 = new Utility.UPanelRoundrect();
         SListAdd = new javax.swing.JScrollPane();
         ListAdd = new javax.swing.JTable();
-        txtNameAdd = new javax.swing.JTextField();
-        txtAddressAdd = new javax.swing.JTextField();
-        txtPhoneAdd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        txtNameAdd = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
+        txtAddressAdd = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
+        txtPhoneAdd = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
-        jPanel5 = new javax.swing.JPanel();
-        btnBersih = new khansapos.Utility_ButtonFlat();
-        btnSimpanSuplier = new khansapos.Utility_ButtonFlat();
+        btnBersih = new Utility.UButton();
+        btnSimpan = new Utility.UButton();
         SuplierEdit = new javax.swing.JDialog();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        uPanelRoundrect3 = new Utility.UPanelRoundrect();
         jLabel7 = new javax.swing.JLabel();
-        btnCloseSuplierEdit = new khansapos.Utility_ButtonMetro();
+        btnCloseEdit = new Utility.UButton();
+        uPanelRoundrect4 = new Utility.UPanelRoundrect();
         SListEdit = new javax.swing.JScrollPane();
         ListEdit = new javax.swing.JTable();
-        txtNameEdit = new javax.swing.JTextField();
-        txtAdressEdit = new javax.swing.JTextField();
-        txtPhoneEdit = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        txtNameEdit = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
+        txtAdressEdit = new javax.swing.JTextField();
         jSeparator7 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
+        txtPhoneEdit = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        jPanel7 = new javax.swing.JPanel();
-        btnUpdate = new khansapos.Utility_ButtonFlat();
+        btnUpdate = new Utility.UButton();
         jPanel1 = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
-        btnEdit = new khansapos.Utility_ButtonFlat();
-        btnHapus = new khansapos.Utility_ButtonFlat();
+        btnHapus = new Utility.UButton();
+        btnEdit = new Utility.UButton();
         SPtableTampil = new javax.swing.JScrollPane();
         tableTampil = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -324,55 +324,46 @@ public class Suplier extends javax.swing.JInternalFrame {
         txtSearch = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        btnTambah = new khansapos.Utility_ButtonFlat();
+        btnTambah = new Utility.UButton();
 
-        SuplierAdd.setModal(true);
         SuplierAdd.setUndecorated(true);
+        SuplierAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
-        jPanel2.setMaximumSize(new java.awt.Dimension(970, 330));
-        jPanel2.setMinimumSize(new java.awt.Dimension(970, 330));
-        jPanel2.setPreferredSize(new java.awt.Dimension(970, 330));
-        jPanel2.setVerifyInputWhenFocusTarget(false);
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect1.setKetebalanBorder(2.0F);
+        uPanelRoundrect1.setKetumpulanSudut(10);
+        uPanelRoundrect1.setMinimumSize(new java.awt.Dimension(1000, 50));
+        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(1000, 50));
+        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(138, 227, 137));
+        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(87, 176, 86));
-        jPanel3.setPreferredSize(new java.awt.Dimension(315, 55));
-
-        jLabel3.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Tambah Suplier");
+        jLabel3.setText("Tambah Member");
+        uPanelRoundrect1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
-        btnCloseSuplierAdd.setMnemonic('c');
-        btnCloseSuplierAdd.setText("Close");
-        btnCloseSuplierAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseSuplierAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnCloseAdd.setMnemonic('c');
+        btnCloseAdd.setText("Close");
+        btnCloseAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCloseAdd.setKetebalanBorder(0.0F);
+        btnCloseAdd.setKetumpulanSudut(35);
+        btnCloseAdd.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnCloseAdd.setWarnaBackgroundHover(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseSuplierAddActionPerformed(evt);
+                btnCloseAddActionPerformed(evt);
             }
         });
+        uPanelRoundrect1.add(btnCloseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 30));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 673, Short.MAX_VALUE)
-                .addComponent(btnCloseSuplierAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(14, Short.MAX_VALUE))
-            .addComponent(btnCloseSuplierAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        SuplierAdd.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, -1));
+        uPanelRoundrect2.setKetebalanBorder(2.0F);
+        uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(1000, 260));
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         SListAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -410,7 +401,13 @@ public class Suplier extends javax.swing.JInternalFrame {
         );
         SListAdd.setViewportView(ListAdd);
 
-        jPanel2.add(SListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 330, 0));
+        uPanelRoundrect2.add(SListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 65, 330, 0));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setText("Nama Suplier");
+        jLabel4.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
         txtNameAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtNameAdd.setToolTipText(null);
@@ -429,7 +426,14 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtNameAddKeyReleased(evt);
             }
         });
-        jPanel2.add(txtNameAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 335, -1));
+        uPanelRoundrect2.add(txtNameAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 335, -1));
+        uPanelRoundrect2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 335, 10));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Alamat ");
+        jLabel5.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 20));
 
         txtAddressAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtAddressAdd.setToolTipText(null);
@@ -440,7 +444,14 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtAddressAddKeyPressed(evt);
             }
         });
-        jPanel2.add(txtAddressAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 815, -1));
+        uPanelRoundrect2.add(txtAddressAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 815, -1));
+        uPanelRoundrect2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 815, 10));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel6.setText("Phone ");
+        jLabel6.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
 
         txtPhoneAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtPhoneAdd.setToolTipText(null);
@@ -451,124 +462,80 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtPhoneAddKeyPressed(evt);
             }
         });
-        jPanel2.add(txtPhoneAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 289, -1));
+        uPanelRoundrect2.add(txtPhoneAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 289, -1));
+        uPanelRoundrect2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 289, 10));
 
-        jLabel4.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel4.setText("Nama Suplier");
-        jLabel4.setToolTipText(null);
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 101, -1, 20));
-        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 335, 10));
-
-        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Alamat ");
-        jLabel5.setToolTipText(null);
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 149, -1, 20));
-        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 815, 10));
-
-        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("Phone ");
-        jLabel6.setToolTipText(null);
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 197, -1, 20));
-        jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 289, 10));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        btnBersih.setMnemonic('b');
+        btnBersih.setMnemonic('h');
         btnBersih.setText("Bersih");
-        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnBersih.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnBersih.setMousePress(new java.awt.Color(204, 204, 204));
+        btnBersih.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnBersih.setKetebalanBorder(2.0F);
+        btnBersih.setKetumpulanSudut(35);
+        btnBersih.setPreferredSize(new java.awt.Dimension(120, 38));
         btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnBersih.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnBersih.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnBersih.setWarnaBorder(new java.awt.Color(255, 231, 112));
         btnBersih.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBersihActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 270, 90, 30));
+        uPanelRoundrect2.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 210, -1, -1));
 
-        btnSimpanSuplier.setMnemonic('s');
-        btnSimpanSuplier.setText("Simpan");
-        btnSimpanSuplier.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpanSuplier.setMousePress(new java.awt.Color(204, 204, 204));
-        btnSimpanSuplier.addActionListener(new java.awt.event.ActionListener() {
+        btnSimpan.setText("Simpan");
+        btnSimpan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpan.setKetebalanBorder(2.0F);
+        btnSimpan.setKetumpulanSudut(35);
+        btnSimpan.setPreferredSize(new java.awt.Dimension(180, 38));
+        btnSimpan.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanSuplierActionPerformed(evt);
+                btnSimpanActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSimpanSuplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 270, 210, 30));
+        uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 210, -1, -1));
 
-        javax.swing.GroupLayout SuplierAddLayout = new javax.swing.GroupLayout(SuplierAdd.getContentPane());
-        SuplierAdd.getContentPane().setLayout(SuplierAddLayout);
-        SuplierAddLayout.setHorizontalGroup(
-            SuplierAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        SuplierAddLayout.setVerticalGroup(
-            SuplierAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        SuplierAdd.getContentPane().add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
 
-        SuplierEdit.setModal(true);
         SuplierEdit.setUndecorated(true);
+        SuplierEdit.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(235, 154, 35)));
-        jPanel4.setMaximumSize(new java.awt.Dimension(970, 339));
-        jPanel4.setMinimumSize(new java.awt.Dimension(970, 339));
-        jPanel4.setPreferredSize(new java.awt.Dimension(970, 339));
-        jPanel4.setRequestFocusEnabled(false);
-        jPanel4.setVerifyInputWhenFocusTarget(false);
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect3.setKetebalanBorder(2.0F);
+        uPanelRoundrect3.setKetumpulanSudut(10);
+        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(1000, 50));
+        uPanelRoundrect3.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 205, 86));
+        uPanelRoundrect3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel6.setBackground(new java.awt.Color(235, 154, 35));
-
-        jLabel7.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Edit Suplier");
+        jLabel7.setText("Edit Member");
+        uPanelRoundrect3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 12, -1, -1));
 
-        btnCloseSuplierEdit.setMnemonic('c');
-        btnCloseSuplierEdit.setText("Close");
-        btnCloseSuplierEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseSuplierEdit.addActionListener(new java.awt.event.ActionListener() {
+        btnCloseEdit.setMnemonic('c');
+        btnCloseEdit.setText("Close");
+        btnCloseEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCloseEdit.setKetebalanBorder(2.0F);
+        btnCloseEdit.setKetumpulanSudut(35);
+        btnCloseEdit.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnCloseEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseSuplierEditActionPerformed(evt);
+                btnCloseEditActionPerformed(evt);
             }
         });
+        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 70, 30));
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 726, Short.MAX_VALUE)
-                .addComponent(btnCloseSuplierEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(14, Short.MAX_VALUE))
-            .addComponent(btnCloseSuplierEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        SuplierEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel4.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, -1));
+        uPanelRoundrect4.setKetebalanBorder(2.0F);
+        uPanelRoundrect4.setPreferredSize(new java.awt.Dimension(1000, 260));
+        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         SListEdit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -606,7 +573,13 @@ public class Suplier extends javax.swing.JInternalFrame {
         );
         SListEdit.setViewportView(ListEdit);
 
-        jPanel4.add(SListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 330, 0));
+        uPanelRoundrect4.add(SListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 330, 0));
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel8.setText("Nama Suplier");
+        jLabel8.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
         txtNameEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtNameEdit.setToolTipText(null);
@@ -625,7 +598,14 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtNameEditKeyReleased(evt);
             }
         });
-        jPanel4.add(txtNameEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 335, -1));
+        uPanelRoundrect4.add(txtNameEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 335, -1));
+        uPanelRoundrect4.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 335, 10));
+
+        jLabel9.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel9.setText("Alamat ");
+        jLabel9.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 20));
 
         txtAdressEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtAdressEdit.setToolTipText(null);
@@ -636,7 +616,14 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtAdressEditKeyPressed(evt);
             }
         });
-        jPanel4.add(txtAdressEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 815, -1));
+        uPanelRoundrect4.add(txtAdressEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 815, -1));
+        uPanelRoundrect4.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 815, 10));
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel10.setText("Phone ");
+        jLabel10.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
 
         txtPhoneEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtPhoneEdit.setToolTipText(null);
@@ -647,65 +634,26 @@ public class Suplier extends javax.swing.JInternalFrame {
                 txtPhoneEditKeyPressed(evt);
             }
         });
-        jPanel4.add(txtPhoneEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 289, -1));
+        uPanelRoundrect4.add(txtPhoneEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 289, -1));
+        uPanelRoundrect4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 289, 10));
 
-        jLabel8.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel8.setText("Nama Suplier");
-        jLabel8.setToolTipText(null);
-        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 101, -1, 20));
-        jPanel4.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 335, 10));
-
-        jLabel9.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("Alamat ");
-        jLabel9.setToolTipText(null);
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 149, -1, 20));
-        jPanel4.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 815, 10));
-
-        jLabel10.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Phone ");
-        jLabel10.setToolTipText(null);
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 197, -1, 20));
-        jPanel4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 289, 10));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        btnUpdate.setMnemonic('s');
         btnUpdate.setText("Update");
-        btnUpdate.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnUpdate.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnUpdate.setMousePress(new java.awt.Color(255, 231, 112));
+        btnUpdate.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnUpdate.setKetebalanBorder(2.0F);
+        btnUpdate.setKetumpulanSudut(35);
+        btnUpdate.setPreferredSize(new java.awt.Dimension(150, 38));
         btnUpdate.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnUpdate.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnUpdate.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnUpdate.setWarnaBorder(new java.awt.Color(255, 231, 112));
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
-        jPanel4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 280, 210, 30));
+        uPanelRoundrect4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 210, -1, -1));
 
-        javax.swing.GroupLayout SuplierEditLayout = new javax.swing.GroupLayout(SuplierEdit.getContentPane());
-        SuplierEdit.getContentPane().setLayout(SuplierEditLayout);
-        SuplierEditLayout.setHorizontalGroup(
-            SuplierEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        SuplierEditLayout.setVerticalGroup(
-            SuplierEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        SuplierEdit.getContentPane().add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(248, 251, 251));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -714,11 +662,31 @@ public class Suplier extends javax.swing.JInternalFrame {
         panelEH.setPreferredSize(new java.awt.Dimension(130, 30));
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEdit.setMnemonic('e');
+        btnHapus.setText("Hapus");
+        btnHapus.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnHapus.setKetebalanBorder(2.0F);
+        btnHapus.setKetumpulanSudut(35);
+        btnHapus.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
+        btnHapus.setWarnaBackgroundHover(new java.awt.Color(255, 204, 204));
+        btnHapus.setWarnaBackgroundPress(new java.awt.Color(255, 0, 0));
+        btnHapus.setWarnaBorder(new java.awt.Color(255, 204, 204));
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 100, -1));
+
         btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
+        btnEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnEdit.setKetebalanBorder(2.0F);
+        btnEdit.setKetumpulanSudut(35);
+        btnEdit.setPreferredSize(new java.awt.Dimension(100, 30));
         btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnEdit.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnEdit.setWarnaBorder(new java.awt.Color(255, 231, 112));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -726,20 +694,12 @@ public class Suplier extends javax.swing.JInternalFrame {
         });
         panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        btnHapus.setMnemonic('h');
-        btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
-        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
-        btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
-        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, -1));
+        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, 0));
 
-        jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 130, 0));
+        SPtableTampil.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        SPtableTampil.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
 
+        tableTampil.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         tableTampil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -760,6 +720,7 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         tableTampil.setFocusable(false);
+        tableTampil.setRowHeight(20);
         tableTampil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableTampilMouseClicked(evt);
@@ -769,7 +730,7 @@ public class Suplier extends javax.swing.JInternalFrame {
 
         jPanel1.add(SPtableTampil, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1190, 510));
 
-        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\Search-icon.png")); // NOI18N
         jLabel2.setText("Cari Nama Member :");
@@ -792,24 +753,28 @@ public class Suplier extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, 240, 20));
 
-        jSeparator1.setForeground(new java.awt.Color(78, 115, 223));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 290, 10));
+        jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 250, 10));
 
-        jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(78, 115, 223));
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("Master Suplier");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 300, 40));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 270, 40));
 
         btnTambah.setMnemonic('t');
         btnTambah.setText("Tambah Suplier");
-        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnTambah.setMousePress(new java.awt.Color(204, 204, 204));
+        btnTambah.setToolTipText("");
+        btnTambah.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnTambah.setKetebalanBorder(2.0F);
+        btnTambah.setKetumpulanSudut(35);
+        btnTambah.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnTambah.setWarnaBorder(new java.awt.Color(164, 253, 163));
         btnTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTambahActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -829,7 +794,7 @@ public class Suplier extends javax.swing.JInternalFrame {
         Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
 
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
-        panelEH.setSize(130, 30);
+        panelEH.setSize(172, 30);
     }//GEN-LAST:event_tableTampilMouseClicked
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
@@ -837,7 +802,7 @@ public class Suplier extends javax.swing.JInternalFrame {
 
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtSearch.setText("");
-            panelEH.setSize(130, 0);
+            panelEH.setSize(172, 0);
         }
     }//GEN-LAST:event_txtSearchKeyPressed
 
@@ -923,35 +888,35 @@ public class Suplier extends javax.swing.JInternalFrame {
         Tambah();
     }//GEN-LAST:event_btnTambahActionPerformed
 
-    private void btnCloseSuplierAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseSuplierAddActionPerformed
+    private void btnCloseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseAddActionPerformed
         KeluarAdd();
-    }//GEN-LAST:event_btnCloseSuplierAddActionPerformed
+    }//GEN-LAST:event_btnCloseAddActionPerformed
 
     private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
         Bersih();
     }//GEN-LAST:event_btnBersihActionPerformed
 
-    private void btnSimpanSuplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanSuplierActionPerformed
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         Simpan();
-    }//GEN-LAST:event_btnSimpanSuplierActionPerformed
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        panelEH.setSize(130, 0);
-        Edit();
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        panelEH.setSize(130, 0);
-        Hapus();
-    }//GEN-LAST:event_btnHapusActionPerformed
+    private void btnCloseEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseEditActionPerformed
+        KeluarEdit();
+    }//GEN-LAST:event_btnCloseEditActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         Update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnCloseSuplierEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseSuplierEditActionPerformed
-        KeluarEdit();
-    }//GEN-LAST:event_btnCloseSuplierEditActionPerformed
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        panelEH.setSize(172, 0);
+        Hapus();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        panelEH.setSize(172, 0);
+        Edit();
+    }//GEN-LAST:event_btnEditActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -962,14 +927,14 @@ public class Suplier extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane SPtableTampil;
     private javax.swing.JDialog SuplierAdd;
     private javax.swing.JDialog SuplierEdit;
-    private khansapos.Utility_ButtonFlat btnBersih;
-    private khansapos.Utility_ButtonMetro btnCloseSuplierAdd;
-    private khansapos.Utility_ButtonMetro btnCloseSuplierEdit;
-    private khansapos.Utility_ButtonFlat btnEdit;
-    private khansapos.Utility_ButtonFlat btnHapus;
-    private khansapos.Utility_ButtonFlat btnSimpanSuplier;
-    private khansapos.Utility_ButtonFlat btnTambah;
-    private khansapos.Utility_ButtonFlat btnUpdate;
+    private Utility.UButton btnBersih;
+    private Utility.UButton btnCloseAdd;
+    private Utility.UButton btnCloseEdit;
+    private Utility.UButton btnEdit;
+    private Utility.UButton btnHapus;
+    private Utility.UButton btnSimpan;
+    private Utility.UButton btnTambah;
+    private Utility.UButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -981,12 +946,6 @@ public class Suplier extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1004,5 +963,9 @@ public class Suplier extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPhoneAdd;
     private javax.swing.JTextField txtPhoneEdit;
     private javax.swing.JTextField txtSearch;
+    private Utility.UPanelRoundrect uPanelRoundrect1;
+    private Utility.UPanelRoundrect uPanelRoundrect2;
+    private Utility.UPanelRoundrect uPanelRoundrect3;
+    private Utility.UPanelRoundrect uPanelRoundrect4;
     // End of variables declaration//GEN-END:variables
 }

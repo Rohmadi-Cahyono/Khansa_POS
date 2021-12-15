@@ -6,28 +6,34 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.crypto.Cipher;  
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
         
 
-public class LoginForm extends javax.swing.JFrame {  
+public class Login extends javax.swing.JFrame {  
     public static String sessionId, sessionName, sessionLevel;
     static Cipher cipher;  
     private int count;
    
-    public LoginForm() {
+    public Login() {
         initComponents(); 
         setIcon();
         cekDatabase();
+        SwingUtilities.invokeLater(() -> { txtUserName.requestFocusInWindow(); });
+        super.setBackground(new Color(0, 0, 0, 0));        
     }
+    
+
     
     private void setIcon(){
         ImageIcon icon = new ImageIcon("image/keys.png");
-        setIconImage(icon.getImage());         
+        setIconImage(icon.getImage());    
+        
     }
     
     private void cekDatabase(){
         try{
-            java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+            java.sql.Connection con =  new UDbConnection().koneksi();
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs=st.executeQuery("SELECT COUNT(*) AS rowcount FROM users");
                 rs.next();
@@ -52,43 +58,40 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        PasswordField = new javax.swing.JPasswordField();
-        txtUserName = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
+        uPanelRoundrect1 = new Utility.UPanelRoundrect();
+        uPanelRoundrect2 = new Utility.UPanelRoundrect();
         jSeparator2 = new javax.swing.JSeparator();
-        btnLogin = new khansapos.Utility_ButtonFlat();
-        btnCancel = new khansapos.Utility_ButtonFlat();
-        lbSetting = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        PasswordField = new javax.swing.JPasswordField();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        txtUserName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
+        btnLogin = new Utility.UButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        btnSetting = new Utility.UButton();
+        btnClose1 = new Utility.UButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Khansa POS");
         setIconImages(null);
         setUndecorated(true);
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect1.setBackground(new java.awt.Color(153, 153, 153));
+        uPanelRoundrect1.setKetebalanBorder(2.5F);
+        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(60, 93, 93));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(187, 220, 220));
+        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel1.setText("User Name");
-        jLabel1.setToolTipText(null);
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 130, -1));
+        uPanelRoundrect2.setKetebalanBorder(2.5F);
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(187, 220, 220));
+        uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel2.setText("Password");
-        jLabel2.setToolTipText(null);
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 130, -1));
+        jSeparator2.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 300, -1));
 
         PasswordField.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         PasswordField.setToolTipText(null);
@@ -99,7 +102,16 @@ public class LoginForm extends javax.swing.JFrame {
                 PasswordFieldKeyPressed(evt);
             }
         });
-        jPanel2.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 320, 20));
+        uPanelRoundrect2.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 300, 20));
+
+        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel2.setText("Password");
+        jLabel2.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 130, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(230, 230, 230));
+        uPanelRoundrect2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 300, 10));
 
         txtUserName.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtUserName.setToolTipText(null);
@@ -110,106 +122,94 @@ public class LoginForm extends javax.swing.JFrame {
                 txtUserNameKeyPressed(evt);
             }
         });
-        jPanel2.add(txtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 320, 20));
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 320, 10));
-        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 320, -1));
+        uPanelRoundrect2.add(txtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 300, 20));
 
-        btnLogin.setText("Login");
-        btnLogin.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnLogin.setMouseHover(new java.awt.Color(26, 149, 255));
-        btnLogin.setMousePress(new java.awt.Color(204, 204, 204));
+        jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setText("User Name");
+        jLabel1.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 130, -1));
+
+        jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 110, 10));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel5.setText("Welcome");
+        jLabel5.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 110, 30));
+
+        btnLogin.setText("Log In");
+        btnLogin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnLogin.setKetebalanBorder(2.0F);
+        btnLogin.setKetumpulanSudut(35);
+        btnLogin.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnLogin.setWarnaBackground(new java.awt.Color(0, 123, 255));
+        btnLogin.setWarnaBackgroundHover(new java.awt.Color(77, 200, 255));
+        btnLogin.setWarnaBackgroundPress(new java.awt.Color(0, 123, 255));
+        btnLogin.setWarnaBorder(new java.awt.Color(77, 200, 255));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        jPanel2.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 170, 100, 30));
+        uPanelRoundrect2.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 270, -1));
 
-        btnCancel.setText("Cancel");
-        btnCancel.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCancel.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnCancel.setMousePress(new java.awt.Color(204, 204, 204));
-        btnCancel.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 80, 30));
+        uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 155, 340, 330));
 
-        lbSetting.setDisplayedMnemonic('t');
-        lbSetting.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        lbSetting.setForeground(new java.awt.Color(0, 123, 255));
-        lbSetting.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\iconSettings16.png")); // NOI18N
-        lbSetting.setLabelFor(this);
-        lbSetting.setText("Database Setting ");
-        lbSetting.setToolTipText(null);
-        lbSetting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbSetting.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lbSettingFocusLost(evt);
-            }
-        });
-        lbSetting.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbSettingMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lbSettingMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lbSettingMouseExited(evt);
-            }
-        });
-        jPanel2.add(lbSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, 30));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 380, 220));
-
-        jPanel1.setBackground(new java.awt.Color(0, 123, 255));
-        jPanel1.setBorder(null);
-        jPanel1.setToolTipText(null);
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setBackground(new java.awt.Color(255, 0, 0));
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
         jLabel3.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\logoKhansaLogin.png")); // NOI18N
         jLabel3.setToolTipText(null);
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 220, 70));
-
-        jLabel5.setBackground(new java.awt.Color(187, 220, 220));
-        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 24)); // NOI18N
-        jLabel5.setLabelFor(this);
-        jLabel5.setText("Welcome");
-        jLabel5.setToolTipText(null);
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, -1, -1));
+        uPanelRoundrect1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 220, 70));
 
         jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 11)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setForeground(new java.awt.Color(255, 102, 102));
         jLabel6.setText("Point Of Sale");
         jLabel6.setToolTipText(null);
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, -1, -1));
+        uPanelRoundrect1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 220));
+        btnSetting.setIcon(new javax.swing.ImageIcon("D:\\Java\\Belajar Java\\KhansaPOS\\image\\iconSettings16.png")); // NOI18N
+        btnSetting.setMnemonic('c');
+        btnSetting.setText("Setting Database");
+        btnSetting.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSetting.setPreferredSize(new java.awt.Dimension(70, 30));
+        btnSetting.setWarnaBackground(new java.awt.Color(60, 93, 93));
+        btnSetting.setWarnaBackgroundHover(new java.awt.Color(60, 93, 93));
+        btnSetting.setWarnaBackgroundPress(new java.awt.Color(60, 93, 93));
+        btnSetting.setWarnaBorder(new java.awt.Color(60, 93, 93));
+        btnSetting.setWarnaForeground(new java.awt.Color(153, 153, 153));
+        btnSetting.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettingActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect1.add(btnSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 500, 170, -1));
+
+        btnClose1.setMnemonic('c');
+        btnClose1.setText("Close");
+        btnClose1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnClose1.setPreferredSize(new java.awt.Dimension(70, 30));
+        btnClose1.setWarnaBackground(new java.awt.Color(60, 93, 93));
+        btnClose1.setWarnaBackgroundHover(new java.awt.Color(60, 93, 93));
+        btnClose1.setWarnaBackgroundPress(new java.awt.Color(60, 93, 93));
+        btnClose1.setWarnaBorder(new java.awt.Color(60, 93, 93));
+        btnClose1.setWarnaForeground(new java.awt.Color(153, 153, 153));
+        btnClose1.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnClose1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClose1ActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect1.add(btnClose1, new org.netbeans.lib.awtextra.AbsoluteConstraints(295, 5, -1, -1));
+
+        getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 550));
 
         getAccessibleContext().setAccessibleName("");
 
-        pack();
+        setSize(new java.awt.Dimension(371, 553));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
        
-    private void lbSettingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSettingMouseEntered
-        lbSetting.setForeground(new Color(217,0,0));
-    }//GEN-LAST:event_lbSettingMouseEntered
-
-    private void lbSettingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSettingMouseExited
-       lbSetting.setForeground(new Color(102,102,102));
-    }//GEN-LAST:event_lbSettingMouseExited
-
-    private void lbSettingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSettingMouseClicked
-            Settings();   
-    }//GEN-LAST:event_lbSettingMouseClicked
-
     private void txtUserNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             PasswordField.setText(null);
@@ -227,17 +227,17 @@ public class LoginForm extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_PasswordFieldKeyPressed
 
-    private void lbSettingFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lbSettingFocusLost
+    private void btnClose1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose1ActionPerformed
+        Keluar();
+    }//GEN-LAST:event_btnClose1ActionPerformed
+
+    private void btnSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingActionPerformed
         Settings();
-    }//GEN-LAST:event_lbSettingFocusLost
+    }//GEN-LAST:event_btnSettingActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         Login();
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        Keluar();
-    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void Keluar(){
         //UIManager.put("OptionPane.noButtonText", "Tidak");
@@ -256,7 +256,7 @@ public class LoginForm extends javax.swing.JFrame {
      
         String userName= String.valueOf(txtUserName.getText());
         String password = String.valueOf(PasswordField.getPassword());
-        String encryptedString = Utility_AES.encrypt(password, secretKey) ;      
+        String encryptedString = UAES.encrypt(password, secretKey) ;      
              
         if (txtUserName.getText() == null || txtUserName.getText().trim().isEmpty()||PasswordField.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "User Name atau Password Tidak Boleh Kosong!!", "Khansa POS", 
@@ -270,7 +270,7 @@ public class LoginForm extends javax.swing.JFrame {
                 dispose();                        
             } else if (count > 0){
                 try{                   
-                    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+                    java.sql.Connection con =  new UDbConnection().koneksi();
                     java.sql.Statement st = con.createStatement();
                     java.sql.ResultSet rsLogin = st.executeQuery("SELECT * FROM users WHERE user_name='"+txtUserName.getText()
                                 +"' AND user_password='"+encryptedString+"'");
@@ -319,19 +319,20 @@ private void Bersih(){
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {  
-            Frame f=new LoginForm();                        
+            Frame f=new Login();                        
            // f.setIconImage(Toolkit.getDefaultToolkit().getImage("image\\keys.png"));             
             f.setVisible(true);
         });
@@ -344,19 +345,20 @@ private void Bersih(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
-    private khansapos.Utility_ButtonFlat btnCancel;
-    private khansapos.Utility_ButtonFlat btnLogin;
+    private Utility.UButton btnClose1;
+    private Utility.UButton btnLogin;
+    private Utility.UButton btnSetting;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private static javax.swing.JLabel lbSetting;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField txtUserName;
+    private Utility.UPanelRoundrect uPanelRoundrect1;
+    private Utility.UPanelRoundrect uPanelRoundrect2;
     // End of variables declaration//GEN-END:variables
 
    

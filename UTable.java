@@ -12,11 +12,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-public class Utility_Table {
+public class UTable {
 
     DecimalFormat desimalFormat;
     
-    public Utility_Table(){
+    public UTable(){
     }
     
     TableCellRenderer formatRupiah = new DefaultTableCellRenderer() {        

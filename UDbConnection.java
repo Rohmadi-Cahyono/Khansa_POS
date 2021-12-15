@@ -30,7 +30,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 
-public class Utility_KoneksiDB {
+public class UDbConnection {
 
     public String port;
     public String namaserver;

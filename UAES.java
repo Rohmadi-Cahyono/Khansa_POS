@@ -14,7 +14,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
  
-public class Utility_AES {
+public class UAES {
  
     private static SecretKeySpec secretKey;
     private static byte[] key;

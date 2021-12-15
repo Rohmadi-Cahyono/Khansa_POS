@@ -15,12 +15,12 @@ import javax.swing.text.DocumentFilter;
 import net.proteanit.sql.DbUtils;
 
 public class Item extends javax.swing.JInternalFrame {
-    java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
+    java.sql.Connection con =  new UDbConnection().koneksi();
     private static String  Id;
     private String Pilihan,HBeli,HJual,Disc,Dipilih, Pemanggil;
     DecimalFormat desimalFormat;    
-    Utility_Text ut = new Utility_Text();
-    Utility_Table uts = new Utility_Table();
+    UText ut = new UText();
+    UTable uts = new UTable();
     
     public Item() {
         initComponents();
@@ -37,7 +37,7 @@ public class Item extends javax.swing.JInternalFrame {
         StabelPilihAdd.getViewport().setBackground(new Color(255,255,255)); 
         
         //Merubah Huruf Besar
-        DocumentFilter filter = new Utility_Text();
+        DocumentFilter filter = new UText();
         AbstractDocument isiText = (AbstractDocument) txtKodeAdd.getDocument();
         isiText.setDocumentFilter(filter);
         
@@ -51,6 +51,9 @@ public class Item extends javax.swing.JInternalFrame {
         txtKodeEdit.setBackground(UIManager.getColor(new Color(255,255,255)));         
         txtKodeEdit.setEditable(false);
     }
+    
+
+   
  
    public void Focus(){
        txtSearch.requestFocus();
@@ -68,22 +71,14 @@ public class Item extends javax.swing.JInternalFrame {
     }
 
 
-    private void Tambah(){
-        this.setVisible(false);
-        txtKodeAdd.setText("");
-        BersihAdd();        
-        SwingUtilities.invokeLater(() -> { txtKodeAdd.requestFocusInWindow(); });
-        ItemAdd.setSize(791,477);                     
-        ItemAdd.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);        
-        ItemAdd.setVisible(true); 
-    }
+
     
     public void Edit(){
         this.setVisible(false);
         TampilEdit();
         SwingUtilities.invokeLater(() -> { txtNamaBarangAdd.requestFocusInWindow(); });
         ItemEdit.setSize(791,477);                      
-        ItemEdit.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);        
+        ItemEdit.setLocation((Beranda.SW-791 )/2,(Beranda.SH-477 )/2);        
         ItemEdit.setVisible(true);
     }
    
@@ -119,7 +114,7 @@ public class Item extends javax.swing.JInternalFrame {
             //java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_name, "
-                    + "item_stock, item_unit,item_bprice,item_sprice, item_discount,item_created, item_update FROM items"
+                    + "item_stock, item_unit,item_bprice,item_sprice, item_sdiscount,item_created, item_update FROM items"
                     + " WHERE item_name LIKE '%"+txtSearch.getText()+"%'");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs)); 
             TampilkanDiTabel();
@@ -134,7 +129,7 @@ public class Item extends javax.swing.JInternalFrame {
             //java.sql.Connection con =  new Utility_KoneksiDB().koneksi();
             java.sql.Statement st = con.createStatement();
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code,item_name, "
-                    + "item_stock, item_unit,item_bprice,item_sprice, item_discount,item_created, item_update FROM items WHERE item_delete = 0 ");
+                    + "item_stock, item_unit,item_bprice,item_sprice, item_sdiscount,item_created, item_update FROM items WHERE item_delete = 0 ");
             tableTampil.setModel(DbUtils.resultSetToTableModel(rs));            
             TampilkanDiTabel();         
         } catch (SQLException e) {
@@ -153,9 +148,9 @@ public class Item extends javax.swing.JInternalFrame {
             uts.Header(tableTampil,4,"Satuan",50);
             uts.Header(tableTampil,5,"Harga Beli",100);
             uts.Header(tableTampil,6,"Harga Jual",100);            
-            uts.Header(tableTampil,7,"Discount",50);
-            uts.Header(tableTampil,8,"Date Created",120);
-            uts.Header(tableTampil,9,"Date Update",120);
+            uts.Header(tableTampil,7,"Disc",50);
+            uts.Header(tableTampil,8,"Date Created",125);
+            uts.Header(tableTampil,9,"Date Update",125);
              
             tableTampil.getColumnModel().getColumn(3).setCellRenderer(uts.formatAngka);
             tableTampil.getColumnModel().getColumn(5).setCellRenderer(uts.formatAngka);
@@ -169,7 +164,18 @@ public class Item extends javax.swing.JInternalFrame {
      
      //-------------------------------------Item Add--------------------------------------------------------------------------------------
      
-         private void PopUpCodeAdd(){
+    private void Tambah(){
+        this.setVisible(false);
+        txtKodeAdd.setText("");
+        Bersih();        
+        SwingUtilities.invokeLater(() -> { txtKodeAdd.requestFocusInWindow(); });
+        ItemAdd.setSize(791,462);                     
+        ItemAdd.setLocation(((Beranda.SW+120)-791 )/2,((Beranda.SH+50)-462 )/2);
+        ItemAdd.setBackground(new Color(0, 0, 0, 0));        
+        ItemAdd.setVisible(true); 
+    }
+     
+    private void PopUpCodeAdd(){
         try {
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT item_id,item_code FROM items WHERE item_code LIKE '"+txtKodeAdd.getText()+"%'");
@@ -182,7 +188,7 @@ public class Item extends javax.swing.JInternalFrame {
                 tabelListAdd.setBackground(new Color(255,255,255));
                 tabelListAdd.setShowGrid(false);
                 tabelListAdd.removeColumn(tabelListAdd.getColumnModel().getColumn(0));
-                StabelListAdd.setLocation(130, 130);
+                StabelListAdd.setLocation(txtKodeAdd.getX(), txtKodeAdd.getY()+25);
                 
                 if (rs.getRow() <= 15) {
                     StabelListAdd.setSize(340, (rs.getRow()*17)+2);
@@ -241,7 +247,7 @@ public class Item extends javax.swing.JInternalFrame {
                 tabelListAdd.setBackground(new Color(255,255,255));
                 tabelListAdd.setShowGrid(false);
                 tabelListAdd.removeColumn(tabelListAdd.getColumnModel().getColumn(0));
-                StabelListAdd.setLocation(130, 180);
+                StabelListAdd.setLocation(txtNamaBarangAdd.getX(),txtNamaBarangAdd.getY()+25);
                 
                 if (rs.getRow() <= 15) {
                     StabelListAdd.setSize(340, (rs.getRow()*17)+2);
@@ -279,7 +285,7 @@ public class Item extends javax.swing.JInternalFrame {
                         } else{
                             StabelPilihAdd.setSize(210, (15*17)+2);                    
                         }                  
-                            StabelPilihAdd.setLocation(130, 200);
+                            StabelPilihAdd.setLocation(txtKategoriAdd.getX(), txtKategoriAdd.getY());
                             StabelPilihAdd.setVisible(true); 
                             tabelPilihAdd.requestFocus();
                 } else {
@@ -309,7 +315,7 @@ public class Item extends javax.swing.JInternalFrame {
                         } else{
                             StabelPilihAdd.setSize(210, (15*17)+2);                    
                         }                  
-                            StabelPilihAdd.setLocation(130, 250);
+                            StabelPilihAdd.setLocation(txtSatuanAdd.getX(),txtSatuanAdd.getY());
                             StabelPilihAdd.setVisible(true); 
                             tabelPilihAdd.requestFocus();
                 } else {
@@ -343,7 +349,7 @@ public class Item extends javax.swing.JInternalFrame {
                         String currentTime = sdf.format(dt);
                     
                         String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,"
-                                + "item_bprice,item_sprice,item_discount,item_created) "
+                                + "item_bprice,item_sprice,item_sdiscount,item_created) "
                                 + "VALUES ('"+txtKodeAdd.getText()+"','"+txtNamaBarangAdd.getText()+"','"+txtKategoriAdd.getText()+"',"
                                 + "'"+txtSatuanAdd.getText()+"','"+HBeli+"','"+HJual+"','"+Disc+"','"+currentTime+"')";
                        
@@ -377,27 +383,11 @@ public class Item extends javax.swing.JInternalFrame {
     
 
     
-    private void TambahKategoriAdd(){
-        Pemanggil="Add";
-        ItemAdd.setVisible(false); 
-        txtKategoriTambah.setText("");  
-        SwingUtilities.invokeLater(() -> { txtKategoriTambah.requestFocusInWindow(); });
-        CategoryAdd.setSize(421, 156);                    
-        CategoryAdd.setLocation(((Beranda.PW+120)-421 )/2,((Beranda.PH+50)-156 )/2);
-        CategoryAdd.setVisible(true); 
-    }
+
      
-    private void TambahSatuanAdd(){
-        Pemanggil="Add";
-        ItemAdd.setVisible(false); 
-        txtSatuanTambah.setText(""); 
-        SwingUtilities.invokeLater(() -> { txtSatuanTambah.requestFocusInWindow(); });
-        UnitAdd.setSize(421, 156);                    
-        UnitAdd.setLocation(((Beranda.PW+120)-421 )/2,((Beranda.PH+50)-156 )/2);
-        UnitAdd.setVisible(true); 
-    }
+
    
-    private void BersihAdd(){
+    private void Bersih(){
         StabelPilihAdd.setVisible(false);
         txtDiscountAdd.setText("");
         txtHargaBeliAdd.setText("");
@@ -430,11 +420,11 @@ public class Item extends javax.swing.JInternalFrame {
                     txtSatuanEdit.setText(rs.getString("item_unit"));
                     ut.AngkaToRp(txtHargaBeliEdit,rs.getString("item_bprice"));
                     ut.AngkaToRp(txtHargaJualEdit,rs.getString("item_sprice"));
-                    ut.AngkaToRp(txtDiscountEdit,rs.getString("item_discount"));
+                    ut.AngkaToRp(txtDiscountEdit,rs.getString("item_sdiscount"));
                     
                     HBeli=rs.getString("item_bprice");
                     HJual=rs.getString("item_sprice");
-                    Disc=rs.getString("item_discount");
+                    Disc=rs.getString("item_sdiscount");
                     
                 }
         } catch (SQLException e) {
@@ -557,8 +547,8 @@ public class Item extends javax.swing.JInternalFrame {
                        // Id = ItemForm.Id; 
                         String sql ="UPDATE items SET item_name='"+txtNamaBarangEdit.getText()+"',item_category='"+txtKategoriEdit.getText()+"',"
                                 + "item_unit='"+txtSatuanEdit.getText()+"',item_bprice='"+HBeli+"',item_sprice='"+HJual+"',"
-                                + "item_Discount='"+Disc+"'    WHERE item_id='"+Id+"' "; 
-                       // String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,item_sprice,item_bprice,item_discount,item_created) "
+                                + "item_sdiscount='"+Disc+"'    WHERE item_id='"+Id+"' "; 
+                       // String sql ="INSERT INTO items(item_code,item_name,item_category,item_unit,item_sprice,item_bprice,item_sdiscount,item_created) "
                        //         + "VALUES ('"+txtKode.getText()+"','"+txtNamaBarang.getText()+"','"+txtKategori.getText()+"',"
                        //         + "'"+txtSatuan.getText()+"','"+HJual+"','"+HBeli+"','"+Disc+"','"+currentTime+"')";
                        
@@ -597,7 +587,7 @@ public class Item extends javax.swing.JInternalFrame {
         txtKategoriTambah.setText(""); 
         SwingUtilities.invokeLater(() -> { txtKategoriTambah.requestFocusInWindow(); });
         CategoryAdd.setSize(421, 156);                    
-        CategoryAdd.setLocation(((Beranda.PW+120)-421 )/2,((Beranda.PH+50)-156 )/2);
+        CategoryAdd.setLocation((Beranda.SW-421 )/2,(Beranda.SH-156 )/2);
         CategoryAdd.setVisible(true); 
     }
      
@@ -607,7 +597,7 @@ public class Item extends javax.swing.JInternalFrame {
         txtSatuanTambah.setText("");  
         SwingUtilities.invokeLater(() -> { txtSatuanTambah.requestFocusInWindow(); });
         UnitAdd.setSize(421, 156);                    
-        UnitAdd.setLocation(((Beranda.PW+120)-421 )/2,((Beranda.PH+50)-156 )/2);
+        UnitAdd.setLocation((Beranda.SW-421 )/2,(Beranda.SH-156 )/2);
         UnitAdd.setVisible(true); 
     }   
 
@@ -618,26 +608,37 @@ public class Item extends javax.swing.JInternalFrame {
     }
     
 //------------------------------------CategoryAdd-------------------------------------------------------------
-   private void PopUpKategoriAdd(){
+    
+    private void KategoriFromItemAdd(){       
+        txtKategoriTambah.setText("");  
+        SwingUtilities.invokeLater(() -> { txtKategoriTambah.requestFocusInWindow(); });
+        CategoryAdd.setSize(430, 190);                    
+        CategoryAdd.setLocation(((Beranda.SW+120)-430 )/2,((Beranda.SH+50)-190 )/2);
+        CategoryAdd.setBackground(new Color(0, 0, 0, 0));
+        CategoryAdd.setVisible(true); 
+    
+    }
+    
+    private void PopUpKategoriAdd(){
         try {            
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT category_id,category_name FROM icategory "
                     + "WHERE category_name LIKE '"+txtKategoriTambah.getText()+"%'");
-            ListAdd.setModel(DbUtils.resultSetToTableModel(rs));           
+            ListCategoryAdd.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                ListAdd.setBackground(new Color(255,255,255));
-                ListAdd.setShowGrid(false);
-                ListAdd.removeColumn(ListAdd.getColumnModel().getColumn(0));
+                ListCategoryAdd.setBackground(new Color(255,255,255));
+                ListCategoryAdd.setShowGrid(false);
+                ListCategoryAdd.removeColumn(ListCategoryAdd.getColumnModel().getColumn(0));
                 
                 if (rs.getRow() <= 3) {
-                    SListAdd.setSize(270, (rs.getRow()*17)+2);
+                    SListCategoryAdd.setSize(270, (rs.getRow()*17)+2);
                 } else{
-                    SListAdd.setSize(270, (3*17)+2);                    
+                    SListCategoryAdd.setSize(270, (3*17)+2);                    
                 }
-                    SListAdd.setVisible(true); 
+                    SListCategoryAdd.setVisible(true); 
             } else {
-                    SListAdd.setVisible(false);                
+                    SListCategoryAdd.setVisible(false);                
             }
 
         } catch (SQLException e) {
@@ -667,40 +668,45 @@ public class Item extends javax.swing.JInternalFrame {
     
     private void KeluarKategori(){
         CategoryAdd.setVisible(false);
-        if("Add".equals(Pemanggil)){
-            SwingUtilities.invokeLater(() -> { txtKodeAdd.requestFocusInWindow(); });                             
-            ItemAdd.setSize(791,477);                    
-            ItemAdd.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);
-            ItemAdd.setVisible(true);    
-        }else{
-            SwingUtilities.invokeLater(() -> { txtNamaBarangEdit.requestFocusInWindow(); });                                         
-            ItemEdit.setSize(791,477);                    
-            ItemEdit.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);
-            ItemEdit.setVisible(true); 
-        }
+        txtKategoriAdd.requestFocus();
         
     }
     
 //---------------------------------------------------UnitAdd-----------------------------------------------------------   
+    private void TambahSatuanAdd(){
+        Pemanggil="Add";
+        ItemAdd.setVisible(false); 
+        txtSatuanTambah.setText(""); 
+        SwingUtilities.invokeLater(() -> { txtSatuanTambah.requestFocusInWindow(); });
+        UnitAdd.setSize(421, 156);                    
+        UnitAdd.setLocation((Beranda.SW-421 )/2,(Beranda.SH-156 )/2);
+        UnitAdd.setVisible(true); 
+                txtKategoriTambah.setText("");  
+        SwingUtilities.invokeLater(() -> { txtKategoriTambah.requestFocusInWindow(); });
+        CategoryAdd.setSize(430, 190);                    
+        CategoryAdd.setLocation(((Beranda.SW+120)-430 )/2,((Beranda.SH+50)-190 )/2);
+        CategoryAdd.setBackground(new Color(0, 0, 0, 0));
+        CategoryAdd.setVisible(true); 
+    }
        private void PopUpSatuan(){
         try {           
             java.sql.Statement st = con.createStatement();           
             java.sql.ResultSet rs = st.executeQuery("SELECT unit_id,unit_name FROM iunits WHERE unit_name LIKE '"+txtSatuanTambah.getText()+"%'");
-            ListUnit.setModel(DbUtils.resultSetToTableModel(rs));           
+            ListUnitAdd.setModel(DbUtils.resultSetToTableModel(rs));           
             
             if(rs.last()){   
-                ListUnit.setBackground(new Color(255,255,255));
-                ListUnit.setShowGrid(false);
-                ListUnit.removeColumn(ListUnit.getColumnModel().getColumn(0));
+                ListUnitAdd.setBackground(new Color(255,255,255));
+                ListUnitAdd.setShowGrid(false);
+                ListUnitAdd.removeColumn(ListUnitAdd.getColumnModel().getColumn(0));
                 
                 if (rs.getRow() <= 3) {
-                    SListUnit.setSize(200, (rs.getRow()*17)+2);
+                    SListUnitAdd.setSize(200, (rs.getRow()*17)+2);
                 } else{
-                    SListUnit.setSize(200, (3*17)+2);                    
+                    SListUnitAdd.setSize(200, (3*17)+2);                    
                 }
-                    SListUnit.setVisible(true); 
+                    SListUnitAdd.setVisible(true); 
             } else {
-                    SListUnit.setVisible(false);                
+                    SListUnitAdd.setVisible(false);                
             }
 
         } catch (SQLException e) {
@@ -733,12 +739,12 @@ public class Item extends javax.swing.JInternalFrame {
         if("Add".equals(Pemanggil)){
             SwingUtilities.invokeLater(() -> { txtKodeAdd.requestFocusInWindow(); });                                          
             ItemAdd.setSize(791,477);                    
-            ItemAdd.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);
+            ItemAdd.setLocation((Beranda.SW-791 )/2,(Beranda.SH-477 )/2);
             ItemAdd.setVisible(true);
         }else{
             SwingUtilities.invokeLater(() -> { txtNamaBarangEdit.requestFocusInWindow(); });                                         
             ItemEdit.setSize(791,477);                    
-            ItemEdit.setLocation(((Beranda.PW+120)-791 )/2,((Beranda.PH+50)-477 )/2);
+            ItemEdit.setLocation((Beranda.SW-791 )/2,(Beranda.SH-477 )/2);
             ItemEdit.setVisible(true); 
         }        
     }
@@ -754,26 +760,20 @@ public class Item extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         ItemAdd = new javax.swing.JDialog();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        btnCloseAdd = new khansapos.Utility_ButtonMetro();
-        StabelListAdd = new javax.swing.JScrollPane();
-        tabelListAdd =  new javax.swing.JTable(){
-            public boolean isCellEditable(int rowIndex, int colIndex) {
-                return false;
-            }
-        };
+        uPanelRoundrect1 = new Utility.UPanelRoundrect();
+        uPanelRoundrect2 = new Utility.UPanelRoundrect();
         StabelPilihAdd = new javax.swing.JScrollPane();
         tabelPilihAdd = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false;
             }
         };
-        txtKodeAdd = new javax.swing.JTextField();
-        txtNamaBarangAdd = new javax.swing.JTextField();
-        txtKategoriAdd = new javax.swing.JTextField();
-        txtSatuanAdd = new javax.swing.JTextField();
+        StabelListAdd = new javax.swing.JScrollPane();
+        tabelListAdd =  new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
         jLabel4 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
@@ -782,25 +782,26 @@ public class Item extends javax.swing.JInternalFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtHargaBeliAdd = new javax.swing.JTextField();
         jSeparator9 = new javax.swing.JSeparator();
-        txtHargaJualAdd = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
-        txtDiscountAdd = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jSeparator11 = new javax.swing.JSeparator();
-        btnSimpan = new khansapos.Utility_ButtonFlat();
-        btnBersih = new khansapos.Utility_ButtonFlat();
-        btnTambahKategoriAdd = new khansapos.Utility_ButtonFlat();
-        btnTambahSatuanAdd = new khansapos.Utility_ButtonFlat();
+        btnBersih = new Utility.UButton();
+        btnSimpan = new Utility.UButton();
+        txtKodeAdd = new javax.swing.JTextField();
+        txtNamaBarangAdd = new javax.swing.JTextField();
+        txtKategoriAdd = new javax.swing.JTextField();
+        txtSatuanAdd = new javax.swing.JTextField();
+        txtHargaBeliAdd = new javax.swing.JTextField();
+        txtHargaJualAdd = new javax.swing.JTextField();
+        txtDiscountAdd = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        btnCloseAdd = new Utility.UButton();
         ItemEdit = new javax.swing.JDialog();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        btnCloseEdit = new khansapos.Utility_ButtonMetro();
+        uPanelRoundrect3 = new Utility.UPanelRoundrect();
+        uPanelRoundrect4 = new Utility.UPanelRoundrect();
         StabelListEdit = new javax.swing.JScrollPane();
         tabelListEdit =  new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -813,61 +814,57 @@ public class Item extends javax.swing.JInternalFrame {
                 return false;
             }
         };
-        txtKodeEdit = new javax.swing.JTextField();
-        txtNamaBarangEdit = new javax.swing.JTextField();
-        txtKategoriEdit = new javax.swing.JTextField();
-        txtSatuanEdit = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        txtKodeEdit = new javax.swing.JTextField();
         jSeparator7 = new javax.swing.JSeparator();
         jLabel13 = new javax.swing.JLabel();
+        txtNamaBarangEdit = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
+        txtKategoriEdit = new javax.swing.JTextField();
         jSeparator12 = new javax.swing.JSeparator();
         jLabel15 = new javax.swing.JLabel();
+        txtSatuanEdit = new javax.swing.JTextField();
         jSeparator13 = new javax.swing.JSeparator();
-        jLabel16 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
         txtHargaBeliEdit = new javax.swing.JTextField();
         jSeparator14 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
         txtHargaJualEdit = new javax.swing.JTextField();
         jSeparator15 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
         txtDiscountEdit = new javax.swing.JTextField();
         jSeparator16 = new javax.swing.JSeparator();
-        btnUpdate = new khansapos.Utility_ButtonFlat();
-        btnTambahKategoriEdit = new khansapos.Utility_ButtonFlat();
-        btnTambahSatuanEdit = new khansapos.Utility_ButtonFlat();
+        jLabel11 = new javax.swing.JLabel();
+        btnCloseEdit = new Utility.UButton();
         CategoryAdd = new javax.swing.JDialog();
-        jPanel8 = new javax.swing.JPanel();
-        txtKategoriTambah = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
-        btnCloseKategori = new khansapos.Utility_ButtonMetro();
-        SListAdd = new javax.swing.JScrollPane();
-        ListAdd = new javax.swing.JTable(){
+        uPanelRoundrect5 = new Utility.UPanelRoundrect();
+        uPanelRoundrect6 = new Utility.UPanelRoundrect();
+        btnSimpanKategori = new Utility.UButton();
+        SListCategoryAdd = new javax.swing.JScrollPane();
+        ListCategoryAdd = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false;
             }
         };
-        jSeparator17 = new javax.swing.JSeparator();
         jLabel20 = new javax.swing.JLabel();
-        btnSimpanKategori = new khansapos.Utility_ButtonFlat();
+        jSeparator17 = new javax.swing.JSeparator();
+        txtKategoriTambah = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        btnCloseKategori = new Utility.UButton();
         UnitAdd = new javax.swing.JDialog();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        btnCloseUnit = new khansapos.Utility_ButtonMetro();
+        uPanelRoundrect7 = new Utility.UPanelRoundrect();
+        uPanelRoundrect8 = new Utility.UPanelRoundrect();
+        btnSimpanSatuan = new Utility.UButton();
+        SListUnitAdd = new javax.swing.JScrollPane();
+        ListUnitAdd = new javax.swing.JTable();
         jLabel22 = new javax.swing.JLabel();
-        txtSatuanTambah = new javax.swing.JTextField();
-        SListUnit = new javax.swing.JScrollPane();
-        ListUnit = new javax.swing.JTable();
         jSeparator18 = new javax.swing.JSeparator();
-        btnSimpanUnit = new khansapos.Utility_ButtonFlat();
+        txtSatuanTambah = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        btnCloseSatuan = new Utility.UButton();
         jPanel1 = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
-        btnEdit = new khansapos.Utility_ButtonFlat();
-        btnHapus = new khansapos.Utility_ButtonFlat();
         SPtableTampil = new javax.swing.JScrollPane();
         tableTampil = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -879,91 +876,25 @@ public class Item extends javax.swing.JInternalFrame {
         txtSearch = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        btnTambah = new khansapos.Utility_ButtonFlat();
+        btnTambah = new Utility.UButton();
 
         ItemAdd.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         ItemAdd.setMinimumSize(new java.awt.Dimension(791, 477));
-        ItemAdd.setModal(true);
         ItemAdd.setUndecorated(true);
+        ItemAdd.setPreferredSize(new java.awt.Dimension(791, 462));
+        ItemAdd.setSize(new java.awt.Dimension(791, 462));
+        ItemAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
-        jPanel2.setPreferredSize(new java.awt.Dimension(791, 477));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect1.setKetebalanBorder(2.5F);
+        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(800, 500));
+        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(87, 176, 86));
-
-        jLabel3.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Tambah Barang");
-
-        btnCloseAdd.setMnemonic('c');
-        btnCloseAdd.setText("Close");
-        btnCloseAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseAddActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 492, Short.MAX_VALUE)
-                .addComponent(btnCloseAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(btnCloseAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, -1));
-
-        StabelListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
-        StabelListAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        StabelListAdd.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        StabelListAdd.setFocusable(false);
-
-        tabelListAdd.setForeground(new java.awt.Color(153, 153, 153));
-        tabelListAdd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null}
-            },
-            new String [] {
-                ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabelListAdd.setGridColor(new java.awt.Color(255, 255, 255));
-        tabelListAdd.setShowGrid(false);
-        tabelListAdd.setSurrendersFocusOnKeystroke(true);
-        tabelListAdd.setTableHeader(null
-        );
-        StabelListAdd.setViewportView(tabelListAdd);
-
-        jPanel2.add(StabelListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 340, 0));
+        uPanelRoundrect2.setKetebalanBorder(2.5F);
+        uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(780, 420));
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StabelPilihAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         StabelPilihAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1011,29 +942,147 @@ public class Item extends javax.swing.JInternalFrame {
         });
         StabelPilihAdd.setViewportView(tabelPilihAdd);
 
-        jPanel2.add(StabelPilihAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 170, 0));
+        uPanelRoundrect2.add(StabelPilihAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 170, 0));
+
+        StabelListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        StabelListAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        StabelListAdd.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        StabelListAdd.setFocusable(false);
+
+        tabelListAdd.setForeground(new java.awt.Color(153, 153, 153));
+        tabelListAdd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelListAdd.setGridColor(new java.awt.Color(255, 255, 255));
+        tabelListAdd.setShowGrid(false);
+        tabelListAdd.setSurrendersFocusOnKeystroke(true);
+        tabelListAdd.setTableHeader(null
+        );
+        StabelListAdd.setViewportView(tabelListAdd);
+
+        uPanelRoundrect2.add(StabelListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 340, 0));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setText("Kode");
+        jLabel4.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 20));
+
+        jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 335, 10));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Nama Barang");
+        jLabel5.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
+
+        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 580, 10));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel6.setText("Kategori");
+        jLabel6.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, 20));
+
+        jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 220, -1));
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel7.setText("Satuan");
+        jLabel7.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 76, 20));
+
+        jSeparator6.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 220, 10));
+
+        jLabel9.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel9.setText("Harga Beli");
+        jLabel9.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, 20));
+
+        jSeparator9.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 130, 10));
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel10.setText("Harga Jual");
+        jLabel10.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, 20));
+
+        jSeparator10.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 130, 10));
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel8.setText("Discount");
+        jLabel8.setToolTipText(null);
+        uPanelRoundrect2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, 20));
+
+        jSeparator11.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect2.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 130, 10));
+
+        btnBersih.setMnemonic('h');
+        btnBersih.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnBersih.setKetebalanBorder(2.5F);
+        btnBersih.setKetumpulanSudut(35);
+        btnBersih.setLabel("Bersih");
+        btnBersih.setPreferredSize(new java.awt.Dimension(120, 38));
+        btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnBersih.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnBersih.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnBersih.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        btnBersih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBersihActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect2.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, -1, -1));
+
+        btnSimpan.setMnemonic('s');
+        btnSimpan.setText("Simpan");
+        btnSimpan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpan.setKetebalanBorder(2.5F);
+        btnSimpan.setKetumpulanSudut(35);
+        btnSimpan.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnSimpan.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 360, -1, -1));
 
         txtKodeAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtKodeAdd.setForeground(new java.awt.Color(204, 204, 204));
         txtKodeAdd.setToolTipText(null);
         txtKodeAdd.setBorder(null);
+        txtKodeAdd.setDisabledTextColor(new java.awt.Color(204, 204, 204));
         txtKodeAdd.setOpaque(false);
-        txtKodeAdd.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtKodeAddFocusLost(evt);
-            }
-        });
-        txtKodeAdd.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtKodeAddKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtKodeAddKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtKodeAddKeyTyped(evt);
-            }
-        });
-        jPanel2.add(txtKodeAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 335, -1));
+        uPanelRoundrect2.add(txtKodeAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 335, -1));
 
         txtNamaBarangAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtNamaBarangAdd.setToolTipText(null);
@@ -1052,7 +1101,7 @@ public class Item extends javax.swing.JInternalFrame {
                 txtNamaBarangAddKeyReleased(evt);
             }
         });
-        jPanel2.add(txtNamaBarangAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 500, -1));
+        uPanelRoundrect2.add(txtNamaBarangAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 500, -1));
 
         txtKategoriAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtKategoriAdd.setToolTipText(null);
@@ -1068,7 +1117,7 @@ public class Item extends javax.swing.JInternalFrame {
                 txtKategoriAddKeyPressed(evt);
             }
         });
-        jPanel2.add(txtKategoriAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 190, -1));
+        uPanelRoundrect2.add(txtKategoriAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 190, -1));
 
         txtSatuanAdd.setEditable(false);
         txtSatuanAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
@@ -1085,66 +1134,7 @@ public class Item extends javax.swing.JInternalFrame {
                 txtSatuanAddKeyPressed(evt);
             }
         });
-        jPanel2.add(txtSatuanAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 190, -1));
-
-        jLabel4.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel4.setText("Kode");
-        jLabel4.setToolTipText(null);
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 101, -1, 20));
-        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 335, 10));
-
-        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Nama Barang");
-        jLabel5.setToolTipText(null);
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 149, -1, 20));
-        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 580, 10));
-
-        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("Kategori");
-        jLabel6.setToolTipText(null);
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 197, -1, 20));
-        jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 220, -1));
-
-        jLabel7.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("Satuan");
-        jLabel7.setToolTipText(null);
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 245, 76, 20));
-        jPanel2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 220, 10));
-
-        jLabel8.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel8.setText("Discount");
-        jLabel8.setToolTipText(null);
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, 20));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("Harga Beli");
-        jLabel9.setToolTipText(null);
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, 20));
-
-        jLabel10.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Harga Jual");
-        jLabel10.setToolTipText(null);
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, 20));
+        uPanelRoundrect2.add(txtSatuanAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 190, -1));
 
         txtHargaBeliAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtHargaBeliAdd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1167,8 +1157,7 @@ public class Item extends javax.swing.JInternalFrame {
                 txtHargaBeliAddKeyTyped(evt);
             }
         });
-        jPanel2.add(txtHargaBeliAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 130, -1));
-        jPanel2.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 130, 10));
+        uPanelRoundrect2.add(txtHargaBeliAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 130, -1));
 
         txtHargaJualAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtHargaJualAdd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1191,8 +1180,7 @@ public class Item extends javax.swing.JInternalFrame {
                 txtHargaJualAddKeyTyped(evt);
             }
         });
-        jPanel2.add(txtHargaJualAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 130, -1));
-        jPanel2.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 130, 10));
+        uPanelRoundrect2.add(txtHargaJualAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 130, -1));
 
         txtDiscountAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtDiscountAdd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1215,109 +1203,41 @@ public class Item extends javax.swing.JInternalFrame {
                 txtDiscountAddKeyTyped(evt);
             }
         });
-        jPanel2.add(txtDiscountAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 130, -1));
-        jPanel2.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 130, 10));
+        uPanelRoundrect2.add(txtDiscountAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 130, -1));
 
-        btnSimpan.setMnemonic('s');
-        btnSimpan.setText("Simpan");
-        btnSimpan.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpan.setMousePress(new java.awt.Color(204, 204, 204));
-        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+        uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Tambah Barang");
+        uPanelRoundrect1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        btnCloseAdd.setMnemonic('c');
+        btnCloseAdd.setText("Close");
+        btnCloseAdd.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanActionPerformed(evt);
+                btnCloseAddActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 420, 210, 30));
+        uPanelRoundrect1.add(btnCloseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, -1, -1));
 
-        btnBersih.setMnemonic('b');
-        btnBersih.setText("Bersih");
-        btnBersih.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnBersih.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnBersih.setMousePress(new java.awt.Color(204, 204, 204));
-        btnBersih.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnBersih.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBersihActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnBersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 90, 30));
-
-        btnTambahKategoriAdd.setMnemonic('i');
-        btnTambahKategoriAdd.setText("+");
-        btnTambahKategoriAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        btnTambahKategoriAdd.setMousePress(new java.awt.Color(204, 204, 204));
-        btnTambahKategoriAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahKategoriAddActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnTambahKategoriAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, 30));
-
-        btnTambahSatuanAdd.setMnemonic('n');
-        btnTambahSatuanAdd.setText("+");
-        btnTambahSatuanAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        btnTambahSatuanAdd.setMousePress(new java.awt.Color(204, 204, 204));
-        btnTambahSatuanAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahSatuanAddActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnTambahSatuanAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, 30));
-
-        javax.swing.GroupLayout ItemAddLayout = new javax.swing.GroupLayout(ItemAdd.getContentPane());
-        ItemAdd.getContentPane().setLayout(ItemAddLayout);
-        ItemAddLayout.setHorizontalGroup(
-            ItemAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        ItemAddLayout.setVerticalGroup(
-            ItemAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        ItemAdd.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         ItemEdit.setModal(true);
         ItemEdit.setUndecorated(true);
+        ItemEdit.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(235, 154, 35)));
-        jPanel4.setPreferredSize(new java.awt.Dimension(791, 477));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect3.setKetebalanBorder(2.5F);
+        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(800, 500));
+        uPanelRoundrect3.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        uPanelRoundrect3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel6.setBackground(new java.awt.Color(235, 154, 35));
-
-        jLabel11.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Edit Barang");
-
-        btnCloseEdit.setMnemonic('c');
-        btnCloseEdit.setText("Close");
-        btnCloseEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseEditActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 544, Short.MAX_VALUE)
-                .addComponent(btnCloseEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(btnCloseEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, -1));
+        uPanelRoundrect4.setKetebalanBorder(2.5F);
+        uPanelRoundrect4.setPreferredSize(new java.awt.Dimension(780, 420));
+        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        uPanelRoundrect4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StabelListEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         StabelListEdit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1355,7 +1275,7 @@ public class Item extends javax.swing.JInternalFrame {
         );
         StabelListEdit.setViewportView(tabelListEdit);
 
-        jPanel4.add(StabelListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 340, 0));
+        uPanelRoundrect4.add(StabelListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 340, 0));
 
         StabelPilihEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         StabelPilihEdit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1403,7 +1323,13 @@ public class Item extends javax.swing.JInternalFrame {
         });
         StabelPilihEdit.setViewportView(tabelPilihEdit);
 
-        jPanel4.add(StabelPilihEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 170, 0));
+        uPanelRoundrect4.add(StabelPilihEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 170, 0));
+
+        jLabel12.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel12.setText("Kode");
+        jLabel12.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 20));
 
         txtKodeEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtKodeEdit.setForeground(new java.awt.Color(204, 204, 204));
@@ -1411,7 +1337,16 @@ public class Item extends javax.swing.JInternalFrame {
         txtKodeEdit.setBorder(null);
         txtKodeEdit.setDisabledTextColor(new java.awt.Color(204, 204, 204));
         txtKodeEdit.setOpaque(false);
-        jPanel4.add(txtKodeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 335, -1));
+        uPanelRoundrect4.add(txtKodeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 335, -1));
+
+        jSeparator7.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 335, 10));
+
+        jLabel13.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel13.setText("Nama Barang");
+        jLabel13.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 20));
 
         txtNamaBarangEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtNamaBarangEdit.setToolTipText(null);
@@ -1430,7 +1365,16 @@ public class Item extends javax.swing.JInternalFrame {
                 txtNamaBarangEditKeyReleased(evt);
             }
         });
-        jPanel4.add(txtNamaBarangEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 500, -1));
+        uPanelRoundrect4.add(txtNamaBarangEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 500, -1));
+
+        jSeparator8.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 580, 10));
+
+        jLabel14.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel14.setText("Kategori");
+        jLabel14.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, 20));
 
         txtKategoriEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtKategoriEdit.setToolTipText(null);
@@ -1446,7 +1390,16 @@ public class Item extends javax.swing.JInternalFrame {
                 txtKategoriEditKeyPressed(evt);
             }
         });
-        jPanel4.add(txtKategoriEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 190, -1));
+        uPanelRoundrect4.add(txtKategoriEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 190, -1));
+
+        jSeparator12.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 220, -1));
+
+        jLabel15.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel15.setText("Satuan");
+        jLabel15.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 76, 20));
 
         txtSatuanEdit.setEditable(false);
         txtSatuanEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
@@ -1463,66 +1416,16 @@ public class Item extends javax.swing.JInternalFrame {
                 txtSatuanEditKeyPressed(evt);
             }
         });
-        jPanel4.add(txtSatuanEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 190, -1));
+        uPanelRoundrect4.add(txtSatuanEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 190, -1));
 
-        jLabel12.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel12.setText("Kode");
-        jLabel12.setToolTipText(null);
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 101, -1, 20));
-        jPanel4.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 335, 10));
+        jSeparator13.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 220, 10));
 
-        jLabel13.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel13.setText("Nama Barang");
-        jLabel13.setToolTipText(null);
-        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 149, -1, 20));
-        jPanel4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 580, 10));
-
-        jLabel14.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel14.setText("Kategori");
-        jLabel14.setToolTipText(null);
-        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 197, -1, 20));
-        jPanel4.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 220, -1));
-
-        jLabel15.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel15.setText("Satuan");
-        jLabel15.setToolTipText(null);
-        jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 245, 76, 20));
-        jPanel4.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 220, 10));
-
-        jLabel16.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel16.setText("Discount");
-        jLabel16.setToolTipText(null);
-        jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, 20));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
         jLabel17.setText("Harga Beli");
         jLabel17.setToolTipText(null);
-        jPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, 20));
-
-        jLabel18.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel18.setText("Harga Jual");
-        jLabel18.setToolTipText(null);
-        jPanel4.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, 20));
+        uPanelRoundrect4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 20));
 
         txtHargaBeliEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtHargaBeliEdit.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1545,8 +1448,16 @@ public class Item extends javax.swing.JInternalFrame {
                 txtHargaBeliEditKeyTyped(evt);
             }
         });
-        jPanel4.add(txtHargaBeliEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 130, -1));
-        jPanel4.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 130, 10));
+        uPanelRoundrect4.add(txtHargaBeliEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 130, -1));
+
+        jSeparator14.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, 130, 10));
+
+        jLabel18.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel18.setText("Harga Jual");
+        jLabel18.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, 20));
 
         txtHargaJualEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtHargaJualEdit.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1569,8 +1480,16 @@ public class Item extends javax.swing.JInternalFrame {
                 txtHargaJualEditKeyTyped(evt);
             }
         });
-        jPanel4.add(txtHargaJualEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 130, -1));
-        jPanel4.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 130, 10));
+        uPanelRoundrect4.add(txtHargaJualEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 130, -1));
+
+        jSeparator15.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 130, 10));
+
+        jLabel16.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel16.setText("Discount");
+        jLabel16.setToolTipText(null);
+        uPanelRoundrect4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, 20));
 
         txtDiscountEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         txtDiscountEdit.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -1593,227 +1512,71 @@ public class Item extends javax.swing.JInternalFrame {
                 txtDiscountEditKeyTyped(evt);
             }
         });
-        jPanel4.add(txtDiscountEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 130, -1));
-        jPanel4.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 130, 10));
+        uPanelRoundrect4.add(txtDiscountEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 130, -1));
 
-        btnUpdate.setMnemonic('s');
-        btnUpdate.setText("Update");
-        btnUpdate.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnUpdate.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnUpdate.setMousePress(new java.awt.Color(255, 231, 112));
-        btnUpdate.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        jSeparator16.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, 130, 10));
+
+        uPanelRoundrect3.add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Edit Barang");
+        uPanelRoundrect3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        btnCloseEdit.setMnemonic('c');
+        btnCloseEdit.setText("Close");
+        btnCloseEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(255, 255, 255));
+        btnCloseEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBorder(new java.awt.Color(255, 180, 61));
+        btnCloseEdit.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnCloseEditActionPerformed(evt);
             }
         });
-        jPanel4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 420, 210, 30));
+        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, -1, -1));
 
-        btnTambahKategoriEdit.setMnemonic('i');
-        btnTambahKategoriEdit.setText("+");
-        btnTambahKategoriEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        btnTambahKategoriEdit.setMousePress(new java.awt.Color(204, 204, 204));
-        btnTambahKategoriEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahKategoriEditActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnTambahKategoriEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, 30));
-
-        btnTambahSatuanEdit.setMnemonic('n');
-        btnTambahSatuanEdit.setText("+");
-        btnTambahSatuanEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        btnTambahSatuanEdit.setMousePress(new java.awt.Color(204, 204, 204));
-        btnTambahSatuanEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahSatuanEditActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnTambahSatuanEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, 30));
-
-        javax.swing.GroupLayout ItemEditLayout = new javax.swing.GroupLayout(ItemEdit.getContentPane());
-        ItemEdit.getContentPane().setLayout(ItemEditLayout);
-        ItemEditLayout.setHorizontalGroup(
-            ItemEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        ItemEditLayout.setVerticalGroup(
-            ItemEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        ItemEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         CategoryAdd.setModal(true);
         CategoryAdd.setUndecorated(true);
+        CategoryAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
-        jPanel8.setPreferredSize(new java.awt.Dimension(421, 156));
-        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        uPanelRoundrect5.setKetebalanBorder(2.5F);
+        uPanelRoundrect5.setPreferredSize(new java.awt.Dimension(450, 190));
+        uPanelRoundrect5.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect5.setWarnaBorder(new java.awt.Color(164, 253, 163));
 
-        txtKategoriTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        txtKategoriTambah.setToolTipText(null);
-        txtKategoriTambah.setBorder(null);
-        txtKategoriTambah.setOpaque(false);
-        txtKategoriTambah.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtKategoriTambahKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtKategoriTambahKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtKategoriTambahKeyTyped(evt);
-            }
-        });
-        jPanel8.add(txtKategoriTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 270, -1));
-
-        jPanel9.setBackground(new java.awt.Color(87, 176, 86));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel19.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Tambah Kategori");
-        jPanel9.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 34));
-
-        btnCloseKategori.setMnemonic('c');
-        btnCloseKategori.setText("Close");
-        btnCloseKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseKategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseKategoriActionPerformed(evt);
-            }
-        });
-        jPanel9.add(btnCloseKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(341, 0, 80, 40));
-
-        jPanel8.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 420, -1));
-
-        SListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
-        SListAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        SListAdd.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        SListAdd.setFocusable(false);
-        SListAdd.setPreferredSize(new java.awt.Dimension(200, 200));
-
-        ListAdd.setForeground(new java.awt.Color(153, 153, 153));
-        ListAdd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null}
-            },
-            new String [] {
-                ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        ListAdd.setGridColor(new java.awt.Color(255, 255, 255));
-        ListAdd.setShowGrid(false);
-        ListAdd.setSurrendersFocusOnKeystroke(true);
-        ListAdd.setTableHeader(null
-        );
-        SListAdd.setViewportView(ListAdd);
-
-        jPanel8.add(SListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 90, 260, 0));
-        jPanel8.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 270, 10));
-
-        jLabel20.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel20.setText("Kategori");
-        jLabel20.setToolTipText(null);
-        jPanel8.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 70, 20));
+        uPanelRoundrect6.setKetebalanBorder(2.5F);
+        uPanelRoundrect6.setPreferredSize(new java.awt.Dimension(430, 120));
+        uPanelRoundrect6.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnSimpanKategori.setMnemonic('s');
         btnSimpanKategori.setText("Simpan");
-        btnSimpanKategori.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpanKategori.setMousePress(new java.awt.Color(204, 204, 204));
+        btnSimpanKategori.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpanKategori.setKetebalanBorder(2.5F);
+        btnSimpanKategori.setKetumpulanSudut(35);
+        btnSimpanKategori.setPreferredSize(new java.awt.Dimension(120, 32));
+        btnSimpanKategori.setPress(true);
+        btnSimpanKategori.setWarnaBorder(new java.awt.Color(164, 253, 163));
         btnSimpanKategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanKategoriActionPerformed(evt);
             }
         });
-        jPanel8.add(btnSimpanKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 90, 30));
+        uPanelRoundrect6.add(btnSimpanKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 77, -1, -1));
 
-        javax.swing.GroupLayout CategoryAddLayout = new javax.swing.GroupLayout(CategoryAdd.getContentPane());
-        CategoryAdd.getContentPane().setLayout(CategoryAddLayout);
-        CategoryAddLayout.setHorizontalGroup(
-            CategoryAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        CategoryAddLayout.setVerticalGroup(
-            CategoryAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        SListCategoryAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        SListCategoryAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        SListCategoryAdd.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        SListCategoryAdd.setFocusable(false);
+        SListCategoryAdd.setPreferredSize(new java.awt.Dimension(200, 200));
 
-        UnitAdd.setModal(true);
-        UnitAdd.setUndecorated(true);
-
-        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(87, 176, 86)));
-        jPanel10.setPreferredSize(new java.awt.Dimension(421, 156));
-        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel11.setBackground(new java.awt.Color(87, 176, 86));
-        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel21.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Tambah Satuan");
-        jPanel11.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 2, -1, 34));
-
-        btnCloseUnit.setMnemonic('c');
-        btnCloseUnit.setText("Close");
-        btnCloseUnit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        btnCloseUnit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseUnitActionPerformed(evt);
-            }
-        });
-        jPanel11.add(btnCloseUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 80, 40));
-
-        jPanel10.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, -1));
-
-        jLabel22.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 12)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel22.setText("Satuan");
-        jLabel22.setToolTipText(null);
-        jPanel10.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 76, 20));
-
-        txtSatuanTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        txtSatuanTambah.setToolTipText(null);
-        txtSatuanTambah.setBorder(null);
-        txtSatuanTambah.setOpaque(false);
-        txtSatuanTambah.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSatuanTambahKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSatuanTambahKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSatuanTambahKeyTyped(evt);
-            }
-        });
-        jPanel10.add(txtSatuanTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 190, -1));
-
-        SListUnit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
-        SListUnit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        SListUnit.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        SListUnit.setFocusable(false);
-        SListUnit.setPreferredSize(new java.awt.Dimension(200, 200));
-
-        ListUnit.setForeground(new java.awt.Color(153, 153, 153));
-        ListUnit.setModel(new javax.swing.table.DefaultTableModel(
+        ListCategoryAdd.setForeground(new java.awt.Color(153, 153, 153));
+        ListCategoryAdd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null}
             },
@@ -1836,37 +1599,196 @@ public class Item extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        ListUnit.setGridColor(new java.awt.Color(255, 255, 255));
-        ListUnit.setShowGrid(false);
-        ListUnit.setSurrendersFocusOnKeystroke(true);
-        ListUnit.setTableHeader(null
+        ListCategoryAdd.setGridColor(new java.awt.Color(255, 255, 255));
+        ListCategoryAdd.setShowGrid(false);
+        ListCategoryAdd.setSurrendersFocusOnKeystroke(true);
+        ListCategoryAdd.setTableHeader(null
         );
-        SListUnit.setViewportView(ListUnit);
+        SListCategoryAdd.setViewportView(ListCategoryAdd);
 
-        jPanel10.add(SListUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 90, -1, 0));
-        jPanel10.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 220, 10));
+        uPanelRoundrect6.add(SListCategoryAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 260, 0));
 
-        btnSimpanUnit.setMnemonic('s');
-        btnSimpanUnit.setText("Simpan");
-        btnSimpanUnit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnSimpanUnit.setMousePress(new java.awt.Color(204, 204, 204));
-        btnSimpanUnit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanUnitActionPerformed(evt);
+        jLabel20.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel20.setText("Kategori");
+        jLabel20.setToolTipText(null);
+        uPanelRoundrect6.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 70, 20));
+
+        jSeparator17.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect6.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 270, 10));
+
+        txtKategoriTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtKategoriTambah.setToolTipText(null);
+        txtKategoriTambah.setBorder(null);
+        txtKategoriTambah.setOpaque(false);
+        txtKategoriTambah.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKategoriTambahFocusGained(evt);
             }
         });
-        jPanel10.add(btnSimpanUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 90, 30));
+        txtKategoriTambah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtKategoriTambahKeyPressed(evt);
+            }
+        });
+        uPanelRoundrect6.add(txtKategoriTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 270, -1));
 
-        javax.swing.GroupLayout UnitAddLayout = new javax.swing.GroupLayout(UnitAdd.getContentPane());
-        UnitAdd.getContentPane().setLayout(UnitAddLayout);
-        UnitAddLayout.setHorizontalGroup(
-            UnitAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jLabel19.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("Tambah Kategori");
+
+        btnCloseKategori.setText("Close");
+        btnCloseKategori.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCloseKategori.setWarnaBorder(new java.awt.Color(113, 202, 112));
+        btnCloseKategori.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseKategoriActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout uPanelRoundrect5Layout = new javax.swing.GroupLayout(uPanelRoundrect5);
+        uPanelRoundrect5.setLayout(uPanelRoundrect5Layout);
+        uPanelRoundrect5Layout.setHorizontalGroup(
+            uPanelRoundrect5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(uPanelRoundrect5Layout.createSequentialGroup()
+                .addGroup(uPanelRoundrect5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(uPanelRoundrect5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(uPanelRoundrect6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(uPanelRoundrect5Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCloseKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-        UnitAddLayout.setVerticalGroup(
-            UnitAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        uPanelRoundrect5Layout.setVerticalGroup(
+            uPanelRoundrect5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uPanelRoundrect5Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(uPanelRoundrect5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCloseKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(uPanelRoundrect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        CategoryAdd.getContentPane().add(uPanelRoundrect5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        UnitAdd.setModal(true);
+        UnitAdd.setUndecorated(true);
+        UnitAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        uPanelRoundrect7.setKetebalanBorder(2.5F);
+        uPanelRoundrect7.setPreferredSize(new java.awt.Dimension(450, 190));
+        uPanelRoundrect7.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect7.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        uPanelRoundrect8.setKetebalanBorder(2.5F);
+        uPanelRoundrect8.setPreferredSize(new java.awt.Dimension(430, 120));
+        uPanelRoundrect8.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnSimpanSatuan.setMnemonic('s');
+        btnSimpanSatuan.setText("Simpan");
+        btnSimpanSatuan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpanSatuan.setKetebalanBorder(2.5F);
+        btnSimpanSatuan.setKetumpulanSudut(35);
+        btnSimpanSatuan.setPreferredSize(new java.awt.Dimension(120, 32));
+        btnSimpanSatuan.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnSimpanSatuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanSatuanActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect8.add(btnSimpanSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, -1, -1));
+
+        SListUnitAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        SListUnitAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        SListUnitAdd.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        SListUnitAdd.setFocusable(false);
+        SListUnitAdd.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        ListUnitAdd.setForeground(new java.awt.Color(153, 153, 153));
+        ListUnitAdd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ListUnitAdd.setGridColor(new java.awt.Color(255, 255, 255));
+        ListUnitAdd.setShowGrid(false);
+        ListUnitAdd.setSurrendersFocusOnKeystroke(true);
+        ListUnitAdd.setTableHeader(null
+        );
+        SListUnitAdd.setViewportView(ListUnitAdd);
+
+        uPanelRoundrect8.add(SListUnitAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, -1, 0));
+
+        jLabel22.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel22.setText("Satuan");
+        jLabel22.setToolTipText(null);
+        uPanelRoundrect8.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 76, 20));
+
+        jSeparator18.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect8.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 220, 10));
+
+        txtSatuanTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtSatuanTambah.setToolTipText(null);
+        txtSatuanTambah.setBorder(null);
+        txtSatuanTambah.setOpaque(false);
+        txtSatuanTambah.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSatuanTambahFocusGained(evt);
+            }
+        });
+        txtSatuanTambah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSatuanTambahKeyPressed(evt);
+            }
+        });
+        uPanelRoundrect8.add(txtSatuanTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 220, -1));
+
+        uPanelRoundrect7.add(uPanelRoundrect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 59, -1, -1));
+
+        jLabel21.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Tambah Satuan");
+        uPanelRoundrect7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 20));
+
+        btnCloseSatuan.setMnemonic('c');
+        btnCloseSatuan.setText("Close");
+        btnCloseSatuan.setWarnaBorder(new java.awt.Color(113, 202, 112));
+        btnCloseSatuan.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseSatuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseSatuanActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect7.add(btnCloseSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, -1, -1));
+
+        UnitAdd.getContentPane().add(uPanelRoundrect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1246, 714));
@@ -1877,35 +1799,11 @@ public class Item extends javax.swing.JInternalFrame {
         panelEH.setOpaque(false);
         panelEH.setPreferredSize(new java.awt.Dimension(130, 30));
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnEdit.setMnemonic('e');
-        btnEdit.setText("Edit");
-        btnEdit.setMouseHover(new java.awt.Color(255, 180, 61));
-        btnEdit.setMousePress(new java.awt.Color(255, 231, 112));
-        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        btnHapus.setMnemonic('h');
-        btnHapus.setText("Hapus");
-        btnHapus.setMouseHover(new java.awt.Color(255, 26, 26));
-        btnHapus.setMousePress(new java.awt.Color(255, 77, 77));
-        btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
-        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, -1));
-
         jPanel1.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 130, 0));
 
         SPtableTampil.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
+        tableTampil.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         tableTampil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1926,6 +1824,7 @@ public class Item extends javax.swing.JInternalFrame {
             }
         });
         tableTampil.setFocusable(false);
+        tableTampil.setRowHeight(20);
         tableTampil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableTampilMouseClicked(evt);
@@ -1958,24 +1857,26 @@ public class Item extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, 240, 20));
 
-        jSeparator1.setForeground(new java.awt.Color(78, 115, 223));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 250, 10));
+        jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 240, 10));
 
-        jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(78, 115, 223));
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(34, 67, 67));
         jLabel1.setText("Master Barang");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 300, 60));
 
-        btnTambah.setMnemonic('t');
         btnTambah.setText("Tambah Barang");
-        btnTambah.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 14)); // NOI18N
-        btnTambah.setMousePress(new java.awt.Color(204, 204, 204));
+        btnTambah.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnTambah.setKetebalanBorder(2.5F);
+        btnTambah.setKetumpulanSudut(35);
+        btnTambah.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnTambah.setWarnaBorder(new java.awt.Color(164, 253, 163));
         btnTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTambahActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1995,7 +1896,7 @@ public class Item extends javax.swing.JInternalFrame {
         Id= tableTampil.getModel().getValueAt(tableTampil.getSelectedRow(), 0).toString(); //Ambil nilai kolom (0) dan masukkan ke variabel Id
 
         panelEH.setLocation( evt.getX() + SPtableTampil.getX(),  evt.getY() + SPtableTampil.getY());
-        panelEH.setSize(130, 30);
+        panelEH.setSize(172,30);
     }//GEN-LAST:event_tableTampilMouseClicked
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
@@ -2003,209 +1904,13 @@ public class Item extends javax.swing.JInternalFrame {
 
         } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             txtSearch.setText("");
-            panelEH.setSize(130, 0);
+            panelEH.setSize(172, 0);
         }
     }//GEN-LAST:event_txtSearchKeyPressed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         Cari();
     }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        Tambah();
-    }//GEN-LAST:event_btnTambahActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        panelEH.setSize(130, 0);
-        Edit();
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        panelEH.setSize(130, 0);
-        Hapus();
-    }//GEN-LAST:event_btnHapusActionPerformed
-
-    private void btnCloseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseAddActionPerformed
-        KeluarAdd();
-    }//GEN-LAST:event_btnCloseAddActionPerformed
-
-    private void tabelPilihAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelPilihAddMouseClicked
-        TampilPilihAdd();
-    }//GEN-LAST:event_tabelPilihAddMouseClicked
-
-    private void tabelPilihAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelPilihAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            TampilPilihAdd();
-        }
-    }//GEN-LAST:event_tabelPilihAddKeyPressed
-
-    private void txtKodeAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKodeAddFocusLost
-        StabelListAdd.setVisible(false);
-        CekKodeAdd();
-    }//GEN-LAST:event_txtKodeAddFocusLost
-
-    private void txtKodeAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtNamaBarangAdd.setText(null);
-            txtNamaBarangAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtKodeAdd.setText("");
-        }
-    }//GEN-LAST:event_txtKodeAddKeyPressed
-
-    private void txtKodeAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeAddKeyReleased
-        if (txtKodeAdd.getText().trim().isEmpty()) {
-            StabelListAdd.setVisible(false);
-        } else{
-            PopUpCodeAdd();
-        }
-    }//GEN-LAST:event_txtKodeAddKeyReleased
-
-    private void txtKodeAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKodeAddKeyTyped
-        if (txtKodeAdd.getText().length() >= 25 ) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtKodeAddKeyTyped
-
-    private void txtNamaBarangAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamaBarangAddFocusLost
-        StabelListAdd.setVisible(false);
-    }//GEN-LAST:event_txtNamaBarangAddFocusLost
-
-    private void txtNamaBarangAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtKategoriAdd.setText(null);
-            txtKategoriAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtNamaBarangAdd.setText("");
-        }
-    }//GEN-LAST:event_txtNamaBarangAddKeyPressed
-
-    private void txtNamaBarangAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangAddKeyReleased
-        if (txtNamaBarangAdd.getText().trim().isEmpty()) {
-            StabelListAdd.setVisible(false);
-        } else{
-            PopUpNameAdd();
-        }
-    }//GEN-LAST:event_txtNamaBarangAddKeyReleased
-
-    private void txtKategoriAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKategoriAddFocusGained
-        TampilKategoriAdd();
-    }//GEN-LAST:event_txtKategoriAddFocusGained
-
-    private void txtKategoriAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtSatuanAdd.setText(null);
-            txtSatuanAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtKategoriAdd.setText("");
-        }
-    }//GEN-LAST:event_txtKategoriAddKeyPressed
-
-    private void txtSatuanAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSatuanAddFocusGained
-        TampilSatuanAdd();
-    }//GEN-LAST:event_txtSatuanAddFocusGained
-
-    private void txtSatuanAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtHargaBeliAdd.setText(null);
-            txtHargaBeliAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtSatuanAdd.setText("");
-        }
-    }//GEN-LAST:event_txtSatuanAddKeyPressed
-
-    private void txtHargaBeliAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliAddFocusGained
-        txtHargaBeliAdd.setText(HBeli);
-    }//GEN-LAST:event_txtHargaBeliAddFocusGained
-
-    private void txtHargaBeliAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliAddFocusLost
-        HBeli =txtHargaBeliAdd.getText();          //Menyimpan di Variable HBeli
-        if (!txtHargaBeliAdd.getText().trim().isEmpty()){
-            ut.AngkaToRp(txtHargaBeliAdd,HBeli);
-        }
-    }//GEN-LAST:event_txtHargaBeliAddFocusLost
-
-    private void txtHargaBeliAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtHargaJualAdd.setText(null);
-            txtHargaJualAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtHargaBeliAdd.setText("");
-        }
-    }//GEN-LAST:event_txtHargaBeliAddKeyPressed
-
-    private void txtHargaBeliAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliAddKeyTyped
-        if(Character.isAlphabetic(evt.getKeyChar())){
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtHargaBeliAddKeyTyped
-
-    private void txtHargaJualAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualAddFocusGained
-        txtHargaJualAdd.setText(HJual);
-    }//GEN-LAST:event_txtHargaJualAddFocusGained
-
-    private void txtHargaJualAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualAddFocusLost
-        HJual =txtHargaJualAdd.getText();          //Menyimpan di Variable HJual
-        if (!txtHargaJualAdd.getText().trim().isEmpty()){
-            ut.AngkaToRp(txtHargaJualAdd,HJual);
-        }
-    }//GEN-LAST:event_txtHargaJualAddFocusLost
-
-    private void txtHargaJualAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            txtDiscountAdd.setText(null);
-            txtDiscountAdd.requestFocus();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtHargaJualAdd.setText("");
-        }
-    }//GEN-LAST:event_txtHargaJualAddKeyPressed
-
-    private void txtHargaJualAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualAddKeyTyped
-        if(Character.isAlphabetic(evt.getKeyChar())){
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtHargaJualAddKeyTyped
-
-    private void txtDiscountAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountAddFocusGained
-        txtDiscountAdd.setText(Disc);
-    }//GEN-LAST:event_txtDiscountAddFocusGained
-
-    private void txtDiscountAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountAddFocusLost
-        Disc =txtDiscountAdd.getText();            //Menyimpan di Variable Disc
-        if (!txtDiscountAdd.getText().trim().isEmpty()){
-            ut.AngkaToRp(txtDiscountAdd,Disc);
-        }
-    }//GEN-LAST:event_txtDiscountAddFocusLost
-
-    private void txtDiscountAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountAddKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            Simpan();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtDiscountAdd.setText("");
-        }
-    }//GEN-LAST:event_txtDiscountAddKeyPressed
-
-    private void txtDiscountAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountAddKeyTyped
-        if(Character.isAlphabetic(evt.getKeyChar())){
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtDiscountAddKeyTyped
-
-    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        Simpan();
-    }//GEN-LAST:event_btnSimpanActionPerformed
-
-    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
-        BersihAdd();
-    }//GEN-LAST:event_btnBersihActionPerformed
-
-    private void btnTambahKategoriAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahKategoriAddActionPerformed
-        TambahKategoriAdd();
-    }//GEN-LAST:event_btnTambahKategoriAddActionPerformed
-
-    private void btnTambahSatuanAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahSatuanAddActionPerformed
-        TambahSatuanAdd();
-    }//GEN-LAST:event_btnTambahSatuanAddActionPerformed
 
     private void btnCloseEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseEditActionPerformed
         KeluarEdit();
@@ -2357,97 +2062,176 @@ public class Item extends javax.swing.JInternalFrame {
         TambahSatuanEdit();
     }//GEN-LAST:event_btnTambahSatuanEditActionPerformed
 
-    private void txtKategoriTambahKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriTambahKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            SimpanKategori();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtKategoriTambah.setText("");
-        }
-    }//GEN-LAST:event_txtKategoriTambahKeyPressed
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        panelEH.setSize(172, 0);
+        Hapus();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
-    private void txtKategoriTambahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriTambahKeyReleased
-        if (txtKategoriTambah.getText().trim().isEmpty()) {
-            SListAdd.setVisible(false);
-        } else{
-            PopUpKategoriAdd();
-        }
-    }//GEN-LAST:event_txtKategoriTambahKeyReleased
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        panelEH.setSize(172, 0);
+        Edit();
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void txtKategoriTambahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriTambahKeyTyped
-        if (txtKategoriTambah.getText().length() >= 15 ) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtKategoriTambahKeyTyped
-
-    private void btnCloseKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseKategoriActionPerformed
-        KeluarKategori();
-    }//GEN-LAST:event_btnCloseKategoriActionPerformed
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        Tambah();
+    }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnSimpanKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanKategoriActionPerformed
         SimpanKategori();
     }//GEN-LAST:event_btnSimpanKategoriActionPerformed
 
-    private void btnCloseUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseUnitActionPerformed
+    private void btnCloseKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseKategoriActionPerformed
+        KeluarKategori();
+    }//GEN-LAST:event_btnCloseKategoriActionPerformed
+
+    private void btnCloseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseAddActionPerformed
+        KeluarAdd();
+    }//GEN-LAST:event_btnCloseAddActionPerformed
+
+    private void btnCategoryFIAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryFIAddActionPerformed
+        KategoriFromItemAdd();
+    }//GEN-LAST:event_btnCategoryFIAddActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        Simpan();
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihActionPerformed
+        Bersih();
+    }//GEN-LAST:event_btnBersihActionPerformed
+
+    private void btnSimpanSatuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanSatuanActionPerformed
+        SimpanSatuan();
+    }//GEN-LAST:event_btnSimpanSatuanActionPerformed
+
+    private void btnCloseSatuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseSatuanActionPerformed
         KeluarSatuan();
-    }//GEN-LAST:event_btnCloseUnitActionPerformed
+    }//GEN-LAST:event_btnCloseSatuanActionPerformed
+
+    private void txtNamaBarangAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamaBarangAddFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNamaBarangAddFocusLost
+
+    private void txtNamaBarangAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNamaBarangAddKeyPressed
+
+    private void txtNamaBarangAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaBarangAddKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNamaBarangAddKeyReleased
+
+    private void txtKategoriAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKategoriAddFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKategoriAddFocusGained
+
+    private void txtKategoriAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKategoriAddKeyPressed
+
+    private void txtSatuanAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSatuanAddFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSatuanAddFocusGained
+
+    private void txtSatuanAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSatuanAddKeyPressed
+
+    private void txtHargaBeliAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliAddFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBeliAddFocusGained
+
+    private void txtHargaBeliAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaBeliAddFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBeliAddFocusLost
+
+    private void txtHargaBeliAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBeliAddKeyPressed
+
+    private void txtHargaBeliAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaBeliAddKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBeliAddKeyTyped
+
+    private void txtHargaJualAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualAddFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaJualAddFocusGained
+
+    private void txtHargaJualAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaJualAddFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaJualAddFocusLost
+
+    private void txtHargaJualAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaJualAddKeyPressed
+
+    private void txtHargaJualAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHargaJualAddKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaJualAddKeyTyped
+
+    private void txtDiscountAddFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountAddFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDiscountAddFocusGained
+
+    private void txtDiscountAddFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountAddFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDiscountAddFocusLost
+
+    private void txtDiscountAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDiscountAddKeyPressed
+
+    private void txtDiscountAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountAddKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDiscountAddKeyTyped
+
+    private void txtKategoriTambahFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKategoriTambahFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKategoriTambahFocusGained
+
+    private void txtKategoriTambahKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKategoriTambahKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtKategoriTambahKeyPressed
+
+    private void txtSatuanTambahFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSatuanTambahFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSatuanTambahFocusGained
 
     private void txtSatuanTambahKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanTambahKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            SimpanSatuan();
-        } else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            txtSatuanTambah.setText("");
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtSatuanTambahKeyPressed
 
-    private void txtSatuanTambahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanTambahKeyReleased
-        if (txtSatuanTambah.getText().trim().isEmpty()) {
-            SListUnit.setVisible(false);
-        } else{
-            PopUpSatuan();
-        }
-    }//GEN-LAST:event_txtSatuanTambahKeyReleased
+    private void tabelPilihAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelPilihAddMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelPilihAddMouseClicked
 
-    private void txtSatuanTambahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSatuanTambahKeyTyped
-        if (txtSatuanTambah.getText().length() >= 15 ) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtSatuanTambahKeyTyped
-
-    private void btnSimpanUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanUnitActionPerformed
-        SimpanSatuan();
-    }//GEN-LAST:event_btnSimpanUnitActionPerformed
+    private void tabelPilihAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelPilihAddKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelPilihAddKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog CategoryAdd;
     private javax.swing.JDialog ItemAdd;
     private javax.swing.JDialog ItemEdit;
-    private javax.swing.JTable ListAdd;
-    private javax.swing.JTable ListUnit;
-    private javax.swing.JScrollPane SListAdd;
-    private javax.swing.JScrollPane SListUnit;
+    private javax.swing.JTable ListCategoryAdd;
+    private javax.swing.JTable ListUnitAdd;
+    private javax.swing.JScrollPane SListCategoryAdd;
+    private javax.swing.JScrollPane SListUnitAdd;
     private javax.swing.JScrollPane SPtableTampil;
     private javax.swing.JScrollPane StabelListAdd;
     private javax.swing.JScrollPane StabelListEdit;
     private javax.swing.JScrollPane StabelPilihAdd;
     private javax.swing.JScrollPane StabelPilihEdit;
     private javax.swing.JDialog UnitAdd;
-    private khansapos.Utility_ButtonFlat btnBersih;
-    private khansapos.Utility_ButtonMetro btnCloseAdd;
-    private khansapos.Utility_ButtonMetro btnCloseEdit;
-    private khansapos.Utility_ButtonMetro btnCloseKategori;
-    private khansapos.Utility_ButtonMetro btnCloseUnit;
-    private khansapos.Utility_ButtonFlat btnEdit;
-    private khansapos.Utility_ButtonFlat btnHapus;
-    private khansapos.Utility_ButtonFlat btnSimpan;
-    private khansapos.Utility_ButtonFlat btnSimpanKategori;
-    private khansapos.Utility_ButtonFlat btnSimpanUnit;
-    private khansapos.Utility_ButtonFlat btnTambah;
-    private khansapos.Utility_ButtonFlat btnTambahKategoriAdd;
-    private khansapos.Utility_ButtonFlat btnTambahKategoriEdit;
-    private khansapos.Utility_ButtonFlat btnTambahSatuanAdd;
-    private khansapos.Utility_ButtonFlat btnTambahSatuanEdit;
-    private khansapos.Utility_ButtonFlat btnUpdate;
+    private Utility.UButton btnBersih;
+    private Utility.UButton btnCloseAdd;
+    private Utility.UButton btnCloseEdit;
+    private Utility.UButton btnCloseKategori;
+    private Utility.UButton btnCloseSatuan;
+    private Utility.UButton btnSimpan;
+    private Utility.UButton btnSimpanKategori;
+    private Utility.UButton btnSimpanSatuan;
+    private Utility.UButton btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2471,16 +2255,6 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -2522,5 +2296,13 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtSatuanEdit;
     private javax.swing.JTextField txtSatuanTambah;
     private javax.swing.JTextField txtSearch;
+    private Utility.UPanelRoundrect uPanelRoundrect1;
+    private Utility.UPanelRoundrect uPanelRoundrect2;
+    private Utility.UPanelRoundrect uPanelRoundrect3;
+    private Utility.UPanelRoundrect uPanelRoundrect4;
+    private Utility.UPanelRoundrect uPanelRoundrect5;
+    private Utility.UPanelRoundrect uPanelRoundrect6;
+    private Utility.UPanelRoundrect uPanelRoundrect7;
+    private Utility.UPanelRoundrect uPanelRoundrect8;
     // End of variables declaration//GEN-END:variables
 }
