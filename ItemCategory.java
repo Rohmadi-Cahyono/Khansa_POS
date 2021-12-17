@@ -75,26 +75,9 @@ public class ItemCategory extends javax.swing.JInternalFrame {
             tableTampil.removeColumn(tableTampil.getColumnModel().getColumn(0)); //tidak menampilkan kolom (index:0)
     }
      
-    private void Tambah(){
-        this.setVisible(false); 
-        txtKategoriAdd.setText("");
-        SwingUtilities.invokeLater(() -> {txtKategoriAdd.requestFocusInWindow(); });
-        categoryAdd.setSize(421, 171);
-        categoryAdd.setLocation(((Beranda.SW+120)-421 )/2,((Beranda.SH+50)-171 )/2);
-        categoryAdd.setBackground(new Color(0, 0, 0, 0)); 
-        categoryAdd.setVisible(true);
-    }     
+
     
-        
-    private void Edit(){
-        this.setVisible(false);
-        TampilEdit();
-        SwingUtilities.invokeLater(() -> {txtKategoriEdit.requestFocusInWindow(); });
-        categoryEdit.setSize(421, 171);
-        categoryEdit.setLocation(((Beranda.SW+120)-421 )/2,((Beranda.SH+50)-171 )/2);
-        categoryAdd.setBackground(new Color(0, 0, 0, 0)); 
-        categoryEdit.setVisible(true);
-    }
+ 
         
     private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data Kategori akan dihapus?", "Khansa POS",
@@ -115,6 +98,17 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     } 
     
     //--------------------------categoryAdd--------------------------------------
+    
+    private void Tambah(){
+        this.setVisible(false); 
+        txtKategoriAdd.setText("");
+        SwingUtilities.invokeLater(() -> {txtKategoriAdd.requestFocusInWindow(); });
+        categoryAdd.setSize(421, 171);
+        categoryAdd.setLocation(((Beranda.SW+120)-421 )/2,((Beranda.SH+50)-171 )/2);
+        categoryAdd.setBackground(new Color(0, 0, 0, 0)); 
+        categoryAdd.setVisible(true);
+    }     
+    
         private void Simpan(){             
         if (txtKategoriAdd.getText() == null || txtKategoriAdd.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data Kategori Tidak Boleh Kosong!!", "Khansa POS", JOptionPane.WARNING_MESSAGE);
@@ -146,6 +140,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
                 ListAdd.setBackground(new Color(255,255,255));
                 ListAdd.setShowGrid(false);
                 ListAdd.removeColumn(ListAdd.getColumnModel().getColumn(0));
+                SListAdd.setLocation(txtKategoriAdd.getX(),txtKategoriAdd.getY()+20);
                 
                 if (rs.getRow() <= 3) {
                     SListAdd.setSize(270, (rs.getRow()*17)+2);
@@ -169,6 +164,16 @@ public class ItemCategory extends javax.swing.JInternalFrame {
    }
    
    //------------------------------------------------KatergoryEdit---------------------------------------------
+       
+    private void Edit(){
+        this.setVisible(false);
+        TampilEdit();
+        SwingUtilities.invokeLater(() -> {txtKategoriEdit.requestFocusInWindow(); });
+        categoryEdit.setSize(421, 171);
+        categoryEdit.setLocation(((Beranda.SW+120)-421 )/2,((Beranda.SH+50)-171 )/2);
+        categoryAdd.setBackground(new Color(0, 0, 0, 0)); 
+        categoryEdit.setVisible(true);
+    }   
    
        private void TampilEdit(){     
         
@@ -213,6 +218,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
                 ListEdit.setBackground(new Color(255,255,255));
                 ListEdit.setShowGrid(false);
                 ListEdit.removeColumn(ListEdit.getColumnModel().getColumn(0));
+                SListEdit.setLocation(txtKategoriEdit.getX(),txtKategoriEdit.getY()+20);
                 
                 if (rs.getRow() <= 3) {
                     SListEdit.setSize(270, (rs.getRow()*17)+2);
@@ -246,56 +252,71 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         categoryAdd = new javax.swing.JDialog();
         uPanelRoundrect7 = new Utility.UPanelRoundrect();
         uPanelRoundrect8 = new Utility.UPanelRoundrect();
+        btnSimpan = new Utility.UButton();
         SListAdd = new javax.swing.JScrollPane();
         ListAdd = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         txtKategoriAdd = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
-        btnSimpanCategory = new Utility.UButton();
         jLabel3 = new javax.swing.JLabel();
-        btnCloseCategory = new Utility.UButton();
+        btnCloseAdd = new Utility.UButton();
         categoryEdit = new javax.swing.JDialog();
         uPanelRoundrect1 = new Utility.UPanelRoundrect();
         uPanelRoundrect2 = new Utility.UPanelRoundrect();
+        btnUpdate = new Utility.UButton();
         SListEdit = new javax.swing.JScrollPane();
         ListEdit = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         txtKategoriEdit = new javax.swing.JTextField();
         jSeparator7 = new javax.swing.JSeparator();
-        btnSimpanEdit = new Utility.UButton();
         jLabel7 = new javax.swing.JLabel();
         btnCloseEdit = new Utility.UButton();
         jPanel3 = new javax.swing.JPanel();
         uPanelRoundrect6 = new Utility.UPanelRoundrect();
         uPanelRoundrect9 = new Utility.UPanelRoundrect();
         panelEH = new javax.swing.JPanel();
-        btnHapus = new Utility.UButton();
         btnEdit = new Utility.UButton();
+        btnHapus = new Utility.UButton();
         SPtableTampil = new javax.swing.JScrollPane();
         tableTampil = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false;
             }
         };
-        uButton1 = new Utility.UButton();
+        btnTambah = new Utility.UButton();
         jLabel1 = new javax.swing.JLabel();
         btnClose = new Utility.UButton();
 
         categoryAdd.setMinimumSize(new java.awt.Dimension(421, 156));
         categoryAdd.setUndecorated(true);
+        categoryAdd.setPreferredSize(new java.awt.Dimension(421, 171));
         categoryAdd.setResizable(false);
         categoryAdd.setSize(new java.awt.Dimension(421, 171));
         categoryAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         uPanelRoundrect7.setKetebalanBorder(2.5F);
-        uPanelRoundrect7.setPreferredSize(new java.awt.Dimension(420, 180));
+        uPanelRoundrect7.setPreferredSize(new java.awt.Dimension(421, 171));
         uPanelRoundrect7.setWarnaBackground(new java.awt.Color(87, 176, 86));
         uPanelRoundrect7.setWarnaBorder(new java.awt.Color(164, 253, 163));
         uPanelRoundrect7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         uPanelRoundrect8.setKetebalanBorder(2.5F);
-        uPanelRoundrect8.setPreferredSize(new java.awt.Dimension(400, 120));
+        uPanelRoundrect8.setPreferredSize(new java.awt.Dimension(411, 115));
         uPanelRoundrect8.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnSimpan.setText("Simpan");
+        btnSimpan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnSimpan.setKetebalanBorder(2.0F);
+        btnSimpan.setKetumpulanSudut(35);
+        btnSimpan.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnSimpan.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect8.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 75, -1, -1));
 
         SListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         SListAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -334,15 +355,19 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         );
         SListAdd.setViewportView(ListAdd);
 
+        uPanelRoundrect8.add(SListAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 62, -1, 0));
+
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("Kategori");
         jLabel5.setToolTipText(null);
+        uPanelRoundrect8.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 38, 70, 20));
 
-        txtKategoriAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtKategoriAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtKategoriAdd.setToolTipText(null);
         txtKategoriAdd.setBorder(null);
         txtKategoriAdd.setOpaque(false);
+        txtKategoriAdd.setPreferredSize(new java.awt.Dimension(1, 20));
         txtKategoriAdd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKategoriAddKeyPressed(evt);
@@ -354,84 +379,67 @@ public class ItemCategory extends javax.swing.JInternalFrame {
                 txtKategoriAddKeyTyped(evt);
             }
         });
+        uPanelRoundrect8.add(txtKategoriAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 38, 270, -1));
 
-        btnSimpanCategory.setText("Simpan");
-        btnSimpanCategory.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect8.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 58, 270, 10));
 
-        javax.swing.GroupLayout uPanelRoundrect8Layout = new javax.swing.GroupLayout(uPanelRoundrect8);
-        uPanelRoundrect8.setLayout(uPanelRoundrect8Layout);
-        uPanelRoundrect8Layout.setHorizontalGroup(
-            uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(uPanelRoundrect8Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(uPanelRoundrect8Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtKategoriAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(uPanelRoundrect8Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addGroup(uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SListAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uPanelRoundrect8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSimpanCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        uPanelRoundrect8Layout.setVerticalGroup(
-            uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(uPanelRoundrect8Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKategoriAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(uPanelRoundrect8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(uPanelRoundrect8Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(SListAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(btnSimpanCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        uPanelRoundrect7.add(uPanelRoundrect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        uPanelRoundrect7.add(uPanelRoundrect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 50, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tambah Kategori");
         uPanelRoundrect7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 34));
 
-        btnCloseCategory.setMnemonic('c');
-        btnCloseCategory.setText("Close");
-        btnCloseCategory.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        btnCloseCategory.addActionListener(new java.awt.event.ActionListener() {
+        btnCloseAdd.setMnemonic('c');
+        btnCloseAdd.setText("Close");
+        btnCloseAdd.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        btnCloseAdd.setWarnaBackgroundHover(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaForegroundHover(new java.awt.Color(255, 0, 51));
+        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseCategoryActionPerformed(evt);
+                btnCloseAddActionPerformed(evt);
             }
         });
-        uPanelRoundrect7.add(btnCloseCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, -1));
+        uPanelRoundrect7.add(btnCloseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 10, -1, -1));
 
         categoryAdd.getContentPane().add(uPanelRoundrect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         categoryEdit.setMinimumSize(new java.awt.Dimension(421, 156));
         categoryEdit.setUndecorated(true);
+        categoryEdit.setPreferredSize(new java.awt.Dimension(421, 171));
         categoryEdit.setResizable(false);
         categoryEdit.setSize(new java.awt.Dimension(421, 156));
         categoryEdit.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         uPanelRoundrect1.setKetebalanBorder(2.5F);
-        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(420, 180));
+        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(421, 171));
         uPanelRoundrect1.setWarnaBackground(new java.awt.Color(235, 154, 35));
         uPanelRoundrect1.setWarnaBorder(new java.awt.Color(255, 231, 112));
         uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         uPanelRoundrect2.setKetebalanBorder(2.5F);
-        uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(400, 120));
+        uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(411, 115));
         uPanelRoundrect2.setWarnaBorder(new java.awt.Color(255, 231, 112));
         uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnUpdate.setText("Simpan");
+        btnUpdate.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnUpdate.setKetebalanBorder(2.0F);
+        btnUpdate.setKetumpulanSudut(35);
+        btnUpdate.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnUpdate.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnUpdate.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnUpdate.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnUpdate.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        btnUpdate.setWarnaForegroundHover(new java.awt.Color(0, 0, 0));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect2.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, -1));
 
         SListEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         SListEdit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -478,10 +486,11 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         jLabel8.setToolTipText(null);
         uPanelRoundrect2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 70, 20));
 
-        txtKategoriEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtKategoriEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtKategoriEdit.setToolTipText(null);
         txtKategoriEdit.setBorder(null);
         txtKategoriEdit.setOpaque(false);
+        txtKategoriEdit.setPreferredSize(new java.awt.Dimension(1, 20));
         txtKategoriEdit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKategoriEditKeyPressed(evt);
@@ -494,17 +503,11 @@ public class ItemCategory extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect2.add(txtKategoriEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 270, -1));
+
+        jSeparator7.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect2.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 270, 10));
 
-        btnSimpanEdit.setText("Simpan");
-        btnSimpanEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnSimpanEdit.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
-        btnSimpanEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
-        btnSimpanEdit.setWarnaBorder(new java.awt.Color(255, 231, 112));
-        btnSimpanEdit.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
-        uPanelRoundrect2.add(btnSimpanEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
-
-        uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 50, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -515,10 +518,16 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         btnCloseEdit.setText("Close");
         btnCloseEdit.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         btnCloseEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(255, 231, 112));
+        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(235, 154, 35));
         btnCloseEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaBorder(new java.awt.Color(255, 231, 112));
-        uPanelRoundrect1.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
+        btnCloseEdit.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaForegroundHover(new java.awt.Color(255, 51, 0));
+        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseEditActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect1.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 10, -1, -1));
 
         categoryEdit.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -532,24 +541,39 @@ public class ItemCategory extends javax.swing.JInternalFrame {
 
         uPanelRoundrect6.setKetebalanBorder(2.5F);
         uPanelRoundrect6.setPreferredSize(new java.awt.Dimension(310, 510));
-        uPanelRoundrect6.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        uPanelRoundrect6.setWarnaBorder(new java.awt.Color(77, 200, 255));
+        uPanelRoundrect6.setWarnaBackground(new java.awt.Color(60, 93, 93));
+        uPanelRoundrect6.setWarnaBorder(new java.awt.Color(85, 118, 118));
         uPanelRoundrect6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         uPanelRoundrect9.setKetebalanBorder(2.5F);
         uPanelRoundrect9.setPreferredSize(new java.awt.Dimension(300, 440));
-        uPanelRoundrect9.setWarnaBorder(new java.awt.Color(77, 200, 255));
+        uPanelRoundrect9.setWarnaBorder(new java.awt.Color(85, 118, 118));
         uPanelRoundrect9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelEH.setOpaque(false);
         panelEH.setPreferredSize(new java.awt.Dimension(135, 0));
         panelEH.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnHapus.setMnemonic('p');
+        btnEdit.setText("Edit");
+        btnEdit.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        btnEdit.setKetebalanBorder(2.5F);
+        btnEdit.setKetumpulanSudut(25);
+        btnEdit.setPreferredSize(new java.awt.Dimension(75, 28));
+        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnEdit.setWarnaBackgroundHover(new java.awt.Color(255, 205, 86));
+        btnEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnEdit.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         btnHapus.setText("Hapus");
         btnHapus.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         btnHapus.setKetebalanBorder(2.5F);
-        btnHapus.setKetumpulanSudut(35);
+        btnHapus.setKetumpulanSudut(25);
         btnHapus.setPreferredSize(new java.awt.Dimension(80, 28));
         btnHapus.setWarnaBackground(new java.awt.Color(255, 0, 0));
         btnHapus.setWarnaBackgroundHover(new java.awt.Color(255, 77, 77));
@@ -560,24 +584,7 @@ public class ItemCategory extends javax.swing.JInternalFrame {
                 btnHapusActionPerformed(evt);
             }
         });
-        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        btnEdit.setMnemonic('d');
-        btnEdit.setText("Edit");
-        btnEdit.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        btnEdit.setKetebalanBorder(2.5F);
-        btnEdit.setKetumpulanSudut(35);
-        btnEdit.setPreferredSize(new java.awt.Dimension(85, 28));
-        btnEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnEdit.setWarnaBackgroundHover(new java.awt.Color(255, 205, 86));
-        btnEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
-        btnEdit.setWarnaBorder(new java.awt.Color(255, 231, 112));
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        panelEH.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
+        panelEH.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 0, -1, -1));
 
         uPanelRoundrect9.add(panelEH, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
 
@@ -618,16 +625,21 @@ public class ItemCategory extends javax.swing.JInternalFrame {
 
         uPanelRoundrect9.add(SPtableTampil, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 380));
 
-        uButton1.setMnemonic('t');
-        uButton1.setText("Tambah Kategori");
-        uButton1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        uButton1.setKetebalanBorder(2.5F);
-        uButton1.setKetumpulanSudut(25);
-        uButton1.setPreferredSize(new java.awt.Dimension(120, 28));
-        uButton1.setWarnaBorder(new java.awt.Color(164, 253, 163));
-        uPanelRoundrect9.add(uButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 140, -1));
+        btnTambah.setMnemonic('t');
+        btnTambah.setText("Tambah Kategori");
+        btnTambah.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnTambah.setKetebalanBorder(2.0F);
+        btnTambah.setKetumpulanSudut(25);
+        btnTambah.setPreferredSize(new java.awt.Dimension(120, 28));
+        btnTambah.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect9.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 140, -1));
 
-        uPanelRoundrect6.add(uPanelRoundrect9, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 60, -1, -1));
+        uPanelRoundrect6.add(uPanelRoundrect9, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 65, -1, -1));
 
         jLabel1.setBackground(new java.awt.Color(235, 154, 35));
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
@@ -638,20 +650,21 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         uPanelRoundrect6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 30));
 
         btnClose.setText("Close");
-        btnClose.setWarnaBackground(new java.awt.Color(0, 123, 255));
-        btnClose.setWarnaBackgroundHover(new java.awt.Color(77, 200, 255));
-        btnClose.setWarnaBackgroundPress(new java.awt.Color(0, 123, 255));
-        btnClose.setWarnaBorder(new java.awt.Color(51, 174, 255));
-        btnClose.setWarnaForeground(new java.awt.Color(77, 200, 255));
+        btnClose.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        btnClose.setPreferredSize(new java.awt.Dimension(64, 20));
+        btnClose.setWarnaBackground(new java.awt.Color(60, 93, 93));
+        btnClose.setWarnaBackgroundHover(new java.awt.Color(60, 93, 93));
+        btnClose.setWarnaBackgroundPress(new java.awt.Color(60, 93, 93));
+        btnClose.setWarnaBorder(new java.awt.Color(60, 93, 93));
         btnClose.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
-        uPanelRoundrect6.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+        uPanelRoundrect6.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 10, -1, -1));
 
-        jPanel3.add(uPanelRoundrect6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, -1));
+        jPanel3.add(uPanelRoundrect6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -752,10 +765,6 @@ public class ItemCategory extends javax.swing.JInternalFrame {
         panelEH.setSize(172,30);
     }//GEN-LAST:event_tableTampilMouseClicked
 
-    private void btnCloseCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCloseCategoryActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ListAdd;
@@ -764,12 +773,13 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane SListEdit;
     private javax.swing.JScrollPane SPtableTampil;
     private Utility.UButton btnClose;
-    private Utility.UButton btnCloseCategory;
+    private Utility.UButton btnCloseAdd;
     private Utility.UButton btnCloseEdit;
     private Utility.UButton btnEdit;
     private Utility.UButton btnHapus;
-    private Utility.UButton btnSimpanCategory;
-    private Utility.UButton btnSimpanEdit;
+    private Utility.UButton btnSimpan;
+    private Utility.UButton btnTambah;
+    private Utility.UButton btnUpdate;
     private javax.swing.JDialog categoryAdd;
     private javax.swing.JDialog categoryEdit;
     private javax.swing.JLabel jLabel1;
@@ -784,7 +794,6 @@ public class ItemCategory extends javax.swing.JInternalFrame {
     private javax.swing.JTable tableTampil;
     private javax.swing.JTextField txtKategoriAdd;
     private javax.swing.JTextField txtKategoriEdit;
-    private Utility.UButton uButton1;
     private Utility.UPanelRoundrect uPanelRoundrect1;
     private Utility.UPanelRoundrect uPanelRoundrect2;
     private Utility.UPanelRoundrect uPanelRoundrect6;

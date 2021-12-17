@@ -57,26 +57,9 @@ public class User extends javax.swing.JInternalFrame {
         }
     }
  
-    private void Tambah(){
-        this.setVisible(false);
-        Bersih();          
-        SwingUtilities.invokeLater(() -> {txtNameAdd.requestFocusInWindow(); });
-        UserAdd.setSize(1000, 435);                     
-        UserAdd.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-435 )/2);
-        UserAdd.setBackground(new Color(0, 0, 0, 0)); 
-        UserAdd.setVisible(true);                     
-        
-    }
+
     
-    public void Edit(){
-        this.setVisible(false);       
-        TampilEdit(); 
-        SwingUtilities.invokeLater(() -> {txtNameEdit.requestFocusInWindow(); });
-        UserEdit.setSize(1000,435);                      
-        UserEdit.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-435 )/2);
-        UserEdit.setBackground(new Color(0, 0, 0, 0));
-        UserEdit.setVisible(true);
-    }
+
     
     private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data User akan dihapus?", "Khansa POS",
@@ -123,7 +106,17 @@ public class User extends javax.swing.JInternalFrame {
     }
      
      //-----------------------------------------------UserAdd-----------------------------------
-     
+    private void Tambah(){
+        this.setVisible(false);
+        Bersih();          
+        SwingUtilities.invokeLater(() -> {txtNameAdd.requestFocusInWindow(); });
+        UserAdd.setSize(1010, 440);                     
+        UserAdd.setLocation(((Beranda.SW+120)-1010 )/2,((Beranda.SH+50)-440 )/2);
+        UserAdd.setBackground(new Color(0, 0, 0, 0)); 
+        UserAdd.setVisible(true);                     
+        
+    }
+    
     private void PopUpAdd(){
         try {
            
@@ -138,6 +131,7 @@ public class User extends javax.swing.JInternalFrame {
                 ListAdd.setBackground(new Color(255,255,255));
                 ListAdd.setShowGrid(false);
                 ListAdd.removeColumn(ListAdd.getColumnModel().getColumn(0));
+                SListAdd.setLocation(txtNameAdd.getX(),txtNameAdd.getY()+20);
                 
                 if (rs.getRow() <= 15) {
                     SListAdd.setSize(340, (rs.getRow()*17)+2);
@@ -215,6 +209,16 @@ public class User extends javax.swing.JInternalFrame {
     
     
     //--------------------------------------------------------------UserEdit-------------------------------------------------
+    public void Edit(){
+        this.setVisible(false);       
+        TampilEdit(); 
+        SwingUtilities.invokeLater(() -> {txtNameEdit.requestFocusInWindow(); });
+        UserEdit.setSize(1010,440);                      
+        UserEdit.setLocation(((Beranda.SW+120)-1010 )/2,((Beranda.SH+50)-440 )/2);
+        UserEdit.setBackground(new Color(0, 0, 0, 0));
+        UserEdit.setVisible(true);
+    }
+    
     private void TampilEdit(){
          final String secretKey = "khansaPOS";
         try {
@@ -250,6 +254,7 @@ public class User extends javax.swing.JInternalFrame {
                 ListEdit.setBackground(new Color(255,255,255));
                 ListEdit.setShowGrid(false);
                 ListEdit.removeColumn(ListEdit.getColumnModel().getColumn(0));
+                SListEdit.setLocation(txtNameEdit.getX(),txtNameEdit.getY()+20);
                 
                 if (rs.getRow() <= 15) {
                     SListEdit.setSize(340, (rs.getRow()*17)+2);
@@ -359,9 +364,6 @@ public class User extends javax.swing.JInternalFrame {
         btnBersih = new Utility.UButton();
         btnSimpan = new Utility.UButton();
         UserEdit = new javax.swing.JDialog();
-        uPanelRoundrect3 = new Utility.UPanelRoundrect();
-        jLabel10 = new javax.swing.JLabel();
-        btnCloseEdit = new Utility.UButton();
         uPanelRoundrect4 = new Utility.UPanelRoundrect();
         SListEdit = new javax.swing.JScrollPane();
         ListEdit = new javax.swing.JTable();
@@ -386,6 +388,9 @@ public class User extends javax.swing.JInternalFrame {
         RePasswordFieldEdit = new javax.swing.JPasswordField();
         jSeparator14 = new javax.swing.JSeparator();
         btnUpdate = new Utility.UButton();
+        uPanelRoundrect3 = new Utility.UPanelRoundrect();
+        jLabel10 = new javax.swing.JLabel();
+        btnCloseEdit = new Utility.UButton();
         jPanel1 = new javax.swing.JPanel();
         panelEH = new javax.swing.JPanel();
         btnHapus = new Utility.UButton();
@@ -407,17 +412,16 @@ public class User extends javax.swing.JInternalFrame {
         UserAdd.setResizable(false);
         UserAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        uPanelRoundrect2.setKetebalanBorder(2.0F);
-        uPanelRoundrect2.setKetumpulanSudut(10);
+        uPanelRoundrect2.setKetebalanBorder(2.5F);
         uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(1000, 50));
         uPanelRoundrect2.setWarnaBackground(new java.awt.Color(88, 176, 86));
-        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(138, 227, 137));
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(164, 253, 163));
         uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tambah User");
-        uPanelRoundrect2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+        uPanelRoundrect2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
 
         btnClose.setMnemonic('c');
         btnClose.setText("Close");
@@ -435,12 +439,10 @@ public class User extends javax.swing.JInternalFrame {
         });
         uPanelRoundrect2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(925, 15, -1, -1));
 
-        UserAdd.getContentPane().add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
-
-        uPanelRoundrect1.setKetebalanBorder(2.0F);
+        uPanelRoundrect1.setKetebalanBorder(2.5F);
         uPanelRoundrect1.setMinimumSize(new java.awt.Dimension(960, 398));
         uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(1000, 370));
-        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(164, 253, 163));
         uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
@@ -521,7 +523,7 @@ public class User extends javax.swing.JInternalFrame {
         jLabel4.setToolTipText(null);
         uPanelRoundrect1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 20));
 
-        txtNameAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtNameAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtNameAdd.setToolTipText(null);
         txtNameAdd.setBorder(null);
         txtNameAdd.setOpaque(false);
@@ -539,7 +541,9 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect1.add(txtNameAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 335, -1));
-        uPanelRoundrect1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 335, 10));
+
+        jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 67, 335, 10));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
@@ -547,7 +551,7 @@ public class User extends javax.swing.JInternalFrame {
         jLabel5.setToolTipText(null);
         uPanelRoundrect1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, 20));
 
-        txtAlamatAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtAlamatAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtAlamatAdd.setToolTipText(null);
         txtAlamatAdd.setBorder(null);
         txtAlamatAdd.setOpaque(false);
@@ -557,7 +561,9 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect1.add(txtAlamatAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 815, -1));
-        uPanelRoundrect1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 815, 10));
+
+        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 117, 815, 10));
 
         jLabel6.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
@@ -565,7 +571,7 @@ public class User extends javax.swing.JInternalFrame {
         jLabel6.setToolTipText(null);
         uPanelRoundrect1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, 20));
 
-        txtPhoneAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtPhoneAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtPhoneAdd.setToolTipText(null);
         txtPhoneAdd.setBorder(null);
         txtPhoneAdd.setOpaque(false);
@@ -575,7 +581,9 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect1.add(txtPhoneAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 289, -1));
-        uPanelRoundrect1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 289, 10));
+
+        jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 167, 289, 10));
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
@@ -583,7 +591,7 @@ public class User extends javax.swing.JInternalFrame {
         jLabel7.setToolTipText(null);
         uPanelRoundrect1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 76, 20));
 
-        txtUserLevelAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtUserLevelAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtUserLevelAdd.setToolTipText(null);
         txtUserLevelAdd.setBorder(null);
         txtUserLevelAdd.setOpaque(false);
@@ -593,15 +601,17 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect1.add(txtUserLevelAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 174, -1));
-        uPanelRoundrect1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 174, 10));
+
+        jSeparator6.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 217, 174, 10));
 
         jLabel8.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("Password ");
         jLabel8.setToolTipText(null);
-        uPanelRoundrect1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 76, 20));
+        uPanelRoundrect1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 76, 20));
 
-        PasswordFieldAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        PasswordFieldAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         PasswordFieldAdd.setToolTipText(null);
         PasswordFieldAdd.setBorder(null);
         PasswordFieldAdd.setOpaque(false);
@@ -611,15 +621,17 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect1.add(PasswordFieldAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, 312, -1));
-        uPanelRoundrect1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 317, 10));
+
+        jSeparator7.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 267, 317, 10));
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("Re-Password ");
         jLabel9.setToolTipText(null);
-        uPanelRoundrect1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, 20));
+        uPanelRoundrect1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, 20));
 
-        RePasswordFieldAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        RePasswordFieldAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         RePasswordFieldAdd.setToolTipText(null);
         RePasswordFieldAdd.setBorder(null);
         RePasswordFieldAdd.setOpaque(false);
@@ -628,8 +640,10 @@ public class User extends javax.swing.JInternalFrame {
                 RePasswordFieldAddKeyPressed(evt);
             }
         });
-        uPanelRoundrect1.add(RePasswordFieldAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 318, -1));
-        uPanelRoundrect1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, 318, 10));
+        uPanelRoundrect1.add(RePasswordFieldAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 318, -1));
+
+        jSeparator8.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 317, 318, 10));
 
         btnBersih.setMnemonic('h');
         btnBersih.setText("Bersih");
@@ -662,47 +676,16 @@ public class User extends javax.swing.JInternalFrame {
         });
         uPanelRoundrect1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 160, -1));
 
-        UserAdd.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
+        uPanelRoundrect2.add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 65, -1, -1));
+
+        UserAdd.getContentPane().add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 440));
 
         UserEdit.setUndecorated(true);
         UserEdit.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        uPanelRoundrect3.setBackground(new java.awt.Color(255, 180, 61));
-        uPanelRoundrect3.setKetebalanBorder(2.0F);
-        uPanelRoundrect3.setKetumpulanSudut(10);
-        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(1000, 50));
-        uPanelRoundrect3.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 205, 86));
-        uPanelRoundrect3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel10.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Edit User");
-        uPanelRoundrect3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 11, -1, 28));
-
-        btnCloseEdit.setMnemonic('c');
-        btnCloseEdit.setText("Close");
-        btnCloseEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnCloseEdit.setKetebalanBorder(2.0F);
-        btnCloseEdit.setKetumpulanSudut(35);
-        btnCloseEdit.setPreferredSize(new java.awt.Dimension(150, 38));
-        btnCloseEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaBorder(new java.awt.Color(235, 154, 35));
-        btnCloseEdit.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
-        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseEditActionPerformed(evt);
-            }
-        });
-        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 30));
-
-        UserEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        uPanelRoundrect4.setKetebalanBorder(2.0F);
-        uPanelRoundrect4.setPreferredSize(new java.awt.Dimension(1000, 344));
-        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect4.setKetebalanBorder(2.5F);
+        uPanelRoundrect4.setPreferredSize(new java.awt.Dimension(1000, 370));
+        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(255, 231, 112));
         uPanelRoundrect4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
@@ -741,7 +724,7 @@ public class User extends javax.swing.JInternalFrame {
         );
         SListEdit.setViewportView(ListEdit);
 
-        uPanelRoundrect4.add(SListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 330, 0));
+        uPanelRoundrect4.add(SListEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 330, 0));
 
         SLevelEdit.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         SLevelEdit.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -774,15 +757,15 @@ public class User extends javax.swing.JInternalFrame {
         });
         SLevelEdit.setViewportView(LevelEdit);
 
-        uPanelRoundrect4.add(SLevelEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 180, 70));
+        uPanelRoundrect4.add(SLevelEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 180, 70));
 
         jLabel11.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
         jLabel11.setText("Nama User ");
         jLabel11.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
+        uPanelRoundrect4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 20));
 
-        txtNameEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtNameEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtNameEdit.setToolTipText(null);
         txtNameEdit.setBorder(null);
         txtNameEdit.setOpaque(false);
@@ -799,16 +782,18 @@ public class User extends javax.swing.JInternalFrame {
                 txtNameEditKeyReleased(evt);
             }
         });
-        uPanelRoundrect4.add(txtNameEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 335, -1));
-        uPanelRoundrect4.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 335, 10));
+        uPanelRoundrect4.add(txtNameEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 335, -1));
+
+        jSeparator9.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 57, 335, 10));
 
         jLabel12.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(102, 102, 102));
         jLabel12.setText("Alamat ");
         jLabel12.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
+        uPanelRoundrect4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, 20));
 
-        txtAlamatEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtAlamatEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtAlamatEdit.setToolTipText(null);
         txtAlamatEdit.setBorder(null);
         txtAlamatEdit.setOpaque(false);
@@ -817,16 +802,18 @@ public class User extends javax.swing.JInternalFrame {
                 txtAlamatEditKeyPressed(evt);
             }
         });
-        uPanelRoundrect4.add(txtAlamatEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 815, -1));
-        uPanelRoundrect4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 815, 10));
+        uPanelRoundrect4.add(txtAlamatEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 815, -1));
+
+        jSeparator10.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 107, 815, 10));
 
         jLabel13.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(102, 102, 102));
         jLabel13.setText("Phone ");
         jLabel13.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 20));
+        uPanelRoundrect4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, 20));
 
-        txtPhoneEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtPhoneEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtPhoneEdit.setToolTipText(null);
         txtPhoneEdit.setBorder(null);
         txtPhoneEdit.setOpaque(false);
@@ -835,16 +822,18 @@ public class User extends javax.swing.JInternalFrame {
                 txtPhoneEditKeyPressed(evt);
             }
         });
-        uPanelRoundrect4.add(txtPhoneEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 289, -1));
-        uPanelRoundrect4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 289, 10));
+        uPanelRoundrect4.add(txtPhoneEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 289, -1));
+
+        jSeparator11.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 157, 289, 10));
 
         jLabel14.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setText("Level User ");
         jLabel14.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 76, 20));
+        uPanelRoundrect4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 76, 20));
 
-        txtLevelEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtLevelEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtLevelEdit.setToolTipText(null);
         txtLevelEdit.setBorder(null);
         txtLevelEdit.setOpaque(false);
@@ -853,16 +842,18 @@ public class User extends javax.swing.JInternalFrame {
                 txtLevelEditFocusGained(evt);
             }
         });
-        uPanelRoundrect4.add(txtLevelEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 174, -1));
-        uPanelRoundrect4.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 174, 10));
+        uPanelRoundrect4.add(txtLevelEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 174, -1));
+
+        jSeparator12.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 207, 174, 10));
 
         jLabel15.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(102, 102, 102));
         jLabel15.setText("Password ");
         jLabel15.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 76, 20));
+        uPanelRoundrect4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 76, 20));
 
-        PasswordFieldEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        PasswordFieldEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         PasswordFieldEdit.setToolTipText(null);
         PasswordFieldEdit.setBorder(null);
         PasswordFieldEdit.setOpaque(false);
@@ -871,16 +862,18 @@ public class User extends javax.swing.JInternalFrame {
                 PasswordFieldEditKeyPressed(evt);
             }
         });
-        uPanelRoundrect4.add(PasswordFieldEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 312, -1));
-        uPanelRoundrect4.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 317, 10));
+        uPanelRoundrect4.add(PasswordFieldEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 312, -1));
+
+        jSeparator13.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 257, 317, 10));
 
         jLabel16.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
         jLabel16.setText("Re-Password ");
         jLabel16.setToolTipText(null);
-        uPanelRoundrect4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, 20));
+        uPanelRoundrect4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, 20));
 
-        RePasswordFieldEdit.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        RePasswordFieldEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         RePasswordFieldEdit.setToolTipText(null);
         RePasswordFieldEdit.setBorder(null);
         RePasswordFieldEdit.setOpaque(false);
@@ -889,8 +882,10 @@ public class User extends javax.swing.JInternalFrame {
                 RePasswordFieldEditKeyPressed(evt);
             }
         });
-        uPanelRoundrect4.add(RePasswordFieldEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, 318, -1));
-        uPanelRoundrect4.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 318, 10));
+        uPanelRoundrect4.add(RePasswordFieldEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 318, -1));
+
+        jSeparator14.setForeground(new java.awt.Color(204, 204, 204));
+        uPanelRoundrect4.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 307, 318, 10));
 
         btnUpdate.setText("Update");
         btnUpdate.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -906,9 +901,41 @@ public class User extends javax.swing.JInternalFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        uPanelRoundrect4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 290, -1, -1));
+        uPanelRoundrect4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 300, -1, -1));
 
-        UserEdit.getContentPane().add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
+        UserEdit.getContentPane().add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 65, 1000, -1));
+
+        uPanelRoundrect3.setBackground(new java.awt.Color(255, 180, 61));
+        uPanelRoundrect3.setKetebalanBorder(2.5F);
+        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(1010, 440));
+        uPanelRoundrect3.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 231, 112));
+        uPanelRoundrect3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Edit User");
+        uPanelRoundrect3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 28));
+
+        btnCloseEdit.setMnemonic('c');
+        btnCloseEdit.setText("Close");
+        btnCloseEdit.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCloseEdit.setKetebalanBorder(2.0F);
+        btnCloseEdit.setKetumpulanSudut(35);
+        btnCloseEdit.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnCloseEdit.setWarnaBackground(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBackgroundHover(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBackgroundPress(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        btnCloseEdit.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseEditActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 30));
+
+        UserEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setOpaque(true);
@@ -1017,9 +1044,10 @@ public class User extends javax.swing.JInternalFrame {
         jLabel1.setText("Master User");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 230, 40));
 
+        btnTambah.setMnemonic('t');
         btnTambah.setText("Tambah User");
         btnTambah.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnTambah.setKetebalanBorder(2.0F);
+        btnTambah.setKetebalanBorder(2.5F);
         btnTambah.setKetumpulanSudut(35);
         btnTambah.setPreferredSize(new java.awt.Dimension(150, 38));
         btnTambah.setWarnaBorder(new java.awt.Color(164, 253, 163));

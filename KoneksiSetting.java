@@ -121,11 +121,12 @@ Properties prop;
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        uPanelRoundrect1.setKetebalanBorder(2.5F);
         uPanelRoundrect1.setWarnaBackground(new java.awt.Color(0, 123, 255));
         uPanelRoundrect1.setWarnaBorder(new java.awt.Color(77, 200, 255));
         uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("( Untuk menghubungkan aplikasi ke database )");
@@ -147,6 +148,8 @@ Properties prop;
         jLabel1.setToolTipText(null);
         uPanelRoundrect1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 220, -1));
 
+        uPanelRoundrect2.setKetebalanBorder(2.5F);
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(77, 200, 255));
         uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
@@ -269,14 +272,14 @@ Properties prop;
         btnSimpan.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         btnSimpan.setKetebalanBorder(2.0F);
         btnSimpan.setKetumpulanSudut(35);
-        btnSimpan.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnSimpan.setPreferredSize(new java.awt.Dimension(170, 38));
         btnSimpan.setWarnaBorder(new java.awt.Color(164, 253, 163));
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
-        uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 150, -1));
+        uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, -1, -1));
 
         uPanelRoundrect1.add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 330, 420));
 

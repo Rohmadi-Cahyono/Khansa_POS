@@ -54,25 +54,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         this.setLocation(( Beranda.PW-formIni.width )/2,(Beranda.PH-formIni.height )/2);
     }
     
-    private void Tambah(){
-        this.setVisible(false); 
-        Bersih(); 
-        SwingUtilities.invokeLater(() -> {txtNameAdd.requestFocusInWindow(); });
-        SuplierAdd.setSize(1000,315);                     
-        SuplierAdd.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-315 )/2);
-        SuplierAdd.setBackground(new Color(0, 0, 0, 0)); 
-        SuplierAdd.setVisible(true);
-    }
+
     
-    public void Edit(){
-        this.setVisible(false);
-        TampilEdit();
-        SwingUtilities.invokeLater(() -> {txtNameEdit.requestFocusInWindow(); });
-        SuplierEdit.setSize(1000, 315);                     
-        SuplierEdit.setLocation(((Beranda.SW+120)-1000 )/2,((Beranda.SH+50)-315 )/2);
-        SuplierEdit.setBackground(new Color(0, 0, 0, 0)); 
-        SuplierEdit.setVisible(true);         
-    }
+
     
     private void Hapus(){       
         if (JOptionPane.showConfirmDialog(null, "Yakin data Suplier akan dihapus?", "Khansa POS",
@@ -118,6 +102,16 @@ public class Suplier extends javax.swing.JInternalFrame {
     }
      
      //-----------------------------------------------------SuplierAdd--------------------------------------------------------------------
+    private void Tambah(){
+        this.setVisible(false); 
+        Bersih(); 
+        SwingUtilities.invokeLater(() -> {txtNameAdd.requestFocusInWindow(); });
+        SuplierAdd.setSize(1010,325);                     
+        SuplierAdd.setLocation(((Beranda.SW+120)-1010 )/2,((Beranda.SH+50)-325 )/2);
+        SuplierAdd.setBackground(new Color(0, 0, 0, 0)); 
+        SuplierAdd.setVisible(true);
+    }     
+     
         private void PopUp(){
         try {
             java.sql.Statement st = con.createStatement();           
@@ -131,6 +125,7 @@ public class Suplier extends javax.swing.JInternalFrame {
                 ListAdd.setBackground(new Color(255,255,255));
                 ListAdd.setShowGrid(false);
                 ListAdd.removeColumn(ListAdd.getColumnModel().getColumn(0));
+                SListAdd.setLocation(txtNameAdd.getX(), txtNameAdd.getY()+20);
                 
                 if (rs.getRow() <= 15) {
                     SListAdd.setSize(340, (rs.getRow()*17)+2);
@@ -191,6 +186,17 @@ public class Suplier extends javax.swing.JInternalFrame {
    }
     
     //-------------------------------------------------------------------SuplierEdit--------------------------------------------------------------
+    
+    public void Edit(){
+        this.setVisible(false);
+        TampilEdit();
+        SwingUtilities.invokeLater(() -> {txtNameEdit.requestFocusInWindow(); });
+        SuplierEdit.setSize(1010, 325);                     
+        SuplierEdit.setLocation(((Beranda.SW+120)-1010 )/2,((Beranda.SH+50)-325 )/2);
+        SuplierEdit.setBackground(new Color(0, 0, 0, 0)); 
+        SuplierEdit.setVisible(true);         
+    }
+    
     private void TampilEdit(){
         try {
             java.sql.Statement st = con.createStatement();           
@@ -220,6 +226,7 @@ public class Suplier extends javax.swing.JInternalFrame {
                 ListEdit.setBackground(new Color(255,255,255));
                 ListEdit.setShowGrid(false);
                 ListEdit.removeColumn(ListEdit.getColumnModel().getColumn(0));
+                SListEdit.setLocation(txtNameEdit.getX(), txtNameEdit.getY()+20);
                 
                 if (rs.getRow() <= 15) {
                     SListEdit.setSize(340, (rs.getRow()*17)+2);
@@ -275,9 +282,6 @@ public class Suplier extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         SuplierAdd = new javax.swing.JDialog();
-        uPanelRoundrect1 = new Utility.UPanelRoundrect();
-        jLabel3 = new javax.swing.JLabel();
-        btnCloseAdd = new Utility.UButton();
         uPanelRoundrect2 = new Utility.UPanelRoundrect();
         SListAdd = new javax.swing.JScrollPane();
         ListAdd = new javax.swing.JTable();
@@ -292,6 +296,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         jSeparator5 = new javax.swing.JSeparator();
         btnBersih = new Utility.UButton();
         btnSimpan = new Utility.UButton();
+        uPanelRoundrect1 = new Utility.UPanelRoundrect();
+        jLabel3 = new javax.swing.JLabel();
+        btnCloseAdd = new Utility.UButton();
         SuplierEdit = new javax.swing.JDialog();
         uPanelRoundrect3 = new Utility.UPanelRoundrect();
         jLabel7 = new javax.swing.JLabel();
@@ -329,40 +336,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         SuplierAdd.setUndecorated(true);
         SuplierAdd.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        uPanelRoundrect1.setKetebalanBorder(2.0F);
-        uPanelRoundrect1.setKetumpulanSudut(10);
-        uPanelRoundrect1.setMinimumSize(new java.awt.Dimension(1000, 50));
-        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(1000, 50));
-        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(87, 176, 86));
-        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(138, 227, 137));
-        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Tambah Member");
-        uPanelRoundrect1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
-
-        btnCloseAdd.setMnemonic('c');
-        btnCloseAdd.setText("Close");
-        btnCloseAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnCloseAdd.setKetebalanBorder(0.0F);
-        btnCloseAdd.setKetumpulanSudut(35);
-        btnCloseAdd.setPreferredSize(new java.awt.Dimension(150, 38));
-        btnCloseAdd.setWarnaBackgroundHover(new java.awt.Color(87, 176, 86));
-        btnCloseAdd.setWarnaBorder(new java.awt.Color(87, 176, 86));
-        btnCloseAdd.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
-        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseAddActionPerformed(evt);
-            }
-        });
-        uPanelRoundrect1.add(btnCloseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 30));
-
-        SuplierAdd.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        uPanelRoundrect2.setKetebalanBorder(2.0F);
+        uPanelRoundrect2.setKetebalanBorder(2.5F);
         uPanelRoundrect2.setPreferredSize(new java.awt.Dimension(1000, 260));
-        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect2.setWarnaBorder(new java.awt.Color(164, 253, 163));
         uPanelRoundrect2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
@@ -409,7 +385,7 @@ public class Suplier extends javax.swing.JInternalFrame {
         jLabel4.setToolTipText(null);
         uPanelRoundrect2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
-        txtNameAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtNameAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtNameAdd.setToolTipText(null);
         txtNameAdd.setBorder(null);
         txtNameAdd.setOpaque(false);
@@ -427,6 +403,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect2.add(txtNameAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 335, -1));
+
+        jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 335, 10));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -435,7 +413,7 @@ public class Suplier extends javax.swing.JInternalFrame {
         jLabel5.setToolTipText(null);
         uPanelRoundrect2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 20));
 
-        txtAddressAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtAddressAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtAddressAdd.setToolTipText(null);
         txtAddressAdd.setBorder(null);
         txtAddressAdd.setOpaque(false);
@@ -445,6 +423,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect2.add(txtAddressAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 815, -1));
+
+        jSeparator4.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 815, 10));
 
         jLabel6.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -453,7 +433,7 @@ public class Suplier extends javax.swing.JInternalFrame {
         jLabel6.setToolTipText(null);
         uPanelRoundrect2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
 
-        txtPhoneAdd.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        txtPhoneAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtPhoneAdd.setToolTipText(null);
         txtPhoneAdd.setBorder(null);
         txtPhoneAdd.setOpaque(false);
@@ -463,6 +443,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect2.add(txtPhoneAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 289, -1));
+
+        jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 289, 10));
 
         btnBersih.setMnemonic('h');
@@ -495,22 +477,55 @@ public class Suplier extends javax.swing.JInternalFrame {
         });
         uPanelRoundrect2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 210, -1, -1));
 
-        SuplierAdd.getContentPane().add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
+        SuplierAdd.getContentPane().add(uPanelRoundrect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 60, -1, -1));
+
+        uPanelRoundrect1.setKetebalanBorder(2.5F);
+        uPanelRoundrect1.setKetumpulanSudut(10);
+        uPanelRoundrect1.setMinimumSize(new java.awt.Dimension(1000, 50));
+        uPanelRoundrect1.setPreferredSize(new java.awt.Dimension(1010, 325));
+        uPanelRoundrect1.setWarnaBackground(new java.awt.Color(87, 176, 86));
+        uPanelRoundrect1.setWarnaBorder(new java.awt.Color(164, 253, 163));
+        uPanelRoundrect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Tambah Member");
+        uPanelRoundrect1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+
+        btnCloseAdd.setMnemonic('c');
+        btnCloseAdd.setText("Close");
+        btnCloseAdd.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnCloseAdd.setKetebalanBorder(0.0F);
+        btnCloseAdd.setKetumpulanSudut(35);
+        btnCloseAdd.setPreferredSize(new java.awt.Dimension(150, 38));
+        btnCloseAdd.setWarnaBackgroundHover(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaBorder(new java.awt.Color(87, 176, 86));
+        btnCloseAdd.setWarnaForegroundHover(new java.awt.Color(255, 0, 0));
+        btnCloseAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseAddActionPerformed(evt);
+            }
+        });
+        uPanelRoundrect1.add(btnCloseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 30));
+
+        SuplierAdd.getContentPane().add(uPanelRoundrect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         SuplierEdit.setUndecorated(true);
+        SuplierEdit.setPreferredSize(new java.awt.Dimension(1010, 325));
         SuplierEdit.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        uPanelRoundrect3.setKetebalanBorder(2.0F);
+        uPanelRoundrect3.setKetebalanBorder(2.5F);
         uPanelRoundrect3.setKetumpulanSudut(10);
-        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(1000, 50));
+        uPanelRoundrect3.setMinimumSize(new java.awt.Dimension(1010, 325));
+        uPanelRoundrect3.setPreferredSize(new java.awt.Dimension(1010, 325));
         uPanelRoundrect3.setWarnaBackground(new java.awt.Color(235, 154, 35));
-        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 205, 86));
+        uPanelRoundrect3.setWarnaBorder(new java.awt.Color(255, 231, 112));
         uPanelRoundrect3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Edit Member");
-        uPanelRoundrect3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 12, -1, -1));
+        uPanelRoundrect3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         btnCloseEdit.setMnemonic('c');
         btnCloseEdit.setText("Close");
@@ -528,13 +543,12 @@ public class Suplier extends javax.swing.JInternalFrame {
                 btnCloseEditActionPerformed(evt);
             }
         });
-        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 70, 30));
+        uPanelRoundrect3.add(btnCloseEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, 70, 20));
 
-        SuplierEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        uPanelRoundrect4.setKetebalanBorder(2.0F);
+        uPanelRoundrect4.setKetebalanBorder(2.5F);
+        uPanelRoundrect4.setMinimumSize(new java.awt.Dimension(1000, 260));
         uPanelRoundrect4.setPreferredSize(new java.awt.Dimension(1000, 260));
-        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(235, 154, 35));
+        uPanelRoundrect4.setWarnaBorder(new java.awt.Color(255, 231, 112));
         uPanelRoundrect4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SListEdit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
@@ -599,6 +613,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect4.add(txtNameEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 335, -1));
+
+        jSeparator6.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect4.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 335, 10));
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -617,6 +633,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect4.add(txtAdressEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 815, -1));
+
+        jSeparator7.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect4.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 815, 10));
 
         jLabel10.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -635,6 +653,8 @@ public class Suplier extends javax.swing.JInternalFrame {
             }
         });
         uPanelRoundrect4.add(txtPhoneEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 289, -1));
+
+        jSeparator8.setForeground(new java.awt.Color(204, 204, 204));
         uPanelRoundrect4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 289, 10));
 
         btnUpdate.setText("Update");
@@ -653,7 +673,9 @@ public class Suplier extends javax.swing.JInternalFrame {
         });
         uPanelRoundrect4.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 210, -1, -1));
 
-        SuplierEdit.getContentPane().add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 54, -1, -1));
+        uPanelRoundrect3.add(uPanelRoundrect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 60, -1, -1));
+
+        SuplierEdit.getContentPane().add(uPanelRoundrect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(248, 251, 251));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -765,7 +787,7 @@ public class Suplier extends javax.swing.JInternalFrame {
         btnTambah.setText("Tambah Suplier");
         btnTambah.setToolTipText("");
         btnTambah.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnTambah.setKetebalanBorder(2.0F);
+        btnTambah.setKetebalanBorder(2.5F);
         btnTambah.setKetumpulanSudut(35);
         btnTambah.setPreferredSize(new java.awt.Dimension(150, 38));
         btnTambah.setWarnaBorder(new java.awt.Color(164, 253, 163));

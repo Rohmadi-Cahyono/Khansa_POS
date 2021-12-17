@@ -367,10 +367,11 @@ public class Setting extends javax.swing.JInternalFrame {
         uPanelRoundrect1.add(cbAkses, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, -1, -1));
 
         btnClose.setText("Close");
-        btnClose.setWarnaBackgroundHover(new java.awt.Color(255, 0, 51));
-        btnClose.setWarnaBorder(new java.awt.Color(138, 227, 137));
+        btnClose.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        btnClose.setWarnaBackgroundHover(new java.awt.Color(87, 176, 86));
+        btnClose.setWarnaBorder(new java.awt.Color(87, 176, 86));
         btnClose.setWarnaForeground(new java.awt.Color(138, 227, 137));
-        btnClose.setWarnaForegroundHover(new java.awt.Color(255, 255, 255));
+        btnClose.setWarnaForegroundHover(new java.awt.Color(255, 51, 51));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);

@@ -140,7 +140,7 @@ public class Login extends javax.swing.JFrame {
 
         btnLogin.setText("Log In");
         btnLogin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnLogin.setKetebalanBorder(2.0F);
+        btnLogin.setKetebalanBorder(2.5F);
         btnLogin.setKetumpulanSudut(35);
         btnLogin.setPreferredSize(new java.awt.Dimension(150, 38));
         btnLogin.setWarnaBackground(new java.awt.Color(0, 123, 255));

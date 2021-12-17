@@ -8,6 +8,9 @@
           <Dimension value="[421, 156]"/>
         </Property>
         <Property name="undecorated" type="boolean" value="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[421, 171]"/>
+        </Property>
         <Property name="resizable" type="boolean" value="false"/>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[421, 171]"/>
@@ -22,7 +25,7 @@
           <Properties>
             <Property name="ketebalanBorder" type="float" value="2.5"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[420, 180]"/>
+              <Dimension value="[421, 171]"/>
             </Property>
             <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="56" green="b0" red="57" type="rgb"/>
@@ -45,7 +48,7 @@
               <Properties>
                 <Property name="ketebalanBorder" type="float" value="2.5"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[400, 120]"/>
+                  <Dimension value="[411, 115]"/>
                 </Property>
                 <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a3" green="fd" red="a4" type="rgb"/>
@@ -53,61 +56,38 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="10" y="50" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="5" y="50" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
 
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel5" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="txtKategoriAdd" min="-2" pref="270" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="80" pref="80" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="SListAdd" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jSeparator5" min="-2" pref="270" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <EmptySpace pref="28" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnSimpanCategory" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel5" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="txtKategoriAdd" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-                                  <Component id="SListAdd" min="-2" pref="0" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jSeparator5" min="-2" pref="10" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="32" max="32767" attributes="0"/>
-                          <Component id="btnSimpanCategory" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="false"/>
               </Layout>
               <SubComponents>
+                <Component class="Utility.UButton" name="btnSimpan">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Simpan"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Verdana" size="12" style="0"/>
+                    </Property>
+                    <Property name="ketebalanBorder" type="float" value="2.0"/>
+                    <Property name="ketumpulanSudut" type="int" value="35"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[100, 32]"/>
+                    </Property>
+                    <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="a3" green="fd" red="a4" type="rgb"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSimpanActionPerformed"/>
+                  </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="300" y="75" width="-1" height="-1"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
                 <Container class="javax.swing.JScrollPane" name="SListAdd">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -127,6 +107,11 @@
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="102" y="62" width="-1" height="0"/>
+                    </Constraint>
+                  </Constraints>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
@@ -165,11 +150,16 @@
                       <Connection code="null" type="code"/>
                     </Property>
                   </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="22" y="38" width="70" height="20"/>
+                    </Constraint>
+                  </Constraints>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtKategoriAdd">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="MS Reference Sans Serif" size="12" style="0"/>
+                      <Font name="Verdana" size="12" style="0"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="null" type="code"/>
@@ -178,22 +168,32 @@
                       <Border info="null"/>
                     </Property>
                     <Property name="opaque" type="boolean" value="false"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[1, 20]"/>
+                    </Property>
                   </Properties>
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKategoriAddKeyPressed"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKategoriAddKeyReleased"/>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKategoriAddKeyTyped"/>
                   </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="102" y="38" width="270" height="-1"/>
+                    </Constraint>
+                  </Constraints>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator5">
-                </Component>
-                <Component class="Utility.UButton" name="btnSimpanCategory">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Simpan"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Verdana" size="11" style="0"/>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
                   </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="102" y="58" width="270" height="10"/>
+                    </Constraint>
+                  </Constraints>
                 </Component>
               </SubComponents>
             </Container>
@@ -213,20 +213,29 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="Utility.UButton" name="btnCloseCategory">
+            <Component class="Utility.UButton" name="btnCloseAdd">
               <Properties>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Close"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Verdana" size="11" style="0"/>
                 </Property>
+                <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="56" green="b0" red="57" type="rgb"/>
+                </Property>
+                <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="56" green="b0" red="57" type="rgb"/>
+                </Property>
+                <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="0" red="ff" type="rgb"/>
+                </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseCategoryActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseAddActionPerformed"/>
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="330" y="10" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="345" y="10" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -240,6 +249,9 @@
           <Dimension value="[421, 156]"/>
         </Property>
         <Property name="undecorated" type="boolean" value="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[421, 171]"/>
+        </Property>
         <Property name="resizable" type="boolean" value="false"/>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[421, 156]"/>
@@ -254,7 +266,7 @@
           <Properties>
             <Property name="ketebalanBorder" type="float" value="2.5"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[420, 180]"/>
+              <Dimension value="[421, 171]"/>
             </Property>
             <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="23" green="9a" red="eb" type="rgb"/>
@@ -277,7 +289,7 @@
               <Properties>
                 <Property name="ketebalanBorder" type="float" value="2.5"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[400, 120]"/>
+                  <Dimension value="[411, 115]"/>
                 </Property>
                 <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="70" green="e7" red="ff" type="rgb"/>
@@ -285,7 +297,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="10" y="50" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="5" y="50" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
 
@@ -293,6 +305,42 @@
                 <Property name="useNullLayout" type="boolean" value="false"/>
               </Layout>
               <SubComponents>
+                <Component class="Utility.UButton" name="btnUpdate">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Simpan"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Verdana" size="12" style="0"/>
+                    </Property>
+                    <Property name="ketebalanBorder" type="float" value="2.0"/>
+                    <Property name="ketumpulanSudut" type="int" value="35"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[100, 32]"/>
+                    </Property>
+                    <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="23" green="9a" red="eb" type="rgb"/>
+                    </Property>
+                    <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="70" green="e7" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="23" green="9a" red="eb" type="rgb"/>
+                    </Property>
+                    <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="70" green="e7" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
+                  </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="300" y="70" width="-1" height="-1"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
                 <Container class="javax.swing.JScrollPane" name="SListEdit">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -364,7 +412,7 @@
                 <Component class="javax.swing.JTextField" name="txtKategoriEdit">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="MS Reference Sans Serif" size="12" style="0"/>
+                      <Font name="Verdana" size="12" style="0"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="null" type="code"/>
@@ -373,6 +421,9 @@
                       <Border info="null"/>
                     </Property>
                     <Property name="opaque" type="boolean" value="false"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[1, 20]"/>
+                    </Property>
                   </Properties>
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKategoriEditKeyPressed"/>
@@ -386,34 +437,14 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator7">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="100" y="50" width="270" height="10"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
-                <Component class="Utility.UButton" name="btnSimpanEdit">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Simpan"/>
-                    <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="23" green="9a" red="eb" type="rgb"/>
-                    </Property>
-                    <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="70" green="e7" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="23" green="9a" red="eb" type="rgb"/>
-                    </Property>
-                    <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="70" green="e7" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="ff" type="rgb"/>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="310" y="90" width="-1" height="-1"/>
+                      <AbsoluteConstraints x="100" y="50" width="270" height="10"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -446,18 +477,24 @@
                   <Color blue="23" green="9a" red="eb" type="rgb"/>
                 </Property>
                 <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="70" green="e7" red="ff" type="rgb"/>
+                  <Color blue="23" green="9a" red="eb" type="rgb"/>
                 </Property>
                 <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="23" green="9a" red="eb" type="rgb"/>
                 </Property>
                 <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="70" green="e7" red="ff" type="rgb"/>
+                  <Color blue="23" green="9a" red="eb" type="rgb"/>
+                </Property>
+                <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="33" red="ff" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseEditActionPerformed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="330" y="20" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="345" y="10" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -530,15 +567,15 @@
               <Dimension value="[310, 510]"/>
             </Property>
             <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="7b" red="0" type="rgb"/>
+              <Color blue="5d" green="5d" red="3c" type="rgb"/>
             </Property>
             <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="c8" red="4d" type="rgb"/>
+              <Color blue="76" green="76" red="55" type="rgb"/>
             </Property>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="310" height="-1"/>
+              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
 
@@ -553,12 +590,12 @@
                   <Dimension value="[300, 440]"/>
                 </Property>
                 <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="c8" red="4d" type="rgb"/>
+                  <Color blue="76" green="76" red="55" type="rgb"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="5" y="60" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="5" y="65" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
 
@@ -583,15 +620,47 @@
                     <Property name="useNullLayout" type="boolean" value="false"/>
                   </Layout>
                   <SubComponents>
+                    <Component class="Utility.UButton" name="btnEdit">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Edit"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Verdana" size="11" style="0"/>
+                        </Property>
+                        <Property name="ketebalanBorder" type="float" value="2.5"/>
+                        <Property name="ketumpulanSudut" type="int" value="25"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[75, 28]"/>
+                        </Property>
+                        <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="23" green="9a" red="eb" type="rgb"/>
+                        </Property>
+                        <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="56" green="cd" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="23" green="9a" red="eb" type="rgb"/>
+                        </Property>
+                        <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="70" green="e7" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
+                      </Events>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                          <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                        </Constraint>
+                      </Constraints>
+                    </Component>
                     <Component class="Utility.UButton" name="btnHapus">
                       <Properties>
-                        <Property name="mnemonic" type="int" value="112"/>
                         <Property name="text" type="java.lang.String" value="Hapus"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Verdana" size="11" style="0"/>
                         </Property>
                         <Property name="ketebalanBorder" type="float" value="2.5"/>
-                        <Property name="ketumpulanSudut" type="int" value="35"/>
+                        <Property name="ketumpulanSudut" type="int" value="25"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[80, 28]"/>
                         </Property>
@@ -613,41 +682,7 @@
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-                        </Constraint>
-                      </Constraints>
-                    </Component>
-                    <Component class="Utility.UButton" name="btnEdit">
-                      <Properties>
-                        <Property name="mnemonic" type="int" value="100"/>
-                        <Property name="text" type="java.lang.String" value="Edit"/>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Verdana" size="11" style="0"/>
-                        </Property>
-                        <Property name="ketebalanBorder" type="float" value="2.5"/>
-                        <Property name="ketumpulanSudut" type="int" value="35"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[85, 28]"/>
-                        </Property>
-                        <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="23" green="9a" red="eb" type="rgb"/>
-                        </Property>
-                        <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="56" green="cd" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="23" green="9a" red="eb" type="rgb"/>
-                        </Property>
-                        <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="70" green="e7" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
-                      </Events>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="50" y="0" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="55" y="0" width="-1" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -700,14 +735,14 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="Utility.UButton" name="uButton1">
+                <Component class="Utility.UButton" name="btnTambah">
                   <Properties>
                     <Property name="mnemonic" type="int" value="116"/>
                     <Property name="text" type="java.lang.String" value="Tambah Kategori"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Verdana" size="12" style="0"/>
                     </Property>
-                    <Property name="ketebalanBorder" type="float" value="2.5"/>
+                    <Property name="ketebalanBorder" type="float" value="2.0"/>
                     <Property name="ketumpulanSudut" type="int" value="25"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 28]"/>
@@ -716,9 +751,12 @@
                       <Color blue="a3" green="fd" red="a4" type="rgb"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahActionPerformed"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="10" width="140" height="-1"/>
+                      <AbsoluteConstraints x="10" y="15" width="140" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -748,20 +786,23 @@
             <Component class="Utility.UButton" name="btnClose">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Close"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Verdana" size="11" style="0"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[64, 20]"/>
+                </Property>
                 <Property name="warnaBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="7b" red="0" type="rgb"/>
+                  <Color blue="5d" green="5d" red="3c" type="rgb"/>
                 </Property>
                 <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="c8" red="4d" type="rgb"/>
+                  <Color blue="5d" green="5d" red="3c" type="rgb"/>
                 </Property>
                 <Property name="warnaBackgroundPress" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="7b" red="0" type="rgb"/>
+                  <Color blue="5d" green="5d" red="3c" type="rgb"/>
                 </Property>
                 <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ae" red="33" type="rgb"/>
-                </Property>
-                <Property name="warnaForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="c8" red="4d" type="rgb"/>
+                  <Color blue="5d" green="5d" red="3c" type="rgb"/>
                 </Property>
                 <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="ff" type="rgb"/>
@@ -772,7 +813,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="240" y="20" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="245" y="10" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

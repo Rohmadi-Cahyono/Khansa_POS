@@ -427,17 +427,20 @@
         <Component class="Utility.UButton" name="btnClose">
           <Properties>
             <Property name="text" type="java.lang.String" value="Close"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Verdana" size="11" style="0"/>
+            </Property>
             <Property name="warnaBackgroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="0" red="ff" type="rgb"/>
+              <Color blue="56" green="b0" red="57" type="rgb"/>
             </Property>
             <Property name="warnaBorder" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="89" green="e3" red="8a" type="rgb"/>
+              <Color blue="56" green="b0" red="57" type="rgb"/>
             </Property>
             <Property name="warnaForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="89" green="e3" red="8a" type="rgb"/>
             </Property>
             <Property name="warnaForegroundHover" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+              <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Events>
