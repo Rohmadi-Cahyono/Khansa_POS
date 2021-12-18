@@ -279,7 +279,8 @@ public class Login extends javax.swing.JFrame {
                                 sessionId=rsLogin.getString("user_id");
                                 sessionName=rsLogin.getString("user_name");
                                 sessionLevel=rsLogin.getString("user_level");
-                                new Beranda().setVisible(true);               
+                                Beranda br =new Beranda();
+                                br.setVisible(true);               
                                 dispose(); 
                             } else{
                                 JOptionPane.showMessageDialog(null,"Username Atau Password Salah!");

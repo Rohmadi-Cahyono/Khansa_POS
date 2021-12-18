@@ -561,8 +561,7 @@ public class Beranda extends javax.swing.JFrame {
         btnMenu.setMnemonic('m');
         btnMenu.setText("Menu");
         btnMenu.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        btnMenu.setKetebalanBorder(0.0F);
-        btnMenu.setKetumpulanSudut(0);
+        btnMenu.setKetumpulanSudut(5);
         btnMenu.setPreferredSize(new java.awt.Dimension(120, 50));
         btnMenu.setWarnaBackground(new java.awt.Color(9, 42, 42));
         btnMenu.setWarnaBackgroundHover(new java.awt.Color(60, 93, 93));
@@ -578,22 +577,21 @@ public class Beranda extends javax.swing.JFrame {
         panelHeader.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, -1));
 
         btnClose.setMnemonic('x');
-        btnClose.setKetebalanBorder(0.0F);
-        btnClose.setKetumpulanSudut(0);
-        btnClose.setLabel("Exit");
+        btnClose.setText("Exit");
+        btnClose.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        btnClose.setKetumpulanSudut(5);
         btnClose.setPreferredSize(new java.awt.Dimension(90, 50));
         btnClose.setWarnaBackground(new java.awt.Color(9, 42, 42));
         btnClose.setWarnaBackgroundHover(new java.awt.Color(255, 0, 0));
-        btnClose.setWarnaBackgroundPress(new java.awt.Color(255, 51, 51));
+        btnClose.setWarnaBackgroundPress(new java.awt.Color(9, 42, 42));
         btnClose.setWarnaBorder(new java.awt.Color(9, 42, 42));
-        btnClose.setWarnaForeground(new java.awt.Color(153, 153, 153));
         btnClose.setWarnaForegroundHover(new java.awt.Color(255, 255, 255));
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
-        panelHeader.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1280, 0, -1, -1));
+        panelHeader.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1275, 0, -1, -1));
 
         getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
